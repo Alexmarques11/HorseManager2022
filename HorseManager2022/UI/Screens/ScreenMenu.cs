@@ -22,7 +22,7 @@ namespace HorseManager2022.UI
         }
 
 
-        override public Screen? Show()
+        override public Screen? Show(GameManager? gameManager)
         {
             // Variables
             string title = this.title;
@@ -67,7 +67,7 @@ namespace HorseManager2022.UI
         }
 
         // Methods for each selection direction (up, down, left, right)
-        override protected void SelectUp()
+        override public void SelectUp()
         {
             if (this.selectedPosition > 0)
                 this.selectedPosition--;
@@ -75,7 +75,7 @@ namespace HorseManager2022.UI
                 this.selectedPosition = this.options.Count;
         }
 
-        override protected void SelectDown()
+        override public void SelectDown()
         {
             if (this.selectedPosition < this.options.Count)
                 this.selectedPosition++;
@@ -83,10 +83,10 @@ namespace HorseManager2022.UI
                 this.selectedPosition = 0;
         }
 
-        override protected void SelectLeft() => SelectUp();
-        override protected void SelectRight() => SelectDown();
+        override public void SelectLeft() => SelectUp();
+        override public void SelectRight() => SelectDown();
 
-        override protected Option? SelectEnter()
+        override public Option? SelectEnter()
         {
             if (this.selectedPosition == this.options.Count)
                 return Option.GetBackOption(this.previousScreen);

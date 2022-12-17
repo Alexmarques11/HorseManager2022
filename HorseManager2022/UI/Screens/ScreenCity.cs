@@ -41,7 +41,7 @@ namespace HorseManager2022.UI
         }
 
 
-        override public Screen? Show()
+        override public Screen? Show(GameManager? gameManager)
         {
             // Reset positions
             selectedPosition = 0;
@@ -52,7 +52,7 @@ namespace HorseManager2022.UI
             {
                 Console.Clear();
 
-                topbar.Draw(this);
+                topbar.Draw(this, gameManager);
                 DrawCity();
 
                 if (menuMode == MenuMode.Down)

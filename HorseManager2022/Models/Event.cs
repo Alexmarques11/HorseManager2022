@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
 
 namespace HorseManager2022.Models
 {
-    internal class Event
+    [Serializable]
+    internal class Event : ISavable
     {
         // Constants
         private const int EVENT_QUANTITY_YEAR = 20;
+
         // Properties
+        public int id { get; set; }
         public string name;
         public EventType type;
         public Date date;
@@ -31,19 +35,19 @@ namespace HorseManager2022.Models
             int randomType = random.Next(1, 3);
             type = (EventType)randomType;
 
-            name = GenerateEventName();
+            name = GenerateName();
             
             do
             {
-                date = GenerateEventDate();
+                date = GenerateDate();
             } while (HasEventsOnDate(events, date));
         }
         
 
         // Methods
-        static public ConsoleColor GetEventTypeColor(EventType? eventType)
+        public ConsoleColor GetEventTypeColor()
         {
-            switch (eventType)
+            switch (type)
             {
                 case EventType.Race:
                     return ConsoleColor.Red;
@@ -56,11 +60,10 @@ namespace HorseManager2022.Models
             }
         }
 
+        
         // File Crud Methods
-        static public void CreateSave(int year = 1)
+        static public List<Event> GetNewYearEvents(int year = 1)
         {
-            string path = Game.eventPath;
-            string saveData = "";
             
             // Add Holiday Events
             List<Event> events = new()
@@ -79,58 +82,15 @@ namespace HorseManager2022.Models
             for (int i = 0; i < EVENT_QUANTITY_YEAR; i++)
                 events.Add(new(events));
 
-            // Transform events in saveData
-            foreach (Event @event in events)
-                saveData += @event.ToSaveFormat();
-
-            // Add user to file
-            File.WriteAllText(path, saveData);
-        }
-
-
-        public string ToSaveFormat()
-        {
-            string D = Game.DELIMITER;
-            return name + D + (int)type + D + date.ToSaveFormat() + Environment.NewLine;
-        }
-
-
-        static private bool HasEventsOnDate(List<Event>? events, Date date) => (events != null) && events.Any(e => e.date.ToString() == date.ToString());
-
-
-        static public List<Event> GetSave()
-        {
-            string path = Game.eventPath;
-            string D = Game.DELIMITER;
-            string[] lines = File.ReadAllLines(path);
-            List<Event> events = new();
-
-            foreach (string line in lines)
-            {
-                string[] data = line.Split(D);
-                string name = data[0];
-                EventType type = (EventType)int.Parse(data[1]);
-                Date date = new(int.Parse(data[2]), (Month)int.Parse(data[3]), int.Parse(data[4]));
-
-                events.Add(new Event(name, type, date));
-            }
-
             return events;
         }
+        
 
-
-        static public void UpdateSave(int newYear)
-        {
-            // Clear all events in save
-            File.WriteAllText(Game.eventPath, string.Empty);
-
-            // Add new ones
-            CreateSave(newYear);
-        }
+        private bool HasEventsOnDate(List<Event>? events, Date date) => (events != null) && events.Any(e => e.date.ToString() == date.ToString());
 
 
         // Generate Random data Methods
-        static private Date GenerateEventDate()
+        private Date GenerateDate()
         {
             // Generate random date
             Random random = new();
@@ -142,7 +102,8 @@ namespace HorseManager2022.Models
             return randomDate;
         }
 
-        static private string GenerateEventName()
+        
+        private string GenerateName()
         {
             // Variables
             Random random = new Random();

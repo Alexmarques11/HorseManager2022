@@ -1,4 +1,4 @@
-﻿using HorseManager2022;
+﻿using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
 using HorseManager2022.Models;
@@ -10,8 +10,9 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Horse2
+namespace HorseManager2022
 {
+    [Serializable]
     internal class Horse
     {
         // Constants
@@ -30,7 +31,6 @@ namespace Horse2
         // Constructor
         public Horse()  //Construtor Random vazio
         {
-            id = GetAutoIncrementId();
             rarity = RandomRarity();
             speed = GenerateSpeed(rarity);
             name = GenerateHorseName();
@@ -40,9 +40,8 @@ namespace Horse2
             age = 10; // Fazer random
         }
 
-        public Horse(int id, string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor com todos os atributos
+        public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor com todos os atributos
         {
-            this.id = id;
             this.name = name;
             this.resistance = resistance;
             this.energy = energy;
@@ -52,92 +51,6 @@ namespace Horse2
             this.rarity = rarity;
         }
 
-        public Horse(string save)  //Construtor Random vazio
-        {
-            string D = Game.DELIMITER;
-            string[] parts = save.Split(D);
-
-            id = int.Parse(parts[0]);
-            name = parts[1];
-            resistance = int.Parse(parts[2]);
-            energy = int.Parse(parts[3]);
-            age = int.Parse(parts[4]);
-            price = int.Parse(parts[5]);
-            speed = int.Parse(parts[6]);
-            rarity = (Rarity)int.Parse(parts[7]);
-        }
-
-        
-        // File Crud Methods
-        static public Horse GetSave(int id)
-        {
-            string D = Game.DELIMITER;
-            string horseStr = File.ReadAllLines(PATH).Where(x => x.Split(D)[0] == id.ToString()).First();
-
-            return new Horse(horseStr);
-        }
-
-        static public List<Horse> GetSave()
-        {
-            string[] horseStr = File.ReadAllLines(PATH);
-
-            List<Horse> horses = new();
-
-            foreach (string horse in horseStr)
-                horses.Add(new Horse(horse));
-
-            return horses;
-        }
-
-        static public void AddSave(Horse horse) => File.AppendAllText(Game.horsePath, horse.ToSaveFormat());
-
-        
-        static public void UpdateSave(Horse horse)
-        {
-            // Variables
-            string[] lines = File.ReadAllLines(PATH);
-
-            // Iterate over the lines in the file
-            for (int i = 0; i < lines.Length; i++)
-            {
-                Horse _horse = new(lines[i]);
-
-                if (_horse.id == horse.id)
-                    lines[i] = horse.ToSaveFormat();
-            }
-
-
-            // Write the updated lines to the file
-            File.WriteAllLines(PATH, lines);
-        }
-
-        
-        public string ToSaveFormat()
-        {
-            string D = Game.DELIMITER;
-            return id + D + name + D + resistance + D + energy + D + age + D + price + D + speed + D + rarity + Environment.NewLine;
-        }
-
-        
-        static private int GetAutoIncrementId()
-        {
-            string horseStr = File.ReadAllLines(PATH).Last();
-            Horse horse = new(horseStr);
-            return horse.id + 1;
-        }
-
-
-
-
-
-
-        // Methods
-        public int RandomID()  //Provisório depois vai ser alterado
-        {
-            Random rnd = new Random();
-            int i = rnd.Next(0, 10000);
-            return i;
-        }
         
         public string GenerateHorseName()  //Gerador do nome dos cavalos(random)
         {

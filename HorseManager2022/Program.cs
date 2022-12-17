@@ -1,13 +1,12 @@
 ﻿using HorseManager2022;
-using HorseManager2022.Models;
 using HorseManager2022.UI;
 using HorseManager2022.UI.Dialogs;
 using HorseManager2022.UI.Screens;
-using System.Numerics;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 // Create UI
+GameManager gameManager = new();
 Topbar topbar = new();
 ScreenMenu initialScreen = new("Welcome to Horse Manager 2022");
 ScreenMenu loadGameScreen = new("Load game", initialScreen);
@@ -25,7 +24,7 @@ HorseSelectionScreen horseSelectionScreen = new(cityScreen);
     Initial [Screen] --> Load game [Option]
 */
 initialScreen.AddOption("Load game", loadGameScreen, () => {
-    Game.PopulateScreenWithSaveOptions(loadGameScreen, cityScreen);
+    UI.PopulateScreenWithSaveOptions(loadGameScreen, cityScreen, gameManager);
 });
 
 
@@ -37,9 +36,8 @@ initialScreen.AddOption("New game", horseSelectionScreen, () => {
     
     UI.ShowCreateNewSaveScreen((savename) => {
 
-        Game.saveName = savename;
-        Game.CreateNewSave();
-        Game.PopulateScreenWithSaveOptions(loadGameScreen, cityScreen);
+        gameManager.CreateNewSave(savename);
+        UI.PopulateScreenWithSaveOptions(loadGameScreen, cityScreen, gameManager);
 
     });
     
@@ -205,7 +203,7 @@ raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
         }
 
         // Draw Horses
-        Random random = new Random();
+        Random random = new();
         for (int i = 0; i < HORSES; i++)
         {
             Console.SetCursorPosition(x + 8, y);
@@ -256,7 +254,7 @@ raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
     [Topbar] --> Calendar [Option]
 */
 topbar.AddOption("Calendar", calendarScreen, () => {
-    calendarScreen.calendar = new Calendar(SaveManager.Get<Player>(0).date, Event.GetSave());
+    calendarScreen.calendar = new Calendar(gameManager.currentDate, gameManager.gameData.events);
 });
 
 
@@ -273,10 +271,8 @@ topbar.AddOption("Sleep", cityScreen, () => {
         initialScreen, 
         () => {
             // On Confirm
-            
-            Player player = SaveManager.Get<Player>(0);
-            player.date.NextDay();
-            SaveManager.Update<Player>(player);
+
+            gameManager.currentDate?.NextDay(gameManager);
 
         }, () => {
             // On Cancel
@@ -289,12 +285,12 @@ topbar.AddOption("Sleep", cityScreen, () => {
 
 // ---------------- Game Loop ---------------- \\
 Screen? activeScreen, nextScreen;
-activeScreen = initialScreen.Show();
+activeScreen = initialScreen.Show(gameManager);
 
 
 while (activeScreen != null)
 {
-    nextScreen = activeScreen.Show();
+    nextScreen = activeScreen.Show(gameManager);
     activeScreen = nextScreen;
 }
 

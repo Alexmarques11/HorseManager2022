@@ -17,6 +17,13 @@ namespace HorseManager2022.Interfaces
         void AddOption(string text, Screen? nextScreen, Action onEnter);
         void ClearOptions();
         Option WaitForOption(Action onWait);
+
+        // Methods for each selection direction (up, down, left, right)
+        void SelectLeft();
+        void SelectRight();
+        void SelectUp();
+        void SelectDown();
+        Option? SelectEnter();
         Option? SelectOption();
     }
 }

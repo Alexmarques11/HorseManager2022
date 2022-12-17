@@ -11,6 +11,7 @@ namespace HorseManager2022.Models
     /*
         In game date class, used to keep track of the date in game. Each year have 4 months, one for each season, each month have 30 days.
      */
+    [Serializable]
     internal class Date
     {
         // Properties
@@ -36,7 +37,7 @@ namespace HorseManager2022.Models
 
 
         // Methods
-        public void NextDay()
+        public void NextDay(GameManager gameManager)
         {
             day++;
             if (day > 28)
@@ -49,9 +50,11 @@ namespace HorseManager2022.Models
                     year++;
 
                     // TODO: Add events for new year
-                    Event.UpdateSave(year);
+                    gameManager.RemoveAll<Event>();
+                    gameManager.AddAll(Event.GetNewYearEvents(year));
                 }
             }
+            gameManager.SaveChanges();
         }
 
         // Check if date is after a date
@@ -105,7 +108,5 @@ namespace HorseManager2022.Models
         }
         
         public string? ToString(Month month) => Enum.GetName(typeof(Month), month);
-
-        public string ToSaveFormat() => day + ";" + (int)month + ";" + year;
     }
 }

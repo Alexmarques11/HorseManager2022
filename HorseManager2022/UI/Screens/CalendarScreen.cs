@@ -31,7 +31,7 @@ namespace HorseManager2022.UI
         }
         
         // Methods
-        override public Screen? Show()
+        override public Screen? Show(GameManager? gameManager)
         {
             // Reset positions / Start at the current month page
             selectedPosition = 0;
@@ -43,7 +43,7 @@ namespace HorseManager2022.UI
             {
                 Console.Clear();
 
-                topbar.Draw(this);
+                topbar.Draw(this, gameManager);
                 calendar.Show(selectedMonthPage, selectedYearPage, selectedPage);
             });
 
@@ -53,7 +53,7 @@ namespace HorseManager2022.UI
 
 
         // Methods for each selection direction (up, down, left, right)
-        override protected void SelectLeft()
+        override public void SelectLeft()
         {
             if (menuMode == MenuMode.Up)
             {
@@ -73,7 +73,7 @@ namespace HorseManager2022.UI
         }
 
         
-        override protected void SelectRight()
+        override public void SelectRight()
         {
             if (menuMode == MenuMode.Up)
             {
@@ -93,7 +93,7 @@ namespace HorseManager2022.UI
         }
 
 
-        override protected Option? SelectEnter()
+        override public Option? SelectEnter()
         {
             if (menuMode == MenuMode.Down)
             {

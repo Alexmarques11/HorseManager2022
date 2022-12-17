@@ -9,6 +9,13 @@ namespace HorseManager2022.UI
     static class UI
     {
 
+        public static void PopulateScreenWithSaveOptions(Screen screen, Screen nextScreen, GameManager gameManager)
+        {
+            screen.ClearOptions();
+            foreach (string save in gameManager.saveManager.saves)
+                screen.AddOption(save, nextScreen, () => gameManager.saveName = save);
+        }
+        
         // Show Credit Screen
         public static void ShowCreditScreen()
         {

@@ -42,7 +42,7 @@ namespace HorseManager2022.UI.Screens
 
         }
 
-        override public Screen? Show()
+        override public Screen? Show(GameManager? gameManager)
         {
             // Reset positions
             selectedPosition = 0;
@@ -134,7 +134,7 @@ namespace HorseManager2022.UI.Screens
             Console.WriteLine("+------------------------+");
         }
 
-        override protected void SelectLeft()
+        override public void SelectLeft()
         {
             if (this.selectedPosition > 0)
                 this.selectedPosition--;
@@ -145,7 +145,7 @@ namespace HorseManager2022.UI.Screens
         }
 
 
-        override protected void SelectRight()
+        override public void SelectRight()
         {
             if (this.selectedPosition < this.options.Count - 1)
                 this.selectedPosition++;
@@ -154,13 +154,13 @@ namespace HorseManager2022.UI.Screens
         }
 
 
-        override protected void SelectUp() { }
+        override public void SelectUp() { }
 
 
-        override protected void SelectDown() { }
+        override public void SelectDown() { }
 
 
-        override protected Option? SelectEnter()
+        override public Option? SelectEnter()
         {
             if (this.selectedPosition == this.options.Count)
             {

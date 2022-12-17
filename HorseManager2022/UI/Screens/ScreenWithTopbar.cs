@@ -44,7 +44,7 @@ namespace HorseManager2022.UI
         
 
         // Methods for each selection direction (up, down, left, right)
-        override protected void SelectLeft()
+        override public void SelectLeft()
         {
             if (this.selectedPosition > 0)
                 this.selectedPosition--;
@@ -58,7 +58,7 @@ namespace HorseManager2022.UI
         }
         
         
-        override protected void SelectRight()
+        override public void SelectRight()
         {
             if (menuMode == MenuMode.Down && this.selectedPosition < this.options.Count - 1
                         || menuMode == MenuMode.Up && this.selectedPosition < this.topbar.options.Count)
@@ -68,17 +68,17 @@ namespace HorseManager2022.UI
         }
 
         
-        override protected void SelectUp()
+        override public void SelectUp()
         {
             menuMode = (menuMode == MenuMode.Up) ? MenuMode.Down : MenuMode.Up;
             this.selectedPosition = 0;
         }
         
         
-        override protected void SelectDown() => SelectUp();
+        override public void SelectDown() => SelectUp();
 
         
-        override protected Option? SelectEnter()
+        override public Option? SelectEnter()
         {
             if (menuMode == MenuMode.Down)
             {

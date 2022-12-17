@@ -1,5 +1,5 @@
-﻿using HorseManager2022.Enums;
-using HorseManager2022.Models;
+﻿using HorseManager2022.Deprecated;
+using HorseManager2022.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +28,10 @@ namespace HorseManager2022.UI
         }
         
 
-        public void Draw(ScreenWithTopbar screen)
+        public void Draw(ScreenWithTopbar screen, GameManager? gameManager)
         {
-            Player player = SaveManager.Get<Player>(0);
+            if (gameManager == null)
+                return;
 
             // ---------------- 1º Line ---------------- \\
             Console.Write("+------------------");
@@ -43,7 +44,7 @@ namespace HorseManager2022.UI
             }
 
             // ---------------- 2º Line ---------------- \\
-            string saveNameLabel = Game.saveName.PadRight(16);
+            string saveNameLabel = gameManager.saveManager.saveName.PadRight(16);
             Console.Write("|  " + saveNameLabel);
             for (int i = 0; i < options.Count + 1; i++)
             {
@@ -70,7 +71,7 @@ namespace HorseManager2022.UI
             }
 
             // ---------------- 4º Line ---------------- \\
-            string moneyLabel = player.money.ToString("C").PadRight(16);
+            string moneyLabel = gameManager.money.ToString("C").PadRight(16);
             Console.Write("|  " + moneyLabel);
             for (int i = 0; i < options.Count + 1; i++)
             {
@@ -96,7 +97,7 @@ namespace HorseManager2022.UI
             }
 
             // ---------------- 6º Line ---------------- \\
-            string dateLabel = player.date.ToString().PadRight(16);
+            string dateLabel = ((gameManager.currentDate != null) ? gameManager.currentDate.ToString() : "").PadRight(16);
             Console.Write("|  " + dateLabel);
             for (int i = 0; i < options.Count + 1; i++)
             {

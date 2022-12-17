@@ -47,13 +47,13 @@ namespace HorseManager2022.UI
 
             return selectedOption;
         }
-
+        
         // Methods for each selection direction (up, down, left, right)
-        abstract protected void SelectLeft();
-        abstract protected void SelectRight();
-        abstract protected void SelectUp();
-        abstract protected void SelectDown();
-        abstract protected Option? SelectEnter();
+        virtual public void SelectLeft() { }
+        virtual public void SelectRight() { }
+        virtual public void SelectUp() { }
+        virtual public void SelectDown() { }
+        virtual public Option? SelectEnter() => null;
 
         // Select option from the list
         public Option? SelectOption()

@@ -1,101 +1,76 @@
-﻿using HorseManager2022.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using HorseManager2022.Deprecated;
 
 namespace HorseManager2022
 {
-
-    static public class SaveManager
+    internal class SaveManager
     {
-        static private string rootPath => Directory.GetCurrentDirectory() + "\\saves\\";
-        static private string PATH => rootPath + Game.saveName + "\\"; // replace with actual path
-        static private string DELIMITER = ";"; // replace with actual delimiter
+        // Properties
+        private readonly string extension = ".hm";
+        public string saveName = "default";
         
+        private string rootPath => Directory.GetCurrentDirectory() + "\\saves\\";
+        private string savePath => rootPath + saveName + extension;
 
-        static private T GetInstance<T>(string itemStr) where T : IDefinable => (T)Activator.CreateInstance(typeof(T), new object[] { itemStr })!;
-
-
-        static private string GetPath<T>() where T : IDefinable => PATH + typeof(T).Name + ".txt";
-        
-
-        static public T? Get<T>(int id) where T : IDefinable
+        // Get all folder names in rootPath folder
+        public string[] saves
         {
-            string path = GetPath<T>();
-            string[] lines = File.ReadAllLines(path);
-
-            for (int i = 0; i < lines.Length; i++)
+            get
             {
-                T _item = GetInstance<T>(lines[i]);
+                string[] paths;
 
-                if (_item.id == id)
-                    return _item;
-            }
-
-            return default;
-        }
-
-
-        static public List<T> Get<T>() where T : IDefinable
-        {
-            string path = GetPath<T>();
-            string[] lines = File.ReadAllLines(path);
-            List<T> items = new();
-
-            foreach (string itemStr in lines)
-            {
-                items.Add(GetInstance<T>(itemStr));
-            }
-
-            return items;
-        }
-
-
-        static public void Add<T>(T item) where T : IDefinable
-        {
-            string path = GetPath<T>();
-            item.id = GetAutoIncrementId<T>();
-            string itemStr = item.ToSaveFormat();
-
-            File.AppendAllText(path, itemStr + Environment.NewLine);
-        }
-
-
-        static public void Update<T>(T item) where T : IDefinable
-        {
-            string path = GetPath<T>();
-            string[] lines = File.ReadAllLines(path);
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                T _item = GetInstance<T>(lines[i]);
-
-                if (_item.id == item.id)
+                try
                 {
-                    lines[i] = item.ToSaveFormat();
+                    paths = Directory.GetFiles(rootPath);
                 }
-            }
+                catch (Exception)
+                {
+                    Directory.CreateDirectory(rootPath);
+                    paths = Directory.GetFiles(rootPath);
+                }
 
-            File.WriteAllLines(path, lines);
+                // Remove rootPath from paths
+                for (int i = 0; i < paths.Length; i++) 
+                {
+                    paths[i] = paths[i].Replace(rootPath, "");
+                    paths[i] = paths[i].Replace(extension, "");
+                }
+                return paths;
+            }
         }
 
+        // Constructor
+        public SaveManager() { }
 
-        static private int GetAutoIncrementId<T>() where T : IDefinable
+
+        // Methods
+        public void SaveGame(GameData gameData)
         {
-            string path = GetPath<T>();
-            string[] lines = File.ReadAllLines(path);
-
-            try
+            using (var stream = File.Open(savePath, FileMode.Create))
             {
-                return GetInstance<T>(lines[^1]).id + 1;
-            }
-            catch (Exception)
-            {
-                return 0;
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(stream, gameData);
             }
         }
+
+        
+        public GameData? LoadGame()
+        {
+            if (!File.Exists(savePath) || File.ReadAllBytes(savePath).Length == 0)
+                return new();
+
+            using (var stream = File.Open(savePath, FileMode.Open))
+            {
+                var formatter = new BinaryFormatter();
+                GameData gameData = (GameData)formatter.Deserialize(stream);
+                return gameData;
+            }
+        }
+
     }
 }

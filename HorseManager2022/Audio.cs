@@ -14,18 +14,18 @@ namespace HorseManager2022
 
         public static void PlayRaceSong()
         {
-            SoundPlayer raceSong = new SoundPlayer(pathAudio + @"\racesong.wav");
+            SoundPlayer raceSong = new SoundPlayer(pathAudio + @"\RaceSong.wav");
             raceSong.Play();
         }
 
         public static void PlayRaceEndSong()
         {
-            SoundPlayer raceSong = new SoundPlayer(pathAudio + @"\final.wav");
+            SoundPlayer raceSong = new SoundPlayer(pathAudio + @"\Final.wav");
             raceSong.Play();
         }
         public static void PlayTownSong()
         {
-            SoundPlayer townSong = new SoundPlayer(pathAudio + @"\townsong.wav");
+            SoundPlayer townSong = new SoundPlayer(pathAudio + @"\TownSong.wav");
             townSong.Play();
         }
     }

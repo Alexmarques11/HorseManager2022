@@ -60,11 +60,11 @@ namespace HorseManager2022.UI.Dialogs
 
         
         // Methods for each selection direction (up, down, left, right)
-        override protected void SelectLeft() => selectedPosition = (selectedPosition == 0) ? 1 : 0;
-        override protected void SelectRight() => SelectLeft();
-        override protected void SelectUp() { }
-        override protected void SelectDown() { }
-        override protected Option? SelectEnter() => options[selectedPosition];
+        override public void SelectLeft() => selectedPosition = (selectedPosition == 0) ? 1 : 0;
+        override public void SelectRight() => SelectLeft();
+        override public void SelectUp() { }
+        override public void SelectDown() { }
+        override public Option? SelectEnter() => options[selectedPosition];
 
     }
 }

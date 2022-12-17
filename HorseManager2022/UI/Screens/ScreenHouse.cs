@@ -19,14 +19,14 @@ namespace HorseManager2022.UI
             boardMenu = new BoardMenu(this);
         }
 
-        override public Screen? Show()
+        override public Screen? Show(GameManager? gameManager)
         {
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
             {
                 Console.Clear();
                 
-                topbar.Draw(this);
+                topbar.Draw(this, gameManager);
                 DrawHouse();
 
                 boardMenu.Show();

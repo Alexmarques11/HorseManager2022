@@ -88,6 +88,7 @@ namespace HorseManager2022.UI
 
         private string GetDayInCalendar(int day, Month month, int year)
         {
+            Console.ResetColor();
             string result, resultFormmated;
 
             // Day less than 10 check
@@ -97,7 +98,8 @@ namespace HorseManager2022.UI
                 result = day.ToString();
             
             Event? eventInDay = GetEventInDay(day, month, year);
-            Console.ForegroundColor = Event.GetEventTypeColor(eventInDay?.type ?? null);
+            if (eventInDay != null)
+                Console.ForegroundColor = eventInDay.GetEventTypeColor();
 
             // Event in day check
             if (eventInDay != null)
@@ -164,7 +166,7 @@ namespace HorseManager2022.UI
                 // Display Values
                 Console.SetCursorPosition(x, y + pos);
                 Console.Write("| ");
-                Console.ForegroundColor = Event.GetEventTypeColor(e.type);
+                Console.ForegroundColor = e.GetEventTypeColor();
                 Console.Write("•");
                 Console.ResetColor();
                 Console.WriteLine(" " + day + " -> " + eventName + "|");
