@@ -8,11 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
+    <None Remove="Resources\Final.wav" />
+    <None Remove="Resources\RaceSong.wav" />
+    <None Remove="Resources\TownSong.wav" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Audio\" />
+    <EmbeddedResource Include="Resources\Final.wav" />
+    <EmbeddedResource Include="Resources\RaceSong.wav" />
+    <EmbeddedResource Include="Resources\TownSong.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

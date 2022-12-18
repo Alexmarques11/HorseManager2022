@@ -1,9 +1,11 @@
-﻿using HorseManager2022.Deprecated;
+﻿using HorseManager2022.Attributes;
+using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
 using HorseManager2022.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Security.Permissions;
@@ -13,34 +15,55 @@ using System.Threading.Tasks;
 namespace HorseManager2022
 {
     [Serializable]
-    internal class Horse
+    internal class Horse : IIdentifiable
     {
-        // Constants
-        private const string PATH = "horses.txt";
-
         // Properties
-        public int id;
-        public string name;
-        public int resistance;
-        public int energy;
-        public int age;
-        public int price;
-        public int speed;
-        public Rarity rarity;
+        [DisplayName("Id")]
+        public int id { get; set; }
+        
+        [DisplayName("Name")]
+        [Padding(18)]
+        public string name { get; set; }
 
+        [DisplayName("Rarity")]
+        [Padding(10)]
+        [IsRarity]
+        public Rarity rarity { get; set; }
+
+        [DisplayName("Energy")]
+        [IsPercentage]
+        [IsEnergy]
+        public int energy { get; set; }
+
+        [DisplayName("Resistance")]
+        [Color(ConsoleColor.DarkGray)]
+        public int resistance { get; set; }
+
+        [DisplayName("Speed")]
+        [Color(ConsoleColor.DarkGray)]
+        public int speed { get; set; }
+
+        [DisplayName("Age")]
+        [Padding(7)]
+        public int age { get; set; }
+        
+        [DisplayName("Price")]
+        public int price { get; set; }
+
+        
         // Constructor
-        public Horse()  //Construtor Random vazio
+        public Horse()  //Construtor Random
         {
-            rarity = RandomRarity();
+            rarity = GetRandomRarity();
             speed = GenerateSpeed(rarity);
             name = GenerateHorseName();
-            price = HorsePrice(rarity, speed);
+            price = GetHorsePrice(rarity, speed);
             resistance = CalculateResistence(speed,age);
             energy = 100;
-            age = 10; // Fazer random
+            age = 10; // Do random
         }
 
-        public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor com todos os atributos
+        public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor with all
         {
             this.name = name;
             this.resistance = resistance;
@@ -51,7 +74,80 @@ namespace HorseManager2022
             this.rarity = rarity;
         }
 
+        public Rarity GetRandomRarity()  //Raridades(random)
+        {
+            Random rnd = new Random();
+            int i = rnd.Next(0, 11);
+            switch (i)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    return Rarity.Common;
+                case 5:
+                case 6:
+                case 7:
+                    return Rarity.Rare;
+                case 8:
+                case 9:
+                    return Rarity.Epic;
+                case 10:
+                    return Rarity.Legendary;
+                default:
+                    return rarity = 0;
+            }
+        }
+
+
+        public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
         
+
+        public int GenerateSpeed(Rarity rarity) //Gerador de velocidades consoante a raridade do cavalo
+        {
+            Random random = new Random();
+            switch (rarity)
+            {
+                case Rarity.Common:
+                    return speed = random.Next(10, 31);
+                case Rarity.Rare:
+                    return speed = random.Next(30, 61);
+                case Rarity.Epic:
+                    return speed = random.Next(60, 81);
+                case Rarity.Legendary:
+                    return speed = random.Next(80, 101);
+                default:
+                    return speed = 0;
+            }
+        }
+
+        public int GetHorsePrice(Rarity rarity, int speed) //Preço dos cavalos consoante a raridade 
+        {
+            Random random = new Random();
+            switch (rarity)
+            {
+                case Rarity.Common:
+                    return (speed <= 20) ? random.Next(100, 250) : random.Next(251, 500);
+
+                case Rarity.Rare:
+                    return (speed <= 40) ? random.Next(600, 1000) : random.Next(1001, 1500);
+
+                case Rarity.Epic:
+                    return (speed <= 60) ? random.Next(1600, 2300) : random.Next(2350, 3000);
+                case Rarity.Legendary:
+                    return (speed <= 80) ? random.Next(3100, 5000) : random.Next(5050, 6000);
+
+                default:
+                    return price = 0;
+            }
+        }
+        public int CalculateResistence(int speed, int age)  //Calcular a Resistência
+        {
+            int x;
+            x = (speed * age) / 7;
+            return x;
+        }
         public string GenerateHorseName()  //Gerador do nome dos cavalos(random)
         {
             string[] nameArray ={ "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",
@@ -78,90 +174,10 @@ namespace HorseManager2022
                                   "Xavier",
                                   "Yakama","Yankie","Yeller","Yeti","Yoda","Yonkers",
                                   "Zahara","Zara","Zelda","Zenia","Zia","Zipper","Zodiac","Zoe","Zoey","Zoro","Zeus","Zuza"};
-            
-            
+
+
             Random random = new Random();
-            return nameArray[random.Next(0, nameArray.Length)] + " "+ nameArray[random.Next(0, nameArray.Length)];
-        }
-
-        public Rarity RandomRarity()  //Raridades(random)
-        {
-            Random rnd = new Random();
-            int i = rnd.Next(0, 11);
-            switch (i)
-            {
-                case 0: case 1: case 2: case 3: case 4:
-                    return Rarity.Common;
-                case 5: case 6:case 7:
-                    return Rarity.Rare;
-                case 8: case 9:
-                    return Rarity.Epic;
-                case 10:
-                    return Rarity.Legendary;
-                default:
-                    return rarity = 0;
-            }
-        }
-
-        public ConsoleColor RarityColor(Rarity rarity)
-        {
-            switch (rarity)
-            {
-                case Rarity.Common:
-                    return ConsoleColor.White;
-                case Rarity.Rare:
-                    return ConsoleColor.Blue;
-                case Rarity.Epic:
-                    return ConsoleColor.DarkMagenta;
-                case Rarity.Legendary:
-                    return ConsoleColor.Yellow;
-                default:
-                    return ConsoleColor.Gray;
-            }
-        }
-        
-        public int GenerateSpeed(Rarity rarity) //Gerador de velocidades consoante a raridade do cavalo
-        {
-            Random random = new Random();
-            switch (rarity)
-            {
-                case Rarity.Common:
-                    return speed=random.Next(5, 11);
-                case Rarity.Rare:
-                    return speed = random.Next(10,16 );
-                case Rarity.Epic:
-                    return speed = random.Next(15, 21);
-                case Rarity.Legendary:
-                    return speed = random.Next(20, 31);
-                default:
-                    return speed = 0;
-            }   
-        }
-
-        public int HorsePrice(Rarity rarity, int speed) //Preço dos cavalos consoante a raridade 
-        {
-            switch (rarity)
-            {
-                case Rarity.Common:
-                    return (speed <= 7) ? price=500: price=600;
-
-                case Rarity.Rare:
-                    return (speed <= 12) ? price = 700 : price = 800;
-
-                case Rarity.Epic:
-                    return (speed <= 17) ? price = 900 : price = 1000;
-                case Rarity.Legendary:
-                    return price = 1300;
-
-                default:
-                    return price = 0;
-            }
-        }
-        public int CalculateResistence(int speed, int age)  //Calcular a Resistência
-        {
-            int x;
-            x = (speed + age) / 2;
-            return x;
+            return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
         }
     }
 }

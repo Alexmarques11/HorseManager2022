@@ -47,7 +47,7 @@ namespace HorseManager2022
             {
                 saveManager.saveName = value;
                 EmptySave();
-                gameData = saveManager.LoadGame();
+                gameData = saveManager.LoadGame() ?? new();
             }
         }
 
@@ -70,10 +70,10 @@ namespace HorseManager2022
         }
 
         
-        public T? Get<T>(int id) where T : ISavable => GetList<T>().FirstOrDefault(x => x.id == id);
+        public T? Get<T>(int id) where T : IIdentifiable => GetList<T>().FirstOrDefault(x => x.id == id);
         
 
-        public void Add<T>(T item) where T : ISavable
+        public void Add<T>(T item) where T : IIdentifiable
         {
             List<T> list = GetList<T>();
             item.id = GetNewId<T>(list);
@@ -83,7 +83,7 @@ namespace HorseManager2022
         }
 
 
-        public void AddAll<T>(List<T> items) where T : ISavable
+        public void AddAll<T>(List<T> items) where T : IIdentifiable
         {
             // Set auto increment ids
             foreach (T item in items) {
@@ -98,7 +98,7 @@ namespace HorseManager2022
         }
 
 
-        public void Update<T>(T item) where T : ISavable
+        public void Update<T>(T item) where T : IIdentifiable
         {
             List<T> list = GetList<T>();
             T? _item = list.FirstOrDefault(x => x.id == item.id);
@@ -118,7 +118,7 @@ namespace HorseManager2022
         }
 
 
-        public void Remove<T>(int id) where T : ISavable
+        public void Remove<T>(int id) where T : IIdentifiable
         {
             List<T> list = GetList<T>();
             T? _item = GetList<T>().FirstOrDefault(x => x.id == id);
@@ -133,7 +133,7 @@ namespace HorseManager2022
         public void RemoveAll<T>() => GetList<T>().Clear();
 
 
-        static public int GetNewId<T>(List<T> list) where T : ISavable
+        static public int GetNewId<T>(List<T> list) where T : IIdentifiable
         {
             if (list == null || list.Count == 0)
                 return 1;
@@ -151,6 +151,7 @@ namespace HorseManager2022
 
         public void CreateNewSave(string savename)
         {
+            EmptySave();
             saveManager.saveName = savename;
             AddAll(Event.GetNewYearEvents());
             gameData.money = 10;

@@ -28,7 +28,7 @@ namespace HorseManager2022.UI
         }
         
 
-        public void Draw(ScreenWithTopbar screen, GameManager? gameManager)
+        public void Show(ScreenWithTopbar screen, GameManager? gameManager)
         {
             if (gameManager == null)
                 return;

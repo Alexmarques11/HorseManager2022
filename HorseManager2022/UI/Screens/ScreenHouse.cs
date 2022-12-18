@@ -26,7 +26,7 @@ namespace HorseManager2022.UI
             {
                 Console.Clear();
                 
-                topbar.Draw(this, gameManager);
+                topbar.Show(this, gameManager);
                 DrawHouse();
 
                 boardMenu.Show();
