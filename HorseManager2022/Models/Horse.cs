@@ -1,4 +1,4 @@
-﻿using HorseManager2022.Attributes;
+using HorseManager2022.Attributes;
 using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
@@ -63,6 +63,7 @@ namespace HorseManager2022
             age = 10; // Do random
         }
 
+
         public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor with all
         {
             this.name = name;
@@ -73,6 +74,7 @@ namespace HorseManager2022
             this.speed = speed;
             this.rarity = rarity;
         }
+        
 
         public Rarity GetRandomRarity()  //Raridades(random)
         {
@@ -102,8 +104,8 @@ namespace HorseManager2022
 
 
         public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
-        
-
+     
+     
         public int GenerateSpeed(Rarity rarity) //Gerador de velocidades consoante a raridade do cavalo
         {
             Random random = new Random();
