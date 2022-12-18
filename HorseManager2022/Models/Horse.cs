@@ -12,21 +12,21 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HorseManager2022
+namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Horse : IIdentifiable
+    internal class Horse : IRarity
     {
+        // Constants
+        public const int MAX_SHOP_HORSES = 10;
+
         // Properties
-        [DisplayName("Id")]
-        public int id { get; set; }
-        
         [DisplayName("Name")]
-        [Padding(18)]
+        [Padding(20)]
         public string name { get; set; }
 
         [DisplayName("Rarity")]
-        [Padding(10)]
+        [Padding(12)]
         [IsRarity]
         public Rarity rarity { get; set; }
 
@@ -48,6 +48,8 @@ namespace HorseManager2022
         public int age { get; set; }
         
         [DisplayName("Price")]
+        [Padding(9)]
+        [IsPrice]
         public int price { get; set; }
 
         
@@ -73,6 +75,16 @@ namespace HorseManager2022
             this.price = price;
             this.speed = speed;
             this.rarity = rarity;
+        }
+
+
+        static public List<Horse> GenerateShopHorses()
+        {
+            List<Horse> horses = new();
+            for (int i = 0; i < MAX_SHOP_HORSES; i++)
+                horses.Add(new());
+            
+            return horses;
         }
         
 

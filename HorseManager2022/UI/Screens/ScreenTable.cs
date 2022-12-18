@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HorseManager2022;
 using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 using System.ComponentModel;
 using HorseManager2022.Attributes;
 using System.Reflection.PortableExecutable;
@@ -20,10 +19,10 @@ namespace HorseManager2022.UI.Screens
 
         
         // Constructor
-        public ScreenTable(Topbar topbar, Screen? previousScreen = null, string[]? propertiesToExclude = null)
+        public ScreenTable(Topbar topbar, Screen? previousScreen = null, string[]? propertiesToExclude = null, string? listName = null)
             : base(topbar, previousScreen)
         {
-            table = new Table<T>(propertiesToExclude ?? Array.Empty<string>());
+            table = new Table<T>(propertiesToExclude ?? Array.Empty<string>(), listName);
         }
 
 

@@ -11,17 +11,14 @@ using System.Threading.Tasks;
 namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Jockey : IIdentifiable
+    internal class Jockey : IRarity
     {
-        [DisplayName("Id")]
-        public int id { get; set; }
-
         [DisplayName("Name")]
-        [Padding(18)]
+        [Padding(20)]
         public string name { get; set; }
 
         [DisplayName("Rarity")]
-        [Padding(10)]
+        [Padding(12)]
         [IsRarity]
         public Rarity rarity { get; set; }
 
@@ -30,6 +27,8 @@ namespace HorseManager2022.Models
         public int handling { get; set; }
 
         [DisplayName("Price")]
+        [Padding(9)]
+        [IsPrice]
         public int price { get; set; }
         
 

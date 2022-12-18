@@ -59,50 +59,56 @@ namespace HorseManager2022
 
 
         // Methods
-        public List<T> GetList<T>() 
+        public List<T> GetList<T>(string? listName = null) 
         {
-            return typeof(T) switch
+            if (listName == null)
             {
-                Type t when t == typeof(Horse) => gameData.horses as List<T> ?? new List<T>(),
-                Type t when t == typeof(Event) => gameData.events as List<T> ?? new List<T>(),
-                Type t when t == typeof(Jockey) => gameData.joqueys as List<T> ?? new List<T>(),
-                Type t when t == typeof(Team) => gameData.teams as List<T> ?? new List<T>(),
-                _ => throw new Exception("Type not found"),
-            };
+                return typeof(T) switch
+                {
+                    Type t when t == typeof(Horse) => gameData.horses as List<T> ?? new List<T>(),
+                    Type t when t == typeof(Event) => gameData.events as List<T> ?? new List<T>(),
+                    Type t when t == typeof(Jockey) => gameData.joqueys as List<T> ?? new List<T>(),
+                    Type t when t == typeof(Team) => gameData.teams as List<T> ?? new List<T>(),
+                    _ => throw new Exception("Type not found"),
+                };
+            }
+            else 
+            { 
+                return listName.ToLower() switch
+                {
+                    "horses" => gameData.horses as List<T> ?? new List<T>(),
+                    "events" => gameData.events as List<T> ?? new List<T>(),
+                    "joqueys" => gameData.joqueys as List<T> ?? new List<T>(),
+                    "teams" => gameData.teams as List<T> ?? new List<T>(),
+                    "shophorses" => gameData.shopHorses as List<T> ?? new List<T>(),
+                    _ => throw new Exception("List not found"),
+                };
+            }
         }
-
-        
-        public T? Get<T>(int id) where T : IIdentifiable => GetList<T>().FirstOrDefault(x => x.id == id);
         
 
-        public void Add<T>(T item) where T : IIdentifiable
+        public void Add<T>(T item, string? listName = null)
         {
-            List<T> list = GetList<T>();
-            item.id = GetNewId<T>(list);
-            GetList<T>().Add(item);
+            List<T> list = GetList<T>(listName);
+            list.Add(item);
 
             SaveChanges();
         }
 
 
-        public void AddAll<T>(List<T> items) where T : IIdentifiable
+        public void AddAll<T>(List<T> items, string? listName = null)
         {
-            // Set auto increment ids
-            foreach (T item in items) {
-                item.id = GetNewId<T>(items);
-            }
-
-            List<T> list = GetList<T>();
+            List<T> list = GetList<T>(listName);
             list.AddRange(items);
 
             SaveChanges();
         }
 
 
-        public void Update<T>(T item) where T : IIdentifiable
+        public void Update<T>(T item, string? listName = null)
         {
-            List<T> list = GetList<T>();
-            T? _item = list.FirstOrDefault(x => x.id == item.id);
+            List<T> list = GetList<T>(listName);
+            T? _item = list.FirstOrDefault(x => x.Equals(item));
 
             if (_item != null)
                 list[list.IndexOf(_item)] = item;
@@ -111,39 +117,17 @@ namespace HorseManager2022
         }
 
 
-        public void Remove<T>(T item)
+        public void Remove<T>(T item, string? listName = null)
         {
-            GetList<T>().Remove(item);
+            GetList<T>(listName).Remove(item);
 
             SaveChanges();
         }
 
 
-        public void Remove<T>(int id) where T : IIdentifiable
-        {
-            List<T> list = GetList<T>();
-            T? _item = GetList<T>().FirstOrDefault(x => x.id == id);
+        public void RemoveAll<T>(string? listName = null) => GetList<T>(listName).Clear();
 
-            if (_item != null)
-                list.Remove(_item);
-
-            SaveChanges();
-        }
-
-
-        public void RemoveAll<T>() => GetList<T>().Clear();
-
-
-        static public int GetNewId<T>(List<T> list) where T : IIdentifiable
-        {
-            if (list == null || list.Count == 0)
-                return 1;
-
-            int maxId = list.Max(x => x.id);
-            return maxId + 1;
-        }
-
-
+        
         private void EmptySave() => gameData = new();
 
 
@@ -155,6 +139,7 @@ namespace HorseManager2022
             EmptySave();
             saveManager.saveName = savename;
             AddAll(Event.GetNewYearEvents());
+            AddAll(Horse.GenerateShopHorses(), "shopHorses");
             gameData.money = 10;
             gameData.currentDate = new();
             SaveChanges();

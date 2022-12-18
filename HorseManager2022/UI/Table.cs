@@ -1,5 +1,7 @@
 ﻿using HorseManager2022.Attributes;
 using HorseManager2022.Enums;
+using HorseManager2022.Interfaces;
+using HorseManager2022.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +17,14 @@ namespace HorseManager2022.UI
         public const int DEFAULT_TABLE_WIDTH = 72;
 
         // Properties
-        string[] propertiesToExclude;
+        private readonly string[] propertiesToExclude;
+        private readonly string? listName;
 
         // Constructor
-        public Table(string[] propertiesToExclude)
+        public Table(string[] propertiesToExclude, string? listName = null)
         {
             this.propertiesToExclude = propertiesToExclude;
+            this.listName = listName;
         }
 
         // Methods
@@ -32,7 +36,11 @@ namespace HorseManager2022.UI
                 return;
 
             // Get data
-            List<T> items = gameManager.GetList<T>();
+            List<T> items = new();
+
+            // Order by rarity
+            items = gameManager.GetList<T>(listName).OrderByDescending(x => (int)((x as IRarity)?.rarity ?? 0)).ToList();
+            
             string tableName = GetTableName();
             List<string> headers = GetTableHeaders();
 
@@ -142,6 +150,7 @@ namespace HorseManager2022.UI
                 return;
 
             bool isPercentage = property.Attributes.OfType<IsPercentageAttribute>().FirstOrDefault() != null;
+            bool isPrice = property.Attributes.OfType<IsPriceAttribute>().FirstOrDefault() != null;
             IsRarityAttribute? rarityAttribute = property.Attributes.OfType<IsRarityAttribute>().FirstOrDefault();
             IsEnergyAttribute? energyAttribute = property.Attributes.OfType<IsEnergyAttribute>().FirstOrDefault();
             ColorAttribute? colorAttribute = property.Attributes.OfType<ColorAttribute>().FirstOrDefault();
@@ -159,6 +168,8 @@ namespace HorseManager2022.UI
 
             if (isPercentage)
                 propertyValue += "%";
+            else if (isPrice)
+                propertyValue += "€";
 
             string valueString = Utils.PadCenter($" {propertyValue} ", padding);
             Console.Write("|");

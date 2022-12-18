@@ -10,13 +10,12 @@ using HorseManager2022.Interfaces;
 namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Event : IIdentifiable
+    internal class Event
     {
         // Constants
         private const int EVENT_QUANTITY_YEAR = 20;
 
         // Properties
-        public int id { get; set; }
         public string name;
         public EventType type;
         public Date date;

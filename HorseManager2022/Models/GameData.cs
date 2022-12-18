@@ -16,7 +16,7 @@ namespace HorseManager2022.Models
         public List<Event> events;
         public List<Jockey> joqueys;
         public List<Team> teams;
-        // public List<Horse> shopHorses;
+        public List<Horse> shopHorses;
 
         public GameData()
         {
@@ -26,7 +26,7 @@ namespace HorseManager2022.Models
             events = new();
             joqueys = new();
             teams = new();
-            // shopHorses = new();
+            shopHorses = new();
         }
 
     }

@@ -26,7 +26,7 @@ HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
 ScreenTable<Horse> horsesStableScreen = new(topbar, stableScreen, new string[] {"id", "price"});
 ScreenTable<Jockey> joqueysStableScreen = new(topbar, stableScreen, new string[] { "id", "price" });
 ScreenTable<Team> teamsStableScreen = new(topbar, stableScreen);
-ScreenTable<Horse> horsesBuyScreen = new(topbar, shopBuyScreen, new string[] { "id" });
+ScreenTable<Horse> horsesBuyScreen = new(topbar, shopBuyScreen, new string[] { "id", "energy" }, "shopHorses");
 
 // ---------------- Initial Screen Options ---------------- \\
 

@@ -54,6 +54,10 @@ namespace HorseManager2022.Models
                     gameManager.AddAll(Event.GetNewYearEvents(year));
                 }
             }
+
+            gameManager.RemoveAll<Horse>("shopHorses");
+            gameManager.AddAll(Horse.GenerateShopHorses(), "shopHorses");
+
             gameManager.SaveChanges();
         }
 

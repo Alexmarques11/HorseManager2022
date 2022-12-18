@@ -15,11 +15,11 @@ namespace HorseManager2022.Models
         public int afinity;
 
         // Constructor
-        public Team(Horse horse, Jockey jockey)
+        public Team(Horse horse, Jockey jockey, int afinity)
         {
             this.horse = horse;
             this.jockey = jockey;
-            afinity = 0;
+            this.afinity = afinity;
         }
 
         // Methods

@@ -9,10 +9,10 @@ namespace HorseManager2022.Enums
 {
     public enum Rarity
     {
-        Common,
-        Rare,
-        Epic,
-        Legendary
+        Common = 0,
+        Rare = 1,
+        Epic = 2,
+        Legendary = 3
     }
 
     static public class RarityExtensions
