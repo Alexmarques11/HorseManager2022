@@ -5,8 +5,11 @@ using HorseManager2022.UI.Screens;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-// Create UI
+// Initial setup
 GameManager gameManager = new();
+Audio.PlayTownSong();
+
+// Create UI
 Topbar topbar = new();
 ScreenMenu initialScreen = new("Welcome to Horse Manager 2022");
 ScreenMenu loadGameScreen = new("Load game", initialScreen);
@@ -16,7 +19,8 @@ ScreenHouse shopScreen = new( topbar, cityScreen);
 ScreenHouse stableScreen = new(topbar, cityScreen);
 ScreenHouse raceTrackScreen = new(topbar, cityScreen);
 CalendarScreen calendarScreen = new(topbar, cityScreen);
-HorseSelectionScreen horseSelectionScreen = new(cityScreen);
+HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
+ScreenTable<Horse> horsesStableScreen = new(topbar, stableScreen, new string[] {"id", "price"});
 
 // ---------------- Initial Screen Options ---------------- \\
 
@@ -122,11 +126,7 @@ cityScreen.AddOption("Stable", stableScreen, () => {});
     Stable [Screen] --> Horses [Option]
 */
 
-stableScreen.AddOption("Horses", stableScreen, () => {
-
-    Console.WriteLine("Horses");
-
-    Console.ReadKey();
+stableScreen.AddOption("Horses", horsesStableScreen, () => {
 
 });
 
@@ -246,6 +246,7 @@ raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
     leaderboard.Show();
     Audio.PlayRaceEndSong();
     Console.ReadKey();
+    Audio.PlayTownSong();
 
 });
 

@@ -52,7 +52,7 @@ namespace HorseManager2022.UI
             {
                 Console.Clear();
 
-                topbar.Draw(this, gameManager);
+                topbar.Show(this, gameManager);
                 DrawCity();
 
                 if (menuMode == MenuMode.Down)

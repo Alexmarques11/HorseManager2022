@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HorseManager2022.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,21 +17,16 @@ namespace HorseManager2022.Enums
 
     static public class RarityExtensions
     {
-        static public ConsoleColor ToColor(Rarity rarity)
+        static public ConsoleColor GetColor(Rarity rarity)
         {
-            switch (rarity)
+            return rarity switch
             {
-                case Rarity.Common:
-                    return ConsoleColor.White;
-                case Rarity.Rare:
-                    return ConsoleColor.Blue;
-                case Rarity.Epic:
-                    return ConsoleColor.DarkMagenta;
-                case Rarity.Legendary:
-                    return ConsoleColor.Yellow;
-                default:
-                    return ConsoleColor.White;
-            }
+                Rarity.Common => ConsoleColor.White,
+                Rarity.Rare => ConsoleColor.Blue,
+                Rarity.Epic => ConsoleColor.DarkMagenta,
+                Rarity.Legendary => ConsoleColor.Yellow,
+                _ => ConsoleColor.White,
+            };
         }
     }
 }

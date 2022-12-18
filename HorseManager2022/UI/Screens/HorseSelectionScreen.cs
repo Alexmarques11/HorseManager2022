@@ -12,6 +12,7 @@ namespace HorseManager2022.UI.Screens
     {
         // Properties
         private readonly Arrow arrow;
+        private readonly Horse speedo, tornado, hulk;
 
         public override int selectedPosition
         {
@@ -30,15 +31,19 @@ namespace HorseManager2022.UI.Screens
         }
         
         // Constructor
-        public HorseSelectionScreen(Screen nextScreen, Screen? previousScreen = null)
+        public HorseSelectionScreen(Screen nextScreen, GameManager? gameManager, Screen? previousScreen = null)
             : base(previousScreen)
         {
             arrow = new Arrow(36, -21, 2);
 
+            speedo = new("Speedo", 10, 100, 13, 0, 20, Rarity.Common);
+            tornado = new("Tornado", 15, 100, 12, 0, 15, Rarity.Common);
+            hulk = new("Hulk", 20, 100, 13, 0, 10, Rarity.Common);
+
             // Add options
-            options.Add(new Option("Speedo", nextScreen, () => { }));
-            options.Add(new Option("Tornado", nextScreen, () => { }));
-            options.Add(new Option("Hulk", nextScreen, () => { }));
+            options.Add(new Option("Speedo", nextScreen, () => gameManager?.Add(speedo) ));
+            options.Add(new Option("Tornado", nextScreen, () => gameManager?.Add(tornado)));
+            options.Add(new Option("Hulk", nextScreen, () => gameManager?.Add(hulk)));
 
         }
 
@@ -68,22 +73,22 @@ namespace HorseManager2022.UI.Screens
             Console.WriteLine("Pick your starting horse!");
             Console.WriteLine();
 
-            DrawCard(5, 10, 0, Rarity.Common, "Speedo", 10, 20, 13);
-            DrawCard(40, 10, 0, Rarity.Common, "Tornado", 15, 15, 12);
-            DrawCard(75, 10, 0, Rarity.Common, "Hulk", 20, 10, 13);
+            DrawCard(5, 10, speedo);
+            DrawCard(40, 10, tornado);
+            DrawCard(75, 10, hulk);
         }
 
-        public void DrawCard(int x, int y, int price, Rarity rarity, string name, int resistence, int speed, int age)
+        public void DrawCard(int x, int y, Horse horse)
         {
             Console.SetCursorPosition(x, y);
             Console.WriteLine("+------------------------+");
             Console.SetCursorPosition(x, y + 1);
             Console.Write("| ");
-            Console.ForegroundColor = RarityExtensions.ToColor(rarity);
-            string _name = ("[" + name + "]").PadRight(12);
+            Console.ForegroundColor = horse.GetRarityColor();
+            string _name = ("[" + horse.name + "]").PadRight(12);
             Console.Write(_name);
             Console.ResetColor();
-            string _price = (price + "€").ToString().PadLeft(10);
+            string _price = (horse.price + "€").ToString().PadLeft(10);
             Console.WriteLine(_price + " |");
             Console.SetCursorPosition(x, y + 2);
             Console.WriteLine("+------------------------+");
@@ -112,21 +117,21 @@ namespace HorseManager2022.UI.Screens
             Console.SetCursorPosition(x, y + 12);
             Console.Write("| Resistence:        ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _resistence = (resistence).ToString().PadLeft(3);
+            string _resistence = (horse.resistance).ToString().PadLeft(3);
             Console.Write(_resistence);
             Console.ResetColor();
             Console.WriteLine(" |");
             Console.SetCursorPosition(x, y + 13);
             Console.Write("| Speed:             ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _speed = (speed).ToString().PadLeft(3);
+            string _speed = (horse.speed).ToString().PadLeft(3);
             Console.Write(_speed);
             Console.ResetColor();
             Console.WriteLine(" |");
             Console.SetCursorPosition(x, y + 14);
             Console.Write("| Age:               ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _age = (age).ToString().PadLeft(3);
+            string _age = (horse.age).ToString().PadLeft(3);
             Console.Write(_age);
             Console.ResetColor();
             Console.WriteLine(" |");
