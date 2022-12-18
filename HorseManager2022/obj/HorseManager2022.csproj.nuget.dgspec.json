@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Utilizador\\Source\\Repos\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj": {}
+    "C:\\Users\\User\\Desktop\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Utilizador\\Source\\Repos\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj": {
+    "C:\\Users\\User\\Desktop\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Utilizador\\Source\\Repos\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj",
         "projectName": "HorseManager2022",
-        "projectPath": "C:\\Users\\Utilizador\\Source\\Repos\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj",
-        "packagesPath": "C:\\Users\\Utilizador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Utilizador\\Source\\Repos\\HorseManager2022\\HorseManager2022\\obj\\",
+        "projectPath": "C:\\Users\\User\\Desktop\\HorseManager2022\\HorseManager2022\\HorseManager2022.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\HorseManager2022\\HorseManager2022\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Utilizador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -61,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -126,4 +126,5 @@ namespace HorseManager2022.Models
                     return price = 0;
             }
         }
+    }
 }
