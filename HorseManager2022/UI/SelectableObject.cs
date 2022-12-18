@@ -22,7 +22,7 @@ namespace HorseManager2022.UI
 
         
         // Methods
-        public void AddOption(string text, Screen? nextScreen, Action onEnter) =>
+        public void AddOption(string text, Screen? nextScreen, Action? onEnter = null) =>
             options.Add(new Option(text, nextScreen, onEnter));
 
         

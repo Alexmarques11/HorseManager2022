@@ -3,6 +3,7 @@ using HorseManager2022.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace HorseManager2022.UI.Screens
         // Properties
         private readonly Arrow arrow;
         private readonly Horse speedo, tornado, hulk;
+        private readonly Jockey jockey;
 
         public override int selectedPosition
         {
@@ -40,11 +42,19 @@ namespace HorseManager2022.UI.Screens
             tornado = new("Tornado", 15, 100, 12, 0, 15, Rarity.Common);
             hulk = new("Hulk", 20, 100, 13, 0, 10, Rarity.Common);
 
-            // Add options
-            options.Add(new Option("Speedo", nextScreen, () => gameManager?.Add(speedo) ));
-            options.Add(new Option("Tornado", nextScreen, () => gameManager?.Add(tornado)));
-            options.Add(new Option("Hulk", nextScreen, () => gameManager?.Add(hulk)));
+            jockey = new(Rarity.Common, 10, 0);
 
+            // Add options
+            options.Add(new Option("Speedo", nextScreen, () => AddInitialTeam(gameManager, speedo))); ;
+            options.Add(new Option("Tornado", nextScreen, () => AddInitialTeam(gameManager, tornado)));
+            options.Add(new Option("Hulk", nextScreen, () => AddInitialTeam(gameManager, hulk)));
+
+        }
+        
+        private void AddInitialTeam(GameManager? gameManager, Horse horse)
+        {
+            gameManager?.Add(horse);
+            gameManager?.Add(jockey);
         }
 
         override public Screen? Show(GameManager? gameManager)
@@ -64,7 +74,7 @@ namespace HorseManager2022.UI.Screens
             });
 
             // Return next screen
-            selectedOption.onEnter();
+            selectedOption?.onEnter?.Invoke();
             return selectedOption?.nextScreen;
         }
 

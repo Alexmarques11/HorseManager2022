@@ -61,8 +61,8 @@ namespace HorseManager2022.UI
 
             });
             
-            selectedOption.onEnter();
-            return selectedOption.nextScreen;
+            selectedOption?.onEnter?.Invoke();
+            return selectedOption?.nextScreen;
 
         }
 

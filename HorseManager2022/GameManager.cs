@@ -65,6 +65,8 @@ namespace HorseManager2022
             {
                 Type t when t == typeof(Horse) => gameData.horses as List<T> ?? new List<T>(),
                 Type t when t == typeof(Event) => gameData.events as List<T> ?? new List<T>(),
+                Type t when t == typeof(Jockey) => gameData.joqueys as List<T> ?? new List<T>(),
+                Type t when t == typeof(Team) => gameData.teams as List<T> ?? new List<T>(),
                 _ => throw new Exception("Type not found"),
             };
         }
@@ -90,7 +92,6 @@ namespace HorseManager2022
                 item.id = GetNewId<T>(items);
             }
 
-            Console.WriteLine("gameData." + gameData);
             List<T> list = GetList<T>();
             list.AddRange(items);
 

@@ -11,6 +11,9 @@ namespace HorseManager2022.UI
 {
     internal class Table<T>
     {
+        // Constants
+        public const int DEFAULT_TABLE_WIDTH = 72;
+
         // Properties
         string[] propertiesToExclude;
 
@@ -21,7 +24,6 @@ namespace HorseManager2022.UI
         }
 
         // Methods
-
         public void Show(GameManager? gameManager)
         {
 
@@ -33,6 +35,10 @@ namespace HorseManager2022.UI
             List<T> items = gameManager.GetList<T>();
             string tableName = GetTableName();
             List<string> headers = GetTableHeaders();
+
+            if (items.Count == 0)
+                headers.Add(Utils.PadCenter("Nothing to show.", DEFAULT_TABLE_WIDTH));
+
             int tableWidth = GetTableWidth(headers);
 
             // Show data
@@ -54,8 +60,10 @@ namespace HorseManager2022.UI
             // Content
             DrawContent(items, headers);
 
-            DrawLine(tableWidth);
+            if (items.Count != 0)
+                DrawLine(tableWidth);
         }
+
 
         private string GetTableName() => typeof(T).Name.ToLower() + "s";
 

@@ -1,19 +1,37 @@
-﻿using HorseManager2022.Enums;
+﻿using HorseManager2022.Attributes;
+using HorseManager2022.Enums;
+using HorseManager2022.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HorseManager2022.Models
 {
-    internal class Jockey
+    [Serializable]
+    internal class Jockey : IIdentifiable
     {
-        public int id;
-        public string name;
-        public Rarity rarity;
-        public int handling;
-        public int price;
+        [DisplayName("Id")]
+        public int id { get; set; }
+
+        [DisplayName("Name")]
+        [Padding(18)]
+        public string name { get; set; }
+
+        [DisplayName("Rarity")]
+        [Padding(10)]
+        [IsRarity]
+        public Rarity rarity { get; set; }
+
+        [DisplayName("Handling")]
+        [Color(ConsoleColor.DarkGray)]
+        public int handling { get; set; }
+
+        [DisplayName("Price")]
+        public int price { get; set; }
+        
 
         public Jockey()  //Construtor vazio totalmente Random 
         {
@@ -24,14 +42,22 @@ namespace HorseManager2022.Models
             this.price = GetJockeyPrice(rarity, handling);
         }
 
-        public Jockey(int id, string name, Rarity rarity, int handling, int price)
+        public Jockey(string name, Rarity rarity, int handling, int price)
         {
-            this.id = id;
             this.name = name;
             this.rarity = rarity;
             this.handling = handling;
             this.price = price;
         }
+        
+        public Jockey(Rarity rarity, int handling, int price)
+        {
+            this.name = GenerateName();
+            this.rarity = rarity;
+            this.handling = handling;
+            this.price = price;
+        }
+        
         public string GenerateName()  //Gerador do nome dos jockey(random) NOTA:Ainda falta alterar os nomes que estão no array
         {
             string[] nameArray ={ "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",

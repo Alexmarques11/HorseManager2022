@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using HorseManager2022.Deprecated;
+using HorseManager2022.Models;
 
 namespace HorseManager2022
 {

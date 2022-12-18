@@ -47,8 +47,8 @@ namespace HorseManager2022.UI
                 calendar.Show(selectedMonthPage, selectedYearPage, selectedPage);
             });
 
-            selectedOption.onEnter();
-            return selectedOption.nextScreen;
+            selectedOption?.onEnter?.Invoke();
+            return selectedOption?.nextScreen;
         }
 
 

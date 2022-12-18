@@ -41,10 +41,25 @@ namespace HorseManager2022.UI.Screens
 
             });
 
-            selectedOption.onEnter();
-            return selectedOption.nextScreen;
+            selectedOption?.onEnter?.Invoke();
+            return selectedOption?.nextScreen;
         }
+        
 
+        override public Option? SelectEnter()
+        {
+            if (menuMode == MenuMode.Down)
+                return Option.GetBackOption(this.previousScreen);
+            else
+            {
+                if (this.selectedPosition == this.topbar.options.Count)
+                {
+                    return Option.GetBackOption(this.previousScreen);
+                }
+                else
+                    return this.topbar.options[this.selectedPosition];
+            }
+        }
 
     }
 }
