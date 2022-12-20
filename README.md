@@ -9,7 +9,7 @@ CLI Game developed as a project for Object Oriented Programming Class. 1º Year 
 - 26531 Gonçalo Gaspar
 
 ## Introduction
-Welcome to Horse Manager 2022! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can unlock them by opening loot boxes.
+Welcome to Horse Manager 2022! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can also unlock them by opening loot boxes.
 
 ## Setup
 To start the game, you will need to do the following:
