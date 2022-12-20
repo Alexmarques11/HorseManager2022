@@ -1,5 +1,6 @@
 ﻿using HorseManager2022.Enums;
 using HorseManager2022.Models;
+using HorseManager2022.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace HorseManager2022.UI
         public MenuMode menuMode;
         protected Topbar topbar;
 
+        public bool isModeDown => menuMode == MenuMode.Down;
+        public bool isModeUp => menuMode == MenuMode.Up;
+
         public override int selectedPosition
         {
             get
@@ -22,10 +26,10 @@ namespace HorseManager2022.UI
             }
             set
             {
-                if (menuMode == MenuMode.Down && value > options.Count)
+                if (isModeDown && value > options.Count)
                     value = options.Count;
 
-                if (menuMode == MenuMode.Up && value > topbar.options.Count)
+                if (isModeUp && value > topbar.options.Count)
                     value = topbar.options.Count;
 
                 topbar.selectedPosition = value;
@@ -33,7 +37,7 @@ namespace HorseManager2022.UI
             }
         }
 
-        
+
         // Constructor
         public ScreenWithTopbar(Topbar topbar, Screen? previousScreen = null)
             : base(previousScreen)

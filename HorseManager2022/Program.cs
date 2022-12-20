@@ -1,6 +1,7 @@
 ﻿using HorseManager2022;
 using HorseManager2022.Models;
 using HorseManager2022.UI;
+using HorseManager2022.UI.Components;
 using HorseManager2022.UI.Dialogs;
 using HorseManager2022.UI.Screens;
 
@@ -23,10 +24,10 @@ ScreenHouse stableScreen = new(topbar, cityScreen);
 ScreenHouse raceTrackScreen = new(topbar, cityScreen);
 CalendarScreen calendarScreen = new(topbar, cityScreen);
 HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
-ScreenTable<Horse> horsesStableScreen = new(topbar, stableScreen, new string[] {"id", "price"});
-ScreenTable<Jockey> joqueysStableScreen = new(topbar, stableScreen, new string[] { "id", "price" });
-ScreenTable<Team> teamsStableScreen = new(topbar, stableScreen);
-ScreenTable<Horse> horsesBuyScreen = new(topbar, shopBuyScreen, new string[] { "id", "energy" }, "shopHorses");
+ScreenTable<Horse> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
+ScreenTable<Jockey> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
+ScreenTable<Team> teamsStableScreen = new(topbar, "Teams", stableScreen);
+ScreenTable<Horse> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, "shopHorses", true);
 
 // ---------------- Initial Screen Options ---------------- \\
 

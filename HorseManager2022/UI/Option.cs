@@ -12,9 +12,9 @@ namespace HorseManager2022.UI
         public string text { get; set; }
         public Screen? nextScreen { get; set; }
         public Action? onEnter { get; set; }
-
+        
         // Constructor
-        public Option(string text, Screen? nextScreen, Action? onEnter)
+        public Option(string text = "", Screen? nextScreen = null, Action? onEnter = null)
         {
             this.text = text;
             this.onEnter = onEnter;

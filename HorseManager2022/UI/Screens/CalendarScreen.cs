@@ -1,5 +1,6 @@
 ﻿using HorseManager2022.Enums;
 using HorseManager2022.Models;
+using HorseManager2022.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,34 +1,53 @@
 ﻿using HorseManager2022.Enums;
+using HorseManager2022.UI.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HorseManager2022;
-using System.Reflection;
-using System.ComponentModel;
-using HorseManager2022.Attributes;
-using System.Reflection.PortableExecutable;
 
 namespace HorseManager2022.UI.Screens
 {
     internal class ScreenTable<T> : ScreenWithTopbar
     {
         // Properties
+        private readonly bool isSelectable;
         private Table<T> table;
-
         
+        public override int selectedPosition
+        {
+            get
+            {
+                return base.selectedPosition;
+            }
+            set
+            {
+                if (isModeDown && value > options.Count)
+                    value = options.Count;
+
+                if (isModeUp && value > topbar.options.Count)
+                    value = topbar.options.Count;
+
+                topbar.selectedPosition = value;
+
+                table.selectedPosition = (isModeDown && isSelectable) ? value : -1; // -1 means no selection
+
+                base.selectedPosition = value;
+            }
+        }
+
+
         // Constructor
-        public ScreenTable(Topbar topbar, Screen? previousScreen = null, string[]? propertiesToExclude = null, string? listName = null)
+        public ScreenTable(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, string? listName = null, bool isSelectable = false)
             : base(topbar, previousScreen)
         {
-            table = new Table<T>(propertiesToExclude ?? Array.Empty<string>(), listName);
+            this.isSelectable = isSelectable;
+            table = new Table<T>(title, propertiesToExclude ?? Array.Empty<string>(), listName, isSelectable);
+            
         }
 
 
         // Methods
         override public Screen? Show(GameManager? gameManager)
         {
+            SetTableOptions(gameManager);
+
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
             {
@@ -43,20 +62,104 @@ namespace HorseManager2022.UI.Screens
             selectedOption?.onEnter?.Invoke();
             return selectedOption?.nextScreen;
         }
+
+
+        private void SetTableOptions(GameManager? gameManager)
+        {
+            options.Clear();
+            foreach (T item in table.GetTableItems(gameManager))
+            {
+                options.Add(new Option(onEnter: () =>
+                {
+                    Console.WriteLine("BUY");
+                    Console.ReadKey();
+                }));
+            }
+        }
+
+
+        // Methods for each selection direction (up, down, left, right)
+        override public void SelectLeft()
+        {
+            if (menuMode == MenuMode.Up && selectedPosition > 0)
+                selectedPosition--;
+            else if (menuMode == MenuMode.Up)
+                selectedPosition = topbar.options.Count;
+        }
+
+
+        override public void SelectRight()
+        {
+            if (menuMode == MenuMode.Up && selectedPosition < topbar.options.Count)
+                selectedPosition++;
+            else if (menuMode == MenuMode.Up)
+                selectedPosition = 0;
+        }
         
+
+        override public void SelectDown()
+        {
+            if (menuMode == MenuMode.Down)
+            {
+                if (selectedPosition < options.Count - 1)
+                    selectedPosition++;
+                else
+                {
+                    menuMode = MenuMode.Up;
+                    selectedPosition = 0;
+                }
+            }
+            else
+            {
+                menuMode = MenuMode.Down;
+                selectedPosition = 0;
+            }
+        }
+
+        
+        override public void SelectUp()
+        {
+            if (menuMode == MenuMode.Down)
+            {
+                if (selectedPosition > 0)
+                    selectedPosition--;
+                else
+                {
+                    menuMode = MenuMode.Up;
+                    selectedPosition = 0;
+                }
+            }
+            else
+            {
+                menuMode = MenuMode.Down;
+                selectedPosition = 0;
+            }
+        }
+
 
         override public Option? SelectEnter()
         {
-            if (menuMode == MenuMode.Down)
-                return Option.GetBackOption(this.previousScreen);
+            if (menuMode == MenuMode.Down) 
+            {
+                if (!isSelectable) 
+                    return Option.GetBackOption(previousScreen);
+                else
+                {
+                    // if (this.selectedPosition > 0)
+                    //     this.selectedPosition--;
+                    // else
+                    // this.selectedPosition = tableItemQuantity;
+                    return Option.GetBackOption(previousScreen);
+                }
+            }
             else
             {
-                if (this.selectedPosition == this.topbar.options.Count)
+                if (selectedPosition == topbar.options.Count)
                 {
-                    return Option.GetBackOption(this.previousScreen);
+                    return Option.GetBackOption(previousScreen);
                 }
                 else
-                    return this.topbar.options[this.selectedPosition];
+                    return topbar.options[selectedPosition];
             }
         }
 
