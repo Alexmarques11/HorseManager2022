@@ -41,7 +41,10 @@ namespace HorseManager2022.UI.Components
         // Get Table Items Ordered By Rarity if they have
         public List<T> GetTableItems(GameManager? gameManager)
         {
-            List<T>? list = gameManager?.GetList<T>(listName).OrderByDescending(x => (int)((x as IRarity)?.rarity ?? 0)).ToList();
+            List<T>? list = gameManager?.GetList<T>(listName).OrderByDescending(x => {
+                var rarity = x as ISelectable;
+                return (int)(rarity?.rarity ?? 0);
+            }).ToList();
             return list ?? new();
         }
         

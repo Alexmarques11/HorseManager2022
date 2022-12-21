@@ -1,5 +1,4 @@
 using HorseManager2022.Attributes;
-using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
 using HorseManager2022.Models;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Horse : IRarity
+    internal class Horse : ISelectable
     {
         // Constants
         public const int MAX_SHOP_HORSES = 10;

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Jockey : IRarity
+    internal class Jockey : ISelectable
     {
         [DisplayName("Name")]
         [Padding(20)]

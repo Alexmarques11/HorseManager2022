@@ -85,7 +85,7 @@ namespace HorseManager2022
                 };
             }
         }
-        
+
 
         public void Add<T>(T item, string? listName = null)
         {

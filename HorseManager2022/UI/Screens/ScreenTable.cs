@@ -1,5 +1,8 @@
 ﻿using HorseManager2022.Enums;
+using HorseManager2022.Interfaces;
+using HorseManager2022.Models;
 using HorseManager2022.UI.Components;
+using HorseManager2022.UI.Dialogs;
 using System;
 
 namespace HorseManager2022.UI.Screens
@@ -46,7 +49,8 @@ namespace HorseManager2022.UI.Screens
         // Methods
         override public Screen? Show(GameManager? gameManager)
         {
-            SetTableOptions(gameManager);
+            if (isSelectable)
+                SetTableOptions(gameManager);
 
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
@@ -69,12 +73,29 @@ namespace HorseManager2022.UI.Screens
             options.Clear();
             foreach (T item in table.GetTableItems(gameManager))
             {
-                options.Add(new Option(onEnter: () =>
-                {
-                    Console.WriteLine("BUY");
-                    Console.ReadKey();
-                }));
+                Action onEnter = GetOptionOnEnter(item, gameManager);
+                options.Add(new Option(nextScreen: this, onEnter: onEnter));
             }
+        }
+
+
+        private Action GetOptionOnEnter(T item, GameManager? gameManager)
+        {
+            return () => {
+
+                DialogConfirmation dialogConfirmation = new(
+                    x: 20, y: 10,
+                    title: "Buy horse",
+                    message: "Are you sure you want to buy this horse?",
+                    previousScreen: this,
+                    onConfirm: () => {
+
+                        gameManager?.Add(item);
+
+                    }, onCancel: () => { });
+
+                dialogConfirmation.Show();
+            };
         }
 
 
@@ -145,11 +166,7 @@ namespace HorseManager2022.UI.Screens
                     return Option.GetBackOption(previousScreen);
                 else
                 {
-                    // if (this.selectedPosition > 0)
-                    //     this.selectedPosition--;
-                    // else
-                    // this.selectedPosition = tableItemQuantity;
-                    return Option.GetBackOption(previousScreen);
+                    return options[selectedPosition];
                 }
             }
             else

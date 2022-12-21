@@ -7,7 +7,7 @@ using HorseManager2022.Interfaces;
 
 namespace HorseManager2022.UI
 {
-    internal abstract class SelectableObject : ISelectable
+    internal abstract class SelectableObject
     {
         // Properties
         public List<Option> options { get; set; }
