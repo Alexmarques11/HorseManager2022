@@ -39,4 +39,4 @@ The game does not have a specific end point, but you can try to get the best tea
 - Don't be afraid to sell horses that are not performing well or that you no longer need.
 
 Have fun.
-Hs Team
+Hm Team
