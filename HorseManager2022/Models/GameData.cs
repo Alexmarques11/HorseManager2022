@@ -10,23 +10,17 @@ namespace HorseManager2022.Models
     internal class GameData
     {
         // Properties
-        public int money;
-        public Date? currentDate;
-        public List<Horse> horses;
-        public List<Event> events;
-        public List<Jockey> joqueys;
-        public List<Team> teams;
-        public List<Horse> shopHorses;
+        public int money { get; set; }
+        public Date currentDate { get; set; }
+        public Player player { get; set; }
+        public Shop shop { get; set; }
 
         public GameData()
         {
             money = 10;
             currentDate = new();
-            horses = new();
-            events = new();
-            joqueys = new();
-            teams = new();
-            shopHorses = new();
+            player = new();
+            shop = new();
         }
 
     }

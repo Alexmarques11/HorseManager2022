@@ -1,12 +1,7 @@
-﻿using HorseManager2022.Interfaces;
+﻿using HorseManager2022.Enums;
+using HorseManager2022.Interfaces;
 using HorseManager2022.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace HorseManager2022
 {
@@ -29,7 +24,8 @@ namespace HorseManager2022
             }
         }
         
-        public Date? currentDate
+        
+        public Date currentDate
         {
             get => gameData.currentDate;
 
@@ -39,6 +35,7 @@ namespace HorseManager2022
                 SaveChanges();
             }
         }
+
 
         public string saveName
         {
@@ -50,6 +47,7 @@ namespace HorseManager2022
                 gameData = saveManager.LoadGame() ?? new();
             }
         }
+        
 
         public GameManager()
         {
@@ -59,55 +57,41 @@ namespace HorseManager2022
 
 
         // Methods
-        public List<T> GetList<T>(string? listName = null) 
+        public List<T> GetList<T, U>()
         {
-            if (listName == null)
-            {
-                return typeof(T) switch
-                {
-                    Type t when t == typeof(Horse) => gameData.horses as List<T> ?? new List<T>(),
-                    Type t when t == typeof(Event) => gameData.events as List<T> ?? new List<T>(),
-                    Type t when t == typeof(Jockey) => gameData.joqueys as List<T> ?? new List<T>(),
-                    Type t when t == typeof(Team) => gameData.teams as List<T> ?? new List<T>(),
-                    _ => throw new Exception("Type not found"),
-                };
-            }
-            else 
-            { 
-                return listName.ToLower() switch
-                {
-                    "horses" => gameData.horses as List<T> ?? new List<T>(),
-                    "events" => gameData.events as List<T> ?? new List<T>(),
-                    "joqueys" => gameData.joqueys as List<T> ?? new List<T>(),
-                    "teams" => gameData.teams as List<T> ?? new List<T>(),
-                    "shophorses" => gameData.shopHorses as List<T> ?? new List<T>(),
-                    _ => throw new Exception("List not found"),
-                };
-            }
+            Type storageType = typeof(U);
+            Type listType = typeof(T);
+            PropertyInfo? storageProperty;
+            
+            var storage = gameData.GetType().GetProperty(storageType.Name.ToLower()).GetValue(gameData);
+            storageProperty = storage.GetType().GetProperty(listType.Name.ToLower() + "s");
+            var list = storageProperty.GetValue(storage) as List<T>;
+
+            return list;
         }
+        
 
-
-        public void Add<T>(T item, string? listName = null)
+        public void Add<T, U>(T item)
         {
-            List<T> list = GetList<T>(listName);
+            List<T> list = GetList<T, U>();
             list.Add(item);
 
             SaveChanges();
         }
 
 
-        public void AddAll<T>(List<T> items, string? listName = null)
+        public void AddAll<T, U>(List<T> items)
         {
-            List<T> list = GetList<T>(listName);
+            List<T> list = GetList<T, U>();
             list.AddRange(items);
 
             SaveChanges();
         }
 
 
-        public void Update<T>(T item, string? listName = null)
+        public void Update<T, U>(T item)
         {
-            List<T> list = GetList<T>(listName);
+            List<T> list = GetList<T, U>();
             T? _item = list.FirstOrDefault(x => x.Equals(item));
 
             if (_item != null)
@@ -117,30 +101,55 @@ namespace HorseManager2022
         }
 
 
-        public void Remove<T>(T item, string? listName = null)
+        public void Remove<T, U>(T item)
         {
-            GetList<T>(listName).Remove(item);
+            GetList<T, U>().Remove(item);
 
             SaveChanges();
         }
 
 
-        public void RemoveAll<T>(string? listName = null) => GetList<T>(listName).Clear();
+        public void RemoveAll<T, U>() => GetList<T, U>().Clear();
 
         
         private void EmptySave() => gameData = new();
 
 
         public void SaveChanges() => saveManager.SaveGame(this.gameData);
-        
+
+
+        public bool Exchange<T, U>(T item) where T : ISelectable
+        {
+            // Exchange failure
+            if (item.price > money)
+                return false;
+
+            if (typeof(U) == typeof(Shop))
+                money -= item.price;
+            else
+                money += item.price;
+
+            if (typeof(U) == typeof(Shop))
+                Add<T, Player>(item);
+            else
+                Add<T, Shop>(item);
+
+            Remove<T, U>(item);
+
+            // Exchange completed
+            return true;
+        }
+
 
         public void CreateNewSave(string savename)
         {
             EmptySave();
             saveManager.saveName = savename;
-            AddAll(Event.GetNewYearEvents());
-            AddAll(Horse.GenerateShopHorses(), "shopHorses");
-            gameData.money = 10;
+            AddAll<Event, Player>(Event.GetNewYearEvents());
+            AddAll<Horse, Shop>(Horse.GenerateShopHorses());
+            AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
+
+            gameData.money = 1000000;
             gameData.currentDate = new();
             SaveChanges();
         }

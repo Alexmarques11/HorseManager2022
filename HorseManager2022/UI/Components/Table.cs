@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HorseManager2022.UI.Components
 {
-    internal class Table<T>
+    internal class Table<T, U>
     {
         // Constants
         private const int DEFAULT_TABLE_WIDTH = 72;
@@ -20,16 +20,14 @@ namespace HorseManager2022.UI.Components
         public int selectedPosition;
         private readonly bool isSelectable;
         private readonly string[] propertiesToExclude;
-        private readonly string? listName;
         private readonly string title;
 
 
         // Constructor
-        public Table(string title, string[]? propertiesToExclude = null, string? listName = null, bool isSelectable = false)
+        public Table(string title, string[]? propertiesToExclude = null, bool isSelectable = false)
         {
             this.title = title;
             this.propertiesToExclude = propertiesToExclude ?? Array.Empty<string>();
-            this.listName = listName;
             this.isSelectable = isSelectable;
         }
 
@@ -41,7 +39,9 @@ namespace HorseManager2022.UI.Components
         // Get Table Items Ordered By Rarity if they have
         public List<T> GetTableItems(GameManager? gameManager)
         {
-            List<T>? list = gameManager?.GetList<T>(listName).OrderByDescending(x => {
+            var listd = gameManager?.GetList<T, U>();
+            
+            List<T>? list = gameManager?.GetList<T, U>().OrderByDescending(x => {
                 var rarity = x as ISelectable;
                 return (int)(rarity?.rarity ?? 0);
             }).ToList();
@@ -58,8 +58,10 @@ namespace HorseManager2022.UI.Components
             // Get data
             List<T> items = GetTableItems(gameManager);
             List<string> headers = GetTableHeaders();
-            if (items == null || items.Count == 0)
+            if (items == null || items.Count == 0) {
+                headers.Clear();
                 headers.Add(Utils.PadCenter("Nothing to show.", DEFAULT_TABLE_WIDTH));
+            }
             int tableWidth = GetTableWidth(headers);
 
             // Show data
@@ -201,7 +203,7 @@ namespace HorseManager2022.UI.Components
             if (isPercentage)
                 propertyValue += "%";
             else if (isPrice)
-                propertyValue += "€";
+                propertyValue += ",00 €";
 
             string valueString = Utils.PadCenter($" {propertyValue} ", padding);
             Console.Write("|");

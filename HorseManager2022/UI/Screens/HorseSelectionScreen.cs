@@ -54,8 +54,8 @@ namespace HorseManager2022.UI.Screens
         
         private void AddInitialTeam(GameManager? gameManager, Horse horse)
         {
-            gameManager?.Add(horse);
-            gameManager?.Add(jockey);
+            gameManager?.Add<Horse, Player>(horse);
+            gameManager?.Add<Jockey, Player>(jockey);
         }
 
         override public Screen? Show(GameManager? gameManager)

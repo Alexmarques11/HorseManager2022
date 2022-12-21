@@ -1,4 +1,5 @@
 ﻿using HorseManager2022;
+using HorseManager2022.Enums;
 using HorseManager2022.Models;
 using HorseManager2022.UI;
 using HorseManager2022.UI.Components;
@@ -24,10 +25,13 @@ ScreenHouse stableScreen = new(topbar, cityScreen);
 ScreenHouse raceTrackScreen = new(topbar, cityScreen);
 CalendarScreen calendarScreen = new(topbar, cityScreen);
 HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
-ScreenTable<Horse> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
-ScreenTable<Jockey> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
-ScreenTable<Team> teamsStableScreen = new(topbar, "Teams", stableScreen);
-ScreenTable<Horse> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, "shopHorses", true);
+ScreenTable<Horse, Player> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
+ScreenTable<Jockey, Player> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
+// ScreenTable<Team, Player> teamsStableScreen = new(topbar, "Teams", stableScreen);
+ScreenTable<Horse, Shop> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, true);
+ScreenTable<Jockey, Shop> joqueysBuyScreen = new(topbar, "[Shop] Select Joqueys to hire", shopBuyScreen, new string[] { "id", "energy" }, true);
+ScreenTable<Horse, Player> horsesSellScreen = new(topbar, "[Shop] Select Horses to sell", shopSellScreen, new string[] { "id", "energy" }, true);
+ScreenTable<Jockey, Player> joqueysSellScreen = new(topbar, "[Shop] Select Joqueys to fire", shopSellScreen, new string[] { "id", "energy" }, true);    
 
 // ---------------- Initial Screen Options ---------------- \\
 
@@ -63,19 +67,20 @@ vetScreen.AddOption("Upgrade", vetScreen);
 cityScreen.AddOption("Shop", shopScreen);
 shopScreen.AddOption("Buy", shopBuyScreen);
 shopBuyScreen.AddOption("Horses", horsesBuyScreen);
-shopBuyScreen.AddOption("Jockeys", horsesBuyScreen);
+shopBuyScreen.AddOption("Jockeys", joqueysBuyScreen);
 shopBuyScreen.AddOption("Back", shopScreen);
 shopScreen.AddOption("Sell", shopSellScreen);
-shopSellScreen.AddOption("Horses", horsesStableScreen);
-shopSellScreen.AddOption("Jockeys", joqueysStableScreen);
+shopSellScreen.AddOption("Horses", horsesSellScreen);
+shopSellScreen.AddOption("Jockeys", joqueysSellScreen);
 shopSellScreen.AddOption("Back", shopScreen);
 shopScreen.AddOption("LootBoxs", shopScreen);
 cityScreen.AddOption("Stable", stableScreen);
 stableScreen.AddOption("Horses", horsesStableScreen);
 stableScreen.AddOption("Jockeys", joqueysStableScreen);
-stableScreen.AddOption("Teams", teamsStableScreen);
+stableScreen.AddOption("Teams", stableScreen);
 cityScreen.AddOption("Racetrack", raceTrackScreen);
 raceTrackScreen.AddOption("Train", raceTrackScreen);
+
 
 
 raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
@@ -90,7 +95,7 @@ raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
     [Topbar] --> Calendar [Option]
 */
 topbar.AddOption("Calendar", calendarScreen, () => {
-    calendarScreen.calendar = new Calendar(gameManager.currentDate, gameManager.gameData.events);
+    calendarScreen.calendar = new Calendar(gameManager.currentDate, gameManager.GetList<Event, Player>());
 });
 
 
@@ -102,7 +107,8 @@ topbar.AddOption("Sleep", cityScreen, () => {
     DialogConfirmation dialogConfirmation = new(
         x: 20, y: 10,
         title: "Sleep", 
-        message: "Are you sure you want to sleep?", 
+        message: "Are you sure you want to sleep?",
+        dialogType: DialogType.Question,
         previousScreen: initialScreen, 
         onConfirm: () => {
             

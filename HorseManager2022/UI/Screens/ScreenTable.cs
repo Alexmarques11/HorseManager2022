@@ -7,11 +7,15 @@ using System;
 
 namespace HorseManager2022.UI.Screens
 {
-    internal class ScreenTable<T> : ScreenWithTopbar
+    internal class ScreenTable<T, U> : ScreenWithTopbar where T : ISelectable
     {
+        // Constants
+        private const int DIALOG_POS_X = 20;
+        private const int DIALOG_POS_Y = 15;
+
         // Properties
         private readonly bool isSelectable;
-        private Table<T> table;
+        private Table<T, U> table;
         
         public override int selectedPosition
         {
@@ -37,11 +41,11 @@ namespace HorseManager2022.UI.Screens
 
 
         // Constructor
-        public ScreenTable(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, string? listName = null, bool isSelectable = false)
+        public ScreenTable(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, bool isSelectable = false)
             : base(topbar, previousScreen)
         {
             this.isSelectable = isSelectable;
-            table = new Table<T>(title, propertiesToExclude ?? Array.Empty<string>(), listName, isSelectable);
+            table = new Table<T, U>(title, propertiesToExclude ?? Array.Empty<string>(), isSelectable);
             
         }
 
@@ -83,14 +87,32 @@ namespace HorseManager2022.UI.Screens
         {
             return () => {
 
+                // Get dialog data
+                string itemType = item.GetType().Name.ToLower();
+                string action = (typeof(U) == typeof(Shop)) ? "buy" : "sell";
+
+                // Build Dialog
                 DialogConfirmation dialogConfirmation = new(
-                    x: 20, y: 10,
-                    title: "Buy horse",
-                    message: "Are you sure you want to buy this horse?",
+                    x: DIALOG_POS_X, y: DIALOG_POS_Y,
+                    title: $"{action} {itemType}",
+                    message: $"Are you sure you want to {action} {item.name} for {item.price:C} ?",
+                    dialogType: DialogType.Question,
                     previousScreen: this,
                     onConfirm: () => {
+                        
+                        // Get dialog data
+                        bool response = gameManager?.Exchange<T, U>(item) ?? false;
+                        string message = response ? $"{item.name} was successfully {action}ed!" : $"You don't have enough money to {action} {item.name}!";
+                        DialogType dialogType = response ? DialogType.Success : DialogType.Error;
 
-                        gameManager?.Add(item);
+                        // Build Dialog
+                        DialogMessage dialogWarning = new(
+                            x: DIALOG_POS_X, y: DIALOG_POS_Y,
+                            message: message,
+                            dialogType: dialogType,
+                            previousScreen: this
+                        );
+                        dialogWarning.Show();
 
                     }, onCancel: () => { });
 
@@ -166,7 +188,7 @@ namespace HorseManager2022.UI.Screens
                     return Option.GetBackOption(previousScreen);
                 else
                 {
-                    return options[selectedPosition];
+                    return (options.Count > 0) ? options[selectedPosition] : Option.GetBackOption(previousScreen);
                 }
             }
             else

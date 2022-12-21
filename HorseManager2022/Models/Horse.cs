@@ -21,7 +21,7 @@ namespace HorseManager2022.Models
 
         // Properties
         [DisplayName("Name")]
-        [Padding(20)]
+        [Padding(22)]
         public string name { get; set; }
 
         [DisplayName("Rarity")]
@@ -47,7 +47,7 @@ namespace HorseManager2022.Models
         public int age { get; set; }
         
         [DisplayName("Price")]
-        [Padding(9)]
+        [Padding(11)]
         [IsPrice]
         public int price { get; set; }
 

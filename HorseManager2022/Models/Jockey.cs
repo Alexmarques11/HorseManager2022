@@ -13,8 +13,11 @@ namespace HorseManager2022.Models
     [Serializable]
     internal class Jockey : ISelectable
     {
+        // Constants
+        public const int MAX_SHOP_JOCKEYS = 10;
+        
         [DisplayName("Name")]
-        [Padding(20)]
+        [Padding(22)]
         public string name { get; set; }
 
         [DisplayName("Rarity")]
@@ -27,7 +30,7 @@ namespace HorseManager2022.Models
         public int handling { get; set; }
 
         [DisplayName("Price")]
-        [Padding(9)]
+        [Padding(11)]
         [IsPrice]
         public int price { get; set; }
         
@@ -56,7 +59,18 @@ namespace HorseManager2022.Models
             this.handling = handling;
             this.price = price;
         }
+
+
+        static public List<Jockey> GenerateShopJockeys()
+        {
+            List<Jockey> jockeys = new();
+            for (int i = 0; i < MAX_SHOP_JOCKEYS; i++)
+                jockeys.Add(new());
+
+            return jockeys;
+        }
         
+
         public string GenerateName()  //Gerador do nome dos jockey(random) NOTA:Ainda falta alterar os nomes que estão no array
         {
             string[] nameArray ={ "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",
