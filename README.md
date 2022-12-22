@@ -24,7 +24,7 @@ In Horse Manager 2022, you will be managing your stable and competing in events 
 - Build teams composed by horses and jockeys
 - Train and care for your teams to improve their afinity
 - Enter your horses in events and compete against other teams
-- Open loot boxes to special horses or jockeys
+- Open loot boxes to get special horses or jockeys
 
 As you progress through the game, you will have the opportunity to expand your stable, and participate in more advanced events.
 
