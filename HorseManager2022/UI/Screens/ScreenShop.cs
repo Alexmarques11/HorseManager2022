@@ -21,17 +21,7 @@ namespace HorseManager2022.UI.Screens
         }
 
 
-        override protected void SetTableOptions(GameManager? gameManager)
-        {
-            foreach (T item in table.GetTableItems(gameManager))
-            {
-                Action onEnter = GetOptionOnEnter(item, gameManager);
-                options.Add(new Option(nextScreen: this, onEnter: onEnter));
-            }
-        }
-
-
-        private Action GetOptionOnEnter(T item, GameManager? gameManager)
+        override protected Action GetOptionOnEnter(T item, GameManager? gameManager)
         {
             return () => {
 

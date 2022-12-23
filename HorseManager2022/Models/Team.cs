@@ -1,4 +1,5 @@
 ﻿using HorseManager2022.Attributes;
+using HorseManager2022.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,9 +20,32 @@ namespace HorseManager2022.Models
         [Padding(22)]
         public string horseName { get => horse.name; }
 
+        [DisplayName("Rarity")]
+        [Padding(12)]
+        [IsRarity]
+        public Rarity horseRarity { get => horse.rarity; }
+
         [DisplayName("Jockey")]
         [Padding(22)]
         public string jockeyName { get => jockey.name; }
+        
+        [DisplayName("Rarity")]
+        [Padding(12)]
+        [IsRarity]
+        public Rarity jockeyRarity { get => jockey.rarity; }
+
+        /*
+        [DisplayName("Average Rarity")]
+        [IsRarity]
+        public Rarity averageRarity
+        {
+            get
+            {
+                int rarity = (int)horse.rarity + (int)jockey.rarity;
+                rarity /= 2;
+                return (Rarity)rarity;
+            }
+        }*/
 
         [DisplayName("Afinity")]
         [Padding(11)]

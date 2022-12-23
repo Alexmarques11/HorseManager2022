@@ -56,7 +56,9 @@ namespace HorseManager2022.Models
             }
 
             gameManager.RemoveAll<Horse, Shop>();
+            gameManager.RemoveAll<Jockey, Shop>();
             gameManager.AddAll<Horse, Shop>(Horse.GenerateShopHorses());
+            gameManager.AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
 
             gameManager.SaveChanges();
         }

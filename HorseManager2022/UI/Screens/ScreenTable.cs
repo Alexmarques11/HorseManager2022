@@ -1,6 +1,8 @@
 ﻿using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
+using HorseManager2022.Models;
 using HorseManager2022.UI.Components;
+using HorseManager2022.UI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace HorseManager2022.UI.Screens
     internal class ScreenTable<T, U> : ScreenWithTopbar
     {
         // Properties
-        protected Table<T, U> table;
+        public Table<T, U> table;
         protected readonly bool isSelectable;
         private bool isAddable;
 
@@ -50,7 +52,17 @@ namespace HorseManager2022.UI.Screens
 
 
         // Methods
-        virtual protected void SetTableOptions(GameManager? gameManager) { }
+        protected void SetTableOptions(GameManager? gameManager) 
+        {
+            foreach (T item in table.GetTableItems(gameManager))
+            {
+                Action onEnter = GetOptionOnEnter(item, gameManager);
+                options.Add(new Option(nextScreen: this, onEnter: onEnter));
+            }
+        }
+
+        virtual protected Action GetOptionOnEnter(T item, GameManager? gameManager) => () => { };
+
         virtual protected void SetAdditionalOptions(GameManager? gameManager) { }
 
 
