@@ -61,7 +61,7 @@ namespace HorseManager2022.UI.Components
             List<string> headers = GetTableHeaders();
             if (items == null || items.Count == 0) {
                 headers.Clear();
-                headers.Add(Utils.PadCenter("Nothing to show.", DEFAULT_TABLE_WIDTH));
+                headers.Add(Utils.AlignCenter("Nothing to show.", DEFAULT_TABLE_WIDTH));
             }
             int tableWidth = GetTableWidth(headers);
 
@@ -117,7 +117,7 @@ namespace HorseManager2022.UI.Components
 
                 int value = padding?.value ?? 0;
                 string name = property.DisplayName;
-                name = value != 0 ? Utils.PadCenter($" {name} ", value) : $" {name} ";
+                name = value != 0 ? Utils.AlignCenter($" {name} ", value) : $" {name} ";
                 headers.Add(name);
             }
 
@@ -174,7 +174,7 @@ namespace HorseManager2022.UI.Components
                 Console.Write("| [X] |");
             else
                 Console.Write("| [ ] |");
-            Console.Write(Utils.PadLeft($" Add new {typeName} ", width-6));
+            Console.Write(Utils.AlignLeft($" Add new {typeName} ", width-6));
             Console.WriteLine("|");
         }
 
@@ -198,7 +198,7 @@ namespace HorseManager2022.UI.Components
         private void DrawGapRow(List<string> headers)
         {
             foreach (string header in headers)
-                Console.Write("|" + Utils.PadCenter("", header.Length));
+                Console.Write("|" + Utils.AlignCenter("", header.Length));
             Console.WriteLine("|");
         }
 
@@ -237,7 +237,7 @@ namespace HorseManager2022.UI.Components
             else if (isPrice)
                 propertyValue += ",00 €";
 
-            string valueString = Utils.PadCenter($" {propertyValue} ", padding);
+            string valueString = Utils.AlignCenter($" {propertyValue} ", padding);
             Console.Write("|");
             Console.ForegroundColor = color;
             Console.Write(valueString);
@@ -248,7 +248,7 @@ namespace HorseManager2022.UI.Components
         private void DrawLine(int width) => Console.WriteLine("+" + new string('-', width) + "+");
 
 
-        private void DrawTitle(int width) => Console.WriteLine("| " + Utils.PadCenter(title, width) + " |");
+        private void DrawTitle(int width) => Console.WriteLine("| " + Utils.AlignCenter(title, width) + " |");
 
 
 

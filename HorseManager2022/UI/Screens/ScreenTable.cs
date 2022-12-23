@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HorseManager2022.UI.Screens
 {
-    internal abstract class ScreenTable<T, U> : ScreenWithTopbar
+    internal class ScreenTable<T, U> : ScreenWithTopbar
     {
         // Properties
         protected Table<T, U> table;

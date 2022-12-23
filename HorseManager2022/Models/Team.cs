@@ -28,6 +28,7 @@ namespace HorseManager2022.Models
         [Color(ConsoleColor.DarkGray)]
         public int afinity { get; set; }
 
+        
         // Constructor
         public Team(Horse horse, Jockey jockey, int afinity)
         {
@@ -36,6 +37,16 @@ namespace HorseManager2022.Models
             this.afinity = afinity;
         }
 
+        
         // Methods
+        public static List<Team> GenerateRandomTeams(int amount = 4)
+        {
+            List<Team> teams = new();
+            for (int i = 0; i < amount; i++)
+                teams.Add(new Team(new(), new(), 0));
+
+            return teams;
+        }
+        
     }
 }

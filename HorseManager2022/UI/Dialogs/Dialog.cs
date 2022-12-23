@@ -38,18 +38,18 @@ namespace HorseManager2022.UI.Dialogs
         
         protected void DrawHeader()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
 
             // Write title
-            Console.SetCursorPosition(x, y+1);
+            Console.SetCursorPosition(x, y++);
             Console.Write("| ");
             ShowDialogIcon();
             Console.Write(" ");
             Console.Write(title.PadLeft((WIDTH / 2) + (title.Length / 2) - 6).PadRight(WIDTH - 15));
             Console.WriteLine(" - [] X |");
 
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
         }
 
@@ -62,18 +62,17 @@ namespace HorseManager2022.UI.Dialogs
         }
         
         
-        protected int ShowMessage()
+        protected void ShowMessage()
         {
             // Write message if the message is too long add more necessary lines
             int lines = message.Length / (WIDTH - 4);
             for (int i = 0; i <= lines; i++)
             {
-                Console.SetCursorPosition(x, y + 3 + i);
+                Console.SetCursorPosition(x, y++);
                 Console.Write("| ");
                 Console.Write(message.Substring(i * (WIDTH - 4), Math.Min((WIDTH - 4), message.Length - i * (WIDTH - 4))).PadRight(WIDTH - 4));
                 Console.WriteLine(" |");
             }
-            return lines;
         }
     }
 }

@@ -9,36 +9,40 @@ namespace HorseManager2022.UI.Dialogs
 {
     internal class DialogConfirmation : Dialog
     {
+        // Properties
+        private int initialY;
+
         // Constructor
         public DialogConfirmation(int x, int y, string title, string message, DialogType dialogType, Screen previousScreen, Action onConfirm, Action onCancel) : base(x, y, title, message, dialogType, previousScreen, new List<Option>())
         {
             options.Add(new Option("Yes", previousScreen, () => onConfirm()));
             options.Add(new Option("No", previousScreen, () => onCancel()));
+            initialY = y;
         }
 
         // Methods
         override public Screen? Show()
         {
-
             // Wait for option
             Option? selectedOption = WaitForOption(() => {
 
+                y = initialY;
                 DrawHeader();
 
-                int currentLine = ShowMessage();
+                ShowMessage();
 
-                Console.SetCursorPosition(x, y + 4 + currentLine);
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("|                                      |");
-                Console.SetCursorPosition(x, y + 5 + currentLine);
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("|             Yes     No               |");
-                Console.SetCursorPosition(x, y + 6 + currentLine);
+                Console.SetCursorPosition(x, y++);
                 if (selectedPosition == 0)
                     Console.WriteLine("|             [X]     [ ]              |");
                 else if (selectedPosition == 1)
                     Console.WriteLine("|             [ ]     [X]              |");
-                Console.SetCursorPosition(x, y + 7 + currentLine);
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("|                                      |");
-                Console.SetCursorPosition(x, y + 8 + currentLine);
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("+--------------------------------------+");
 
             });

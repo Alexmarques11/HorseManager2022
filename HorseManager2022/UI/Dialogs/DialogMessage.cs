@@ -9,11 +9,8 @@ namespace HorseManager2022.UI.Dialogs
 {
     internal class DialogMessage : Dialog
     {
-        // Constants
-        private const string title = "Warning";
-
         // Constructor
-        public DialogMessage(int x, int y, string message, DialogType dialogType, Screen? previousScreen)
+        public DialogMessage(int x, int y, string message, DialogType dialogType, Screen? previousScreen, string title = "Warning")
             : base(x, y, title, message, dialogType, previousScreen, new())
         {
         }
@@ -24,17 +21,17 @@ namespace HorseManager2022.UI.Dialogs
         {
             DrawHeader();
 
-            int currentLine = ShowMessage();
+            ShowMessage();
 
-            Console.SetCursorPosition(x, y + 4 + currentLine);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 5 + currentLine);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 6 + currentLine);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("| Press any key to continue!           |");
-            Console.SetCursorPosition(x, y + 7 + currentLine);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 8 + currentLine);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
             Console.ReadKey(true);
 

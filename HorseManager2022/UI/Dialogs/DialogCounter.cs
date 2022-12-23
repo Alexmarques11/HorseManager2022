@@ -15,12 +15,14 @@ namespace HorseManager2022.UI.Dialogs
         // Properties
         private int x { get; set; }
         private int y { get; set; }
+        private int initialY { get; set; }
 
         // Constructor
         public DialogCounter(int x, int y)
         {
             this.x = x;
             this.y = y;
+            initialY = y;
         }
 
         // Methods
@@ -57,170 +59,174 @@ namespace HorseManager2022.UI.Dialogs
 
         public void Show1()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|         The Race starts in...        |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 4);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 5);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                 __                   |");
-            Console.SetCursorPosition(x, y + 6);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            ...-'  |`.                |");
-            Console.SetCursorPosition(x, y + 7);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            |      |  |               |");
-            Console.SetCursorPosition(x, y + 8);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            ....   |  |               |");
-            Console.SetCursorPosition(x, y + 9);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|              -|   |  |               |");
-            Console.SetCursorPosition(x, y + 10);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|               |   |  |               |");
-            Console.SetCursorPosition(x, y + 11);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            ...'   `--'               |");
-            Console.SetCursorPosition(x, y + 12);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            |         |`.             |");
-            Console.SetCursorPosition(x, y + 13);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            ` --------\\ |             |");
-            Console.SetCursorPosition(x, y + 14);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|             `---------'              |");
-            Console.SetCursorPosition(x, y + 15);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 16);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 17);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 18);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
+            y = initialY;
         }
 
         public void Show2()
         {
             Console.SetCursorPosition(x, y);
             Console.WriteLine("+--------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|         The Race starts in...        |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 4);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                  .-''-.              |");
-            Console.SetCursorPosition(x, y + 5);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                .' .-.  )             |");
-            Console.SetCursorPosition(x, y + 6);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|               / .'  / /              |");
-            Console.SetCursorPosition(x, y + 7);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|              (_/   / /               |");
-            Console.SetCursorPosition(x, y + 8);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                   / /                |");
-            Console.SetCursorPosition(x, y + 9);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                  / /                 |");
-            Console.SetCursorPosition(x, y + 10);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                 . '                  |");
-            Console.SetCursorPosition(x, y + 11);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                / /    _.-')          |");
-            Console.SetCursorPosition(x, y + 12);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|              .' '  _.'.-''           |");
-            Console.SetCursorPosition(x, y + 13);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|             /  /.-'_.'               |");
-            Console.SetCursorPosition(x, y + 14);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            /    _.'                  |");
-            Console.SetCursorPosition(x, y + 15);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|           ( _.-'                     |");
-            Console.SetCursorPosition(x, y + 16);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 17);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 18);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
+            y = initialY;
         }
 
         public void Show3()
         {
             Console.SetCursorPosition(x, y);
             Console.WriteLine("+--------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|         The Race starts in...        |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 4);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|           ..-'''-.                   |");
-            Console.SetCursorPosition(x, y + 5);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|           \\.-'''\\ \\                  |");
-            Console.SetCursorPosition(x, y + 6);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                  | |                 |");
-            Console.SetCursorPosition(x, y + 7);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|               __/ /                  |");
-            Console.SetCursorPosition(x, y + 8);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|              |_  '.                  |");
-            Console.SetCursorPosition(x, y + 9);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                 `.  \\                |");
-            Console.SetCursorPosition(x, y + 10);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                   \\ '.               |");
-            Console.SetCursorPosition(x, y + 11);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                    , |               |");
-            Console.SetCursorPosition(x, y + 12);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                    | |               |");
-            Console.SetCursorPosition(x, y + 13);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                   / ,'               |");
-            Console.SetCursorPosition(x, y + 14);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|           -....--'  /                |");
-            Console.SetCursorPosition(x, y + 15);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|           `.. __..-'                 |");
-            Console.SetCursorPosition(x, y + 16);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 17);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y + 18);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
+            y = initialY;
         }
     
         public void ShowGo()
         {
             Console.SetCursorPosition(x, y);
             Console.WriteLine("+--------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                 Run!!!               |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|             .-'''-.        ___       |");
-            Console.SetCursorPosition(x, y + 4);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|            '   _    \\   .'/   \\      |");
-            Console.SetCursorPosition(x, y + 5);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|          /   /` '.   \\ / /     \\     |");
-            Console.SetCursorPosition(x, y + 6);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|   .--./).   |     \\  ' | |     |     |");
-            Console.SetCursorPosition(x, y + 7);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  /.''\\\\ |   '      |  '| |     |     |");
-            Console.SetCursorPosition(x, y + 8);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("| | |  | |\\    \\     / / |/`.   .'     |");
-            Console.SetCursorPosition(x, y + 9);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  \\`-' /  `.   ` ..' /   `.|   |      |");
-            Console.SetCursorPosition(x, y + 10);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  /(\"'`      '-...-'`     ||___|      |");
-            Console.SetCursorPosition(x, y + 11);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  \\ '---.                 |/___/      |");
-            Console.SetCursorPosition(x, y + 12);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  /(\"'`      '-...-'`     ||___|      |");
-            Console.SetCursorPosition(x, y + 13);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  \\ '---.                 |/___/      |");
-            Console.SetCursorPosition(x, y + 14);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|   /'\"\"'.\\                .'.--.      |");
-            Console.SetCursorPosition(x, y + 15);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  ||     ||              | |    |     |");
-            Console.SetCursorPosition(x, y + 16);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|  \\'. __//               \\_\\    /     |");
-            Console.SetCursorPosition(x, y + 17);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|   `'---'                 `''--'      |");
-            Console.SetCursorPosition(x, y + 18);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
+            y = initialY;
         }
     }
 }

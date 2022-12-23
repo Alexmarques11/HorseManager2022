@@ -24,15 +24,17 @@ ScreenHouse shopSellScreen = new(topbar, shopScreen);
 ScreenHouse stableScreen = new(topbar, cityScreen);
 ScreenHouse raceTrackScreen = new(topbar, cityScreen);
 CalendarScreen calendarScreen = new(topbar, cityScreen);
-HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
-ScreenShop<Horse, Player> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
-ScreenShop<Jockey, Player> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
+InitialHorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
+ScreenTable<Horse, Player> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
+ScreenTable<Jockey, Player> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
 ScreenShop<Horse, Shop> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, true);
 ScreenShop<Jockey, Shop> joqueysBuyScreen = new(topbar, "[Shop] Select Joqueys to hire", shopBuyScreen, new string[] { "id", "energy" }, true);
 ScreenShop<Horse, Player> horsesSellScreen = new(topbar, "[Shop] Select Horses to sell", shopSellScreen, new string[] { "id", "energy" }, true);
 ScreenShop<Jockey, Player> joqueysSellScreen = new(topbar, "[Shop] Select Joqueys to fire", shopSellScreen, new string[] { "id", "energy" }, true);
-ScreenTeams<Team, Player> teamsStableScreen = new(topbar, "Teams", stableScreen);
-ScreenTeams<Team, Player> selectTeamToTrainScreen = new(topbar, "Select Team to train", raceTrackScreen, isSelectable: true , isAddable: true);
+//Screen screen 
+ScreenTeams teamsStableScreen = new(topbar, "Teams", cityScreen, stableScreen);
+//ScreenTable<Horse, Player> selectHorseScreen = new(topbar, "Select Horse", teamsStableScreen, new string[] { "id" }, true);
+ScreenTeams selectTeamToTrainScreen = new(topbar, "Select Team to train", cityScreen, raceTrackScreen, isSelectable: true , isAddable: true);
 
 // ---------------- Initial Screen Options ---------------- \\
 
@@ -80,12 +82,13 @@ stableScreen.AddOption("Horses", horsesStableScreen);
 stableScreen.AddOption("Jockeys", joqueysStableScreen);
 stableScreen.AddOption("Teams", teamsStableScreen);
 cityScreen.AddOption("Racetrack", raceTrackScreen);
-raceTrackScreen.AddOption("Train", selectTeamToTrainScreen);
+raceTrackScreen.AddOption("Training", selectTeamToTrainScreen);
 
 
 
-raceTrackScreen.AddOption("Race", raceTrackScreen, () => {
+raceTrackScreen.AddOption("Race Event", raceTrackScreen, () => {
 
+    // Race race = new("Epic Race", Team.GenerateRandomTeams(3), raceTrackScreen, RaceType.Event);
     Race race = new();
     race.Start();
 
