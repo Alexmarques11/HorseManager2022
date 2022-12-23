@@ -20,6 +20,25 @@ namespace HorseManager2022.Models
         [Padding(22)]
         public string horseName { get => horse.name; }
 
+        [DisplayName("Energy")]
+        [IsPercentage]
+        [IsEnergy]
+        public int horseEnergy { get => horse.energy; }
+
+
+        [DisplayName("Resistance")]
+        [Color(ConsoleColor.DarkGray)]
+        public int horseResistance { get => horse.resistance; }
+
+        [DisplayName("Speed")]
+        [Color(ConsoleColor.DarkGray)]
+        public int horseSpeed { get => horse.speed; }
+
+        [DisplayName("Age")]
+        [Padding(7)]
+        public int horseAge { get => horse.age; }
+
+
         [DisplayName("Rarity")]
         [Padding(12)]
         [IsRarity]
@@ -34,6 +53,9 @@ namespace HorseManager2022.Models
         [IsRarity]
         public Rarity jockeyRarity { get => jockey.rarity; }
 
+        [DisplayName("Handling")]
+        [Color(ConsoleColor.DarkGray)]
+        public int jockeyHandling { get => jockey.handling; }
         /*
         [DisplayName("Average Rarity")]
         [IsRarity]

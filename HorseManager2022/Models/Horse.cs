@@ -17,7 +17,7 @@ namespace HorseManager2022.Models
     internal class Horse : IExchangeable
     {
         // Constants
-        public const int MAX_SHOP_HORSES = 10;
+        public const int MAX_SHOP_HORSES = 5;
 
         // Properties
         [DisplayName("Name")]

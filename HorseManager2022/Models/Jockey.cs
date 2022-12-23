@@ -14,7 +14,7 @@ namespace HorseManager2022.Models
     internal class Jockey : IExchangeable
     {
         // Constants
-        public const int MAX_SHOP_JOCKEYS = 10;
+        public const int MAX_SHOP_JOCKEYS = 5;
         
         [DisplayName("Name")]
         [Padding(22)]

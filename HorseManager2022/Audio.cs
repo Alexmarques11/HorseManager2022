@@ -12,10 +12,10 @@ namespace HorseManager2022
             Stream audioStream = GetAudioStream(songName);
             SoundPlayer player = new(audioStream);
 
-            if (isLooping)
-                player.PlayLooping();
-            else
-                player.Play();
+            //if (isLooping)
+            //    player.PlayLooping();
+            //else
+            //    player.Play();
         }
 
         public static void PlayRaceSong() => PlaySong("RaceSong.wav");

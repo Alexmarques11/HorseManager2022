@@ -10,7 +10,7 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 // Initial setup
 GameManager gameManager = new();
-// Audio.PlayTownSong();
+Audio.PlayTownSong();
 
 // Create UI
 Topbar topbar = new();
@@ -32,8 +32,9 @@ ScreenShop<Jockey, Shop> joqueysBuyScreen = new(topbar, "[Shop] Select Joqueys t
 ScreenShop<Horse, Player> horsesSellScreen = new(topbar, "[Shop] Select Horses to sell", shopSellScreen, new string[] { "energy" }, true);
 ScreenShop<Jockey, Player> joqueysSellScreen = new(topbar, "[Shop] Select Joqueys to fire", shopSellScreen, new string[] { "energy" }, true);
 ScreenTeams teamsStableScreen = new(topbar, "Teams", stableScreen);
-//ScreenTable<Horse, Player> selectHorseScreen = new(topbar, "Select Horse", teamsStableScreen, new string[] { "id" }, true);
-ScreenTeams selectTeamToTrainScreen = new(topbar, "Select Team to do training", raceTrackScreen, isSelectable: true , isAddable: true);
+ScreenTeams trainingScreen = new(topbar, "Select Team to go training", raceTrackScreen, isSelectable: true , isAddable: true, raceType: RaceType.Training);
+ScreenTeams raceEventScreen = new(topbar, "Select Team to enter event", raceTrackScreen, isSelectable: true, isAddable: true, raceType: RaceType.Event);
+
 
 // ---------------- Initial Screen Options ---------------- \\
 
@@ -81,17 +82,8 @@ stableScreen.AddOption("Horses", horsesStableScreen);
 stableScreen.AddOption("Jockeys", joqueysStableScreen);
 stableScreen.AddOption("Teams", teamsStableScreen);
 cityScreen.AddOption("Racetrack", raceTrackScreen);
-raceTrackScreen.AddOption("Training", selectTeamToTrainScreen);
-
-
-
-raceTrackScreen.AddOption("Race Event", raceTrackScreen, () => {
-
-    // Race race = new("Epic Race", Team.GenerateRandomTeams(3), raceTrackScreen, RaceType.Event);
-    Race race = new();
-    race.Start();
-
-});
+raceTrackScreen.AddOption("Training", trainingScreen);
+raceTrackScreen.AddOption("Race Event", raceEventScreen);
 
 
 /*

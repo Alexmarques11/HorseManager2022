@@ -14,15 +14,17 @@ namespace HorseManager2022.UI.Screens
     internal class ScreenTeams : ScreenTable<Team, Player>
     {
         // Properties
-        public ScreenTable<Horse, Player> screenTableHorses { get; set; }
-        public ScreenTable<Jockey, Player> screenTableJockeys { get; set; }
+        private readonly RaceType? raceType;
+        private ScreenTable<Horse, Player> screenTableHorses { get; set; }
+        private ScreenTable<Jockey, Player> screenTableJockeys { get; set; }
 
         // Constructor
-        public ScreenTeams(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, bool isSelectable = false, bool isAddable = false)
+        public ScreenTeams(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, bool isSelectable = false, bool isAddable = false, RaceType? raceType = null)
             : base(topbar, title, previousScreen, propertiesToExclude, isSelectable, isAddable)
         {
             screenTableHorses = new ScreenTable<Horse, Player>(topbar, "Horses", this, new string[] { "price" }, true, false);
             screenTableJockeys = new ScreenTable<Jockey, Player>(topbar, "Jockeys", this, new string[] { "price" }, true, false);
+            this.raceType = raceType;
         }
 
 
@@ -36,11 +38,13 @@ namespace HorseManager2022.UI.Screens
                 // Select horse
                 screenTableHorses.Show(gameManager);
                 List<Horse> horsesInTable = screenTableHorses.table.GetTableItems(gameManager);
+                if (screenTableHorses.menuMode == MenuMode.Up) return; // Check if back button was pressed
                 Horse selectedHorse = horsesInTable[screenTableHorses.selectedPosition];
 
                 // Select jockey
                 screenTableJockeys.Show(gameManager);
                 List<Jockey> jockeysInTable = screenTableJockeys.table.GetTableItems(gameManager);
+                if (screenTableJockeys.menuMode == MenuMode.Up) return; // Check if back button was pressed
                 Jockey selectedJockey = jockeysInTable[screenTableJockeys.selectedPosition];
 
                 // Check if horse and jockey are already in team
@@ -80,13 +84,32 @@ namespace HorseManager2022.UI.Screens
             return false;
         }
 
-
-        override protected Action GetOptionOnEnter(Team item, GameManager? gameManager)
+        
+        override protected Action GetOptionOnEnter(Team team, GameManager? gameManager)
         {
             return () =>
             {
-                Console.WriteLine("Team selected: " + item.horseName + " & " + item.jockeyName);
-                Console.ReadKey();
+                Race race;
+                switch (raceType)
+                {
+                    case RaceType.Training:
+                        
+                        race = new(team, this);
+                        
+                        break;
+
+                    case RaceType.Event:
+
+                        List<Team> competitors = Team.GenerateRandomTeams(4);
+                        competitors.Add(team);
+                        race = new("Event", competitors, this);
+
+                        break;
+                    default:
+                        return;
+                }
+
+                race.Start();
             };
         }
     }

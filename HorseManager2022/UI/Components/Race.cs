@@ -25,22 +25,25 @@ namespace HorseManager2022.UI.Components
         // private Rarity difficulty;
 
 
-        // Constructor
-        public Race(string title, List<Team> teams, Screen currentScreen, RaceType raceType = RaceType.Training)
+        // Race Event Constructor
+        public Race(string title, List<Team> teams, Screen currentScreen)
         {
+            this.currentScreen = currentScreen;
             this.title = title;
             this.teams = teams;
-            this.raceType = raceType;
+            raceType = RaceType.Event;
             participants = teams.Count;
             isRaceStarted = raceType == RaceType.Training;
         }
 
-        public Race()
+        // Race Training Constructor
+        public Race(Team team, Screen currentScreen)
         {
-            raceType = RaceType.Training;
-            this.title = "default";
-            this.teams = Team.GenerateRandomTeams(1);
+            this.currentScreen = currentScreen;
+            title = "Training";
+            teams = new List<Team>() { team };
             participants = teams.Count;
+            raceType = RaceType.Training;
             isRaceStarted = raceType == RaceType.Training;
         }
 

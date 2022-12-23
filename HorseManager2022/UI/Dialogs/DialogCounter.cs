@@ -102,7 +102,7 @@ namespace HorseManager2022.UI.Dialogs
 
         public void Show2()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
             Console.SetCursorPosition(x, y++);
             Console.WriteLine("|         The Race starts in...        |");
@@ -145,7 +145,7 @@ namespace HorseManager2022.UI.Dialogs
 
         public void Show3()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
             Console.SetCursorPosition(x, y++);
             Console.WriteLine("|         The Race starts in...        |");
@@ -188,7 +188,7 @@ namespace HorseManager2022.UI.Dialogs
     
         public void ShowGo()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
             Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                 Run!!!               |");
