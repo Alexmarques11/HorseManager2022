@@ -2,11 +2,11 @@
 CLI Game developed as a project for Object Oriented Programming Class. 1º Year EDJD
 
 ## Game Devs
-- 20115 @AndreCerqueira
-- 20116 @NunoIsidoro
-- 25968 @Alexmarques11
-- 25977 @MiguelVS2004
-- 26531 @doutorGaspar
+- 20115 [Andre Cerqueira](https://github.com/AndreCerqueira)
+- 20116 [Nuno Fernandes](https://github.com/NunoIsidoro)
+- 25968 [Alexandre Marques](https://github.com/Alexmarques11)
+- 25977 [Miguel Sousa](https://github.com/MiguelVS2004)
+- 26531 [Gonçalo Gaspar](https://github.com/doutorGaspar)
 
 ## Introduction
 Welcome to Horse Manager 2022! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can also unlock them by opening loot boxes.
