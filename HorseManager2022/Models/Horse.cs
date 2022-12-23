@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace HorseManager2022.Models
 {
     [Serializable]
-    internal class Horse : ISelectable
+    internal class Horse : IExchangeable
     {
         // Constants
         public const int MAX_SHOP_HORSES = 10;

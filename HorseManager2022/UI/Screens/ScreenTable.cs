@@ -1,22 +1,21 @@
-﻿using HorseManager2022.Enums;
-using HorseManager2022.Interfaces;
-using HorseManager2022.Models;
+﻿using HorseManager2022.Deprecated;
+using HorseManager2022.Enums;
 using HorseManager2022.UI.Components;
-using HorseManager2022.UI.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HorseManager2022.UI.Screens
 {
-    internal class ScreenTable<T, U> : ScreenWithTopbar where T : ISelectable
+    internal abstract class ScreenTable<T, U> : ScreenWithTopbar
     {
-        // Constants
-        private const int DIALOG_POS_X = 20;
-        private const int DIALOG_POS_Y = 15;
-
         // Properties
-        private readonly bool isSelectable;
-        private Table<T, U> table;
-        
+        protected Table<T, U> table;
+        protected readonly bool isSelectable;
+        private bool isAddable;
+
         public override int selectedPosition
         {
             get
@@ -33,7 +32,7 @@ namespace HorseManager2022.UI.Screens
 
                 topbar.selectedPosition = value;
 
-                table.selectedPosition = (isModeDown && isSelectable) ? value : -1; // -1 means no selection
+                table.selectedPosition = (isModeDown && (isSelectable || isAddable)) ? value : -1; // -1 means no selection
 
                 base.selectedPosition = value;
             }
@@ -41,20 +40,23 @@ namespace HorseManager2022.UI.Screens
 
 
         // Constructor
-        public ScreenTable(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, bool isSelectable = false)
+        public ScreenTable(Topbar topbar, string title, Screen? previousScreen = null, string[]? propertiesToExclude = null, bool isSelectable = false, bool isAddable = false)
             : base(topbar, previousScreen)
         {
             this.isSelectable = isSelectable;
-            table = new Table<T, U>(title, propertiesToExclude ?? Array.Empty<string>(), isSelectable);
-            
+            this.isAddable = isAddable;
+            table = new Table<T, U>(title, propertiesToExclude ?? Array.Empty<string>(), isSelectable, isAddable);
         }
 
 
         // Methods
+        virtual protected void SetTableOptions(GameManager? gameManager) { }
+        virtual protected void SetAdditionalOptions(GameManager? gameManager) { }
+
+
         override public Screen? Show(GameManager? gameManager)
         {
-            if (isSelectable)
-                SetTableOptions(gameManager);
+            SetupOptions(gameManager);
 
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
@@ -64,7 +66,6 @@ namespace HorseManager2022.UI.Screens
                 topbar.Show(this, gameManager);
 
                 table.Show(gameManager);
-
             });
 
             selectedOption?.onEnter?.Invoke();
@@ -72,52 +73,15 @@ namespace HorseManager2022.UI.Screens
         }
 
 
-        private void SetTableOptions(GameManager? gameManager)
+        private void SetupOptions(GameManager? gameManager)
         {
             options.Clear();
-            foreach (T item in table.GetTableItems(gameManager))
-            {
-                Action onEnter = GetOptionOnEnter(item, gameManager);
-                options.Add(new Option(nextScreen: this, onEnter: onEnter));
-            }
-        }
 
+            if (isSelectable)
+                SetTableOptions(gameManager);
 
-        private Action GetOptionOnEnter(T item, GameManager? gameManager)
-        {
-            return () => {
-
-                // Get dialog data
-                string itemType = item.GetType().Name.ToLower();
-                string action = (typeof(U) == typeof(Shop)) ? "buy" : "sell";
-
-                // Build Dialog
-                DialogConfirmation dialogConfirmation = new(
-                    x: DIALOG_POS_X, y: DIALOG_POS_Y,
-                    title: $"{action} {itemType}",
-                    message: $"Are you sure you want to {action} {item.name} for {item.price:C} ?",
-                    dialogType: DialogType.Question,
-                    previousScreen: this,
-                    onConfirm: () => {
-                        
-                        // Get dialog data
-                        bool response = gameManager?.Exchange<T, U>(item) ?? false;
-                        string message = response ? $"{item.name} was successfully {action}ed!" : $"You don't have enough money to {action} {item.name}!";
-                        DialogType dialogType = response ? DialogType.Success : DialogType.Error;
-
-                        // Build Dialog
-                        DialogMessage dialogWarning = new(
-                            x: DIALOG_POS_X, y: DIALOG_POS_Y,
-                            message: message,
-                            dialogType: dialogType,
-                            previousScreen: this
-                        );
-                        dialogWarning.Show();
-
-                    }, onCancel: () => { });
-
-                dialogConfirmation.Show();
-            };
+            if (isAddable)
+                SetAdditionalOptions(gameManager);
         }
 
 
@@ -138,7 +102,7 @@ namespace HorseManager2022.UI.Screens
             else if (menuMode == MenuMode.Up)
                 selectedPosition = 0;
         }
-        
+
 
         override public void SelectDown()
         {
@@ -159,7 +123,7 @@ namespace HorseManager2022.UI.Screens
             }
         }
 
-        
+
         override public void SelectUp()
         {
             if (menuMode == MenuMode.Down)
@@ -175,16 +139,16 @@ namespace HorseManager2022.UI.Screens
             else
             {
                 menuMode = MenuMode.Down;
-                selectedPosition = 0;
+                selectedPosition = options.Count - 1;
             }
         }
 
 
         override public Option? SelectEnter()
         {
-            if (menuMode == MenuMode.Down) 
+            if (menuMode == MenuMode.Down)
             {
-                if (!isSelectable) 
+                if (!isSelectable && !isAddable)
                     return Option.GetBackOption(previousScreen);
                 else
                 {
@@ -201,6 +165,5 @@ namespace HorseManager2022.UI.Screens
                     return topbar.options[selectedPosition];
             }
         }
-
     }
 }

@@ -118,7 +118,7 @@ namespace HorseManager2022
         public void SaveChanges() => saveManager.SaveGame(this.gameData);
 
 
-        public bool Exchange<T, U>(T item) where T : ISelectable
+        public bool Exchange<T, U>(T item) where T : IExchangeable
         {
             // Exchange failure
             if (item.price > money)

@@ -14,5 +14,11 @@ namespace HorseManager2022
             return text.PadLeft(padding + text.Length).PadRight(width);
         }
 
+        static public string PadRight(string text, int width) => text.PadLeft(width);
+        
+
+        static public string PadLeft(string text, int width) => text.PadRight(width);
+
+
     }
 }

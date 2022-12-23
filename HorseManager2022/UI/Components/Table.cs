@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,14 +22,15 @@ namespace HorseManager2022.UI.Components
         private readonly bool isSelectable;
         private readonly string[] propertiesToExclude;
         private readonly string title;
-
+        private readonly bool isAddable;
 
         // Constructor
-        public Table(string title, string[]? propertiesToExclude = null, bool isSelectable = false)
+        public Table(string title, string[]? propertiesToExclude = null, bool isSelectable = false, bool isAddable = false)
         {
             this.title = title;
             this.propertiesToExclude = propertiesToExclude ?? Array.Empty<string>();
             this.isSelectable = isSelectable;
+            this.isAddable = isAddable;
         }
 
 
@@ -39,12 +41,11 @@ namespace HorseManager2022.UI.Components
         // Get Table Items Ordered By Rarity if they have
         public List<T> GetTableItems(GameManager? gameManager)
         {
-            var listd = gameManager?.GetList<T, U>();
-            
             List<T>? list = gameManager?.GetList<T, U>().OrderByDescending(x => {
-                var rarity = x as ISelectable;
+                var rarity = x as IExchangeable;
                 return (int)(rarity?.rarity ?? 0);
             }).ToList();
+
             return list ?? new();
         }
         
@@ -83,8 +84,18 @@ namespace HorseManager2022.UI.Components
             // Content
             DrawContent(items, headers);
 
-            if (items.Count != 0)
+            if (items.Count != 0 && !isAddable)
                 DrawLine(tableWidth);
+
+            // Footer
+            if (isAddable) 
+            {
+                if (items.Count != 0)
+                    DrawLine(tableWidth);
+                DrawFooter(items, tableWidth);
+                DrawLine(tableWidth);
+            }
+
         }
 
 
@@ -129,9 +140,16 @@ namespace HorseManager2022.UI.Components
 
         private void DrawHeader(List<string> headers)
         {
+            bool haveItems = headers.Find(x => x.Contains("Nothing to show.")) == null;
+            if (!haveItems)
+                DrawGapRow(headers);
+
             foreach (string header in headers)
                 Console.Write("|" + header);
             Console.WriteLine("|");
+
+            if (!haveItems)
+                DrawGapRow(headers);
         }
 
 
@@ -144,6 +162,20 @@ namespace HorseManager2022.UI.Components
                 if (i < items.Count - 1)
                     DrawGapRow(headers);
             }
+        }
+
+
+        private void DrawFooter(List<T> items, int width)
+        {
+            Type[] typeArguments = items.GetType().GetGenericArguments();
+            string typeName = typeArguments[0].Name;
+
+            if (selectedPosition == items.Count)
+                Console.Write("| [X] |");
+            else
+                Console.Write("| [ ] |");
+            Console.Write(Utils.PadLeft($" Add new {typeName} ", width-6));
+            Console.WriteLine("|");
         }
 
 

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using HorseManager2022.Attributes;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,19 @@ namespace HorseManager2022.Models
         // Properties
         public Horse horse;
         public Jockey jockey;
-        public int afinity;
+
+        [DisplayName("Horse")]
+        [Padding(22)]
+        public string horseName { get => horse.name; }
+
+        [DisplayName("Jockey")]
+        [Padding(22)]
+        public string jockeyName { get => jockey.name; }
+
+        [DisplayName("Afinity")]
+        [Padding(11)]
+        [Color(ConsoleColor.DarkGray)]
+        public int afinity { get; set; }
 
         // Constructor
         public Team(Horse horse, Jockey jockey, int afinity)

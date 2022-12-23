@@ -12,6 +12,9 @@ namespace HorseManager2022.UI.Screens
 {
     internal class HorseSelectionScreen : Screen
     {
+        // Constants
+        private const int INITIAL_AFFINITY = 10;
+
         // Properties
         private readonly Arrow arrow;
         private readonly Horse speedo, tornado, hulk;
@@ -56,6 +59,7 @@ namespace HorseManager2022.UI.Screens
         {
             gameManager?.Add<Horse, Player>(horse);
             gameManager?.Add<Jockey, Player>(jockey);
+            gameManager?.Add<Team, Player>(new(horse, jockey, INITIAL_AFFINITY));
         }
 
         override public Screen? Show(GameManager? gameManager)

@@ -25,13 +25,14 @@ ScreenHouse stableScreen = new(topbar, cityScreen);
 ScreenHouse raceTrackScreen = new(topbar, cityScreen);
 CalendarScreen calendarScreen = new(topbar, cityScreen);
 HorseSelectionScreen horseSelectionScreen = new(cityScreen, gameManager);
-ScreenTable<Horse, Player> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
-ScreenTable<Jockey, Player> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
-// ScreenTable<Team, Player> teamsStableScreen = new(topbar, "Teams", stableScreen);
-ScreenTable<Horse, Shop> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, true);
-ScreenTable<Jockey, Shop> joqueysBuyScreen = new(topbar, "[Shop] Select Joqueys to hire", shopBuyScreen, new string[] { "id", "energy" }, true);
-ScreenTable<Horse, Player> horsesSellScreen = new(topbar, "[Shop] Select Horses to sell", shopSellScreen, new string[] { "id", "energy" }, true);
-ScreenTable<Jockey, Player> joqueysSellScreen = new(topbar, "[Shop] Select Joqueys to fire", shopSellScreen, new string[] { "id", "energy" }, true);    
+ScreenShop<Horse, Player> horsesStableScreen = new(topbar, "Horses in Stable", stableScreen, new string[] {"id", "price"});
+ScreenShop<Jockey, Player> joqueysStableScreen = new(topbar, "Hired Joqueys", stableScreen, new string[] { "id", "price" });
+ScreenShop<Horse, Shop> horsesBuyScreen = new(topbar, "[Shop] Select Horses to buy", shopBuyScreen, new string[] { "id", "energy" }, true);
+ScreenShop<Jockey, Shop> joqueysBuyScreen = new(topbar, "[Shop] Select Joqueys to hire", shopBuyScreen, new string[] { "id", "energy" }, true);
+ScreenShop<Horse, Player> horsesSellScreen = new(topbar, "[Shop] Select Horses to sell", shopSellScreen, new string[] { "id", "energy" }, true);
+ScreenShop<Jockey, Player> joqueysSellScreen = new(topbar, "[Shop] Select Joqueys to fire", shopSellScreen, new string[] { "id", "energy" }, true);
+ScreenTeams<Team, Player> teamsStableScreen = new(topbar, "Teams", stableScreen);
+ScreenTeams<Team, Player> selectTeamToTrainScreen = new(topbar, "Select Team to train", raceTrackScreen, isSelectable: true , isAddable: true);
 
 // ---------------- Initial Screen Options ---------------- \\
 
@@ -77,9 +78,9 @@ shopScreen.AddOption("LootBoxs", shopScreen);
 cityScreen.AddOption("Stable", stableScreen);
 stableScreen.AddOption("Horses", horsesStableScreen);
 stableScreen.AddOption("Jockeys", joqueysStableScreen);
-stableScreen.AddOption("Teams", stableScreen);
+stableScreen.AddOption("Teams", teamsStableScreen);
 cityScreen.AddOption("Racetrack", raceTrackScreen);
-raceTrackScreen.AddOption("Train", raceTrackScreen);
+raceTrackScreen.AddOption("Train", selectTeamToTrainScreen);
 
 
 
