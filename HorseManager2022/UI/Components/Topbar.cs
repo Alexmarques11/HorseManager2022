@@ -1,5 +1,6 @@
 ﻿using HorseManager2022.Deprecated;
 using HorseManager2022.Enums;
+using HorseManager2022.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +99,16 @@ namespace HorseManager2022.UI.Components
 
             // ---------------- 6º Line ---------------- \\
             string dateLabel = (gameManager.currentDate != null ? gameManager.currentDate.ToString() : "").PadRight(16);
-            Console.Write("|  " + dateLabel);
+            Console.Write("|  ");
+            
+            Event? @event = Event.GetTodayEvent(gameManager);
+            if (@event != null)
+                Console.ForegroundColor = @event.GetEventColor();
+            
+            Console.Write(dateLabel);
+
+            Console.ResetColor();
+
             for (int i = 0; i < options.Count + 1; i++)
             {
                 Console.Write("|             |   ");

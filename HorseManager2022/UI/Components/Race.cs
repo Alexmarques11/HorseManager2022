@@ -12,61 +12,81 @@ namespace HorseManager2022.UI.Components
     internal class Race
     {
         // Constants
-        private readonly int DISTANCE = 72;
+        private const int HEADER_LENGTH = 85;
 
         // Properties
         private readonly Screen currentScreen;
-        private readonly int participants;
-        private readonly string title;
-        private List<Team> teams;
         private bool isRaceStarted;
+        private List<RacingTeam> participants;
+        private Team playerTeam;
         private RaceType raceType;
-        // private int prize;
-        // private Rarity difficulty;
+        private Racetrack racetrack;
+        private Event? @event;
 
 
         // Race Event Constructor
-        public Race(string title, List<Team> teams, Screen currentScreen)
+        public Race(Team playerTeam, List<Team> teams, Screen currentScreen, Event @event)
         {
+            // Set properties
             this.currentScreen = currentScreen;
-            this.title = title;
-            this.teams = teams;
             raceType = RaceType.Event;
-            participants = teams.Count;
             isRaceStarted = raceType == RaceType.Training;
+
+            // Set participants
+            this.playerTeam = playerTeam;
+            participants = new() { new(playerTeam) };
+            participants.AddRange(teams.Select(team => new RacingTeam(team)));
+
+            // Set racetrack
+            this.@event = @event;
+            racetrack = new(@event.difficulty, participants.Count);
         }
 
         // Race Training Constructor
-        public Race(Team team, Screen currentScreen)
+        public Race(Team playerTeam, Screen currentScreen)
         {
+            // Set properties
             this.currentScreen = currentScreen;
-            title = "Training";
-            teams = new List<Team>() { team };
-            participants = teams.Count;
             raceType = RaceType.Training;
             isRaceStarted = raceType == RaceType.Training;
+
+            // Set participants
+            this.playerTeam = playerTeam;
+            participants = new() { new(playerTeam) };
+
+            // Set racetrack
+            racetrack = new();
         }
 
 
-        public void Start()
+        public void Start(GameManager? gameManager)
         {
             // Race loop
-            int x = 1, y = 6;
-            do
+            while (!HaveAllHorsesFinished())
             {
                 Console.Clear();
 
                 DrawHeader();
+
+                racetrack.Show();
                 
-                DrawRaceTrack();
-                DrawHorses(ref x, y);
+                DrawHorses();
 
                 if (!isRaceStarted)
                     StartRace();
+            } 
 
-            } while (x < DISTANCE);
+            if (isTraining) FinishRaceTraining(); else FinishRaceEvent();
 
-            if (isTraining) FinishRaceTrain(); else FinishRaceEvent();
+            // Finish day if event  --REMOVE THIS IN DEBUG MODE
+            //if (!isTraining)
+            //    gameManager?.currentDate.NextDay(gameManager);
+        }
+
+
+        private bool HaveAllHorsesFinished()
+        {
+            return participants.All(participant => participant.x >= racetrack.gameDistance);
         }
 
 
@@ -85,7 +105,8 @@ namespace HorseManager2022.UI.Components
         
         private void FinishRaceEvent()
         {
-            RaceLeaderboard leaderboard = new(85, 7);
+            List<Team> teams = participants.Select(participant => participant.team).ToList();
+            RaceLeaderboard leaderboard = new(85, 7, teams);
             leaderboard.Show();
             Audio.PlayRaceEndSong();
             Console.ReadKey();
@@ -93,7 +114,7 @@ namespace HorseManager2022.UI.Components
         }
 
 
-        private void FinishRaceTrain()
+        private void FinishRaceTraining()
         {
             DialogRewards dialogRewards = new(
                 x: 20,
@@ -112,36 +133,22 @@ namespace HorseManager2022.UI.Components
             dialogRewards.Show();
 
         }
-        
 
-        private void DrawRaceTrack()
+
+        private void DrawHorses()
         {
-            // Racetrack Start
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("================================================================================");
-
-            // Racetrack
-            for (int i = 0; i < participants; i++)
-            {
-                // Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("      ~        ~      ~                            ~                       ~    ");
-                Console.WriteLine("  ~        ~                   ~          ~               ~      ~              ");
-                Console.WriteLine("                  ~     ~           ~            ~                    ~         ");
-                Console.WriteLine("         ~                    ~            ~            ~      ~             ~  ");
-                Console.WriteLine("   ~            ~      ~             ~              ~                  ~        ");
-                // Console.WriteLine("           ~                   ~              ~               ~                 ");
-                Console.WriteLine("================================================================================");
-            }
-        }
-
-
-        private void DrawHorses(ref int x, int y)
-        {
-            // Draw Horses
+            // Variables
+            int y = 6;
             Random random = new();
-            for (int i = 0; i < participants; i++)
+            
+            // Draw Horses
+            foreach (RacingTeam team in participants)
             {
+                // Highlight Player Team
+                if (team.team == playerTeam)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                
+                int x = team.x;
                 Console.SetCursorPosition(x + 8, y);
                 Console.Write(",,");
                 Console.SetCursorPosition(x + 7, y + 1);
@@ -163,19 +170,38 @@ namespace HorseManager2022.UI.Components
                 Console.SetCursorPosition(x + 9, y + 5);
                 Console.Write("``");
                 y += 6;
+                team.x += random.Next(1, 4);
+
+                if (team.x >= racetrack.gameDistance)
+                    team.x = racetrack.gameDistance;
+
+                // Reset Color
+                Console.ResetColor();
             }
-            x += 3;
             Thread.Sleep(120);
         }
 
         
         private void DrawHeader()
         {
-            Console.WriteLine("+-------------------------------------------------------------------------------+");
-            Console.WriteLine("|                                                                               |");
-            Console.WriteLine("|                     [Corrida Comum] (10Km)  > Prémio 100€ <                   |");
-            Console.WriteLine("|                                                                               |");
-            Console.WriteLine("+-------------------------------------------------------------------------------+");
+            int reward = @event?.GetReward(participants.Count) ?? 0;
+            string title;
+            
+            if (isTraining)
+                title = Utils.AlignCenter($"[Training {playerTeam.horseName} & {playerTeam.jockeyName}] ({racetrack.realDistance}Km)", HEADER_LENGTH);
+            else
+                title = Utils.AlignCenter($"[{@event?.difficulty} {@event?.type}] ({racetrack.realDistance}Km) > {reward},00 € Reward <", HEADER_LENGTH);
+
+            Console.WriteLine("+" + new string('-', HEADER_LENGTH) + "+");
+            Console.WriteLine("|" + new string(' ', HEADER_LENGTH) + "|");
+            Console.Write("|");
+            Console.Write(title);
+            Console.WriteLine("|");
+            Console.WriteLine("|" + new string(' ', HEADER_LENGTH) + "|");
+            Console.WriteLine("+" + new string('-', HEADER_LENGTH) + "+");
         }
+
+        
+        
     }
 }

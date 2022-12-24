@@ -60,6 +60,13 @@ namespace HorseManager2022.Models
             this.price = price;
         }
 
+        public Jockey(Rarity rarity)
+        {
+            this.name = GenerateName();
+            this.rarity = rarity;
+            this.handling = GenerateHandling(rarity);
+            this.price = GetJockeyPrice(rarity, handling);
+        }
 
         static public List<Jockey> GenerateShopJockeys()
         {

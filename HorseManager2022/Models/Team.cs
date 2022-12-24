@@ -56,6 +56,7 @@ namespace HorseManager2022.Models
         [DisplayName("Handling")]
         [Color(ConsoleColor.DarkGray)]
         public int jockeyHandling { get => jockey.handling; }
+        
         /*
         [DisplayName("Average Rarity")]
         [IsRarity]
@@ -83,16 +84,61 @@ namespace HorseManager2022.Models
             this.afinity = afinity;
         }
 
-        
+
         // Methods
-        public static List<Team> GenerateRandomTeams(int amount = 4)
+        static public List<Team> GenerateEventTeams(Event @event)
         {
+            Difficulty difficulty = @event.difficulty ?? Difficulty.Easy;
+            Rarity horseRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
+            Rarity joqueyRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
+            int amount = GetEventTeamAmount(difficulty);
+            int affinity = GetRandomAffinityByRarity(horseRarity, joqueyRarity);
+
             List<Team> teams = new();
             for (int i = 0; i < amount; i++)
-                teams.Add(new Team(new(), new(), 0));
+                teams.Add(new Team(new(horseRarity), new(joqueyRarity), affinity));
 
             return teams;
         }
-        
+
+
+        // Set the range of possible teams based on the event rarity
+        static private int GetEventTeamAmount(Difficulty difficulty)
+        {
+            Random random = new();
+            return difficulty switch
+            {
+                Difficulty.Easy => 2,
+                Difficulty.Normal => random.Next(3, 5),
+                Difficulty.Hard => random.Next(4, 6),
+                Difficulty.Extreme => 6,
+                _ => 0,
+            };
+        }
+
+
+        static private int GetRandomAffinityByRarity(Rarity horseRarity, Rarity jockeyRarity)
+        {
+            // Create a lookup table for the min and max affinities for each combination of rarities
+            var affinityRangeLookup = new Dictionary<Rarity, (int, int)>
+            {
+                { Rarity.Common, (5, 20) },
+                { Rarity.Rare, (15, 40) },
+                { Rarity.Epic, (40, 70) },
+                { Rarity.Legendary, (70, 100) },
+            };
+
+            // Look up the min and max affinities for the given rarities
+            Rarity avgRarity = RarityExtensions.GetAverageRarity(new Rarity[] { horseRarity, jockeyRarity });
+            var affinityRange = affinityRangeLookup[avgRarity];
+            int minAffinity = affinityRange.Item1;
+            int maxAffinity = affinityRange.Item2;
+
+            // Generate a random affinity within the determined range
+            Random random = new();
+            int affinity = random.Next(minAffinity, maxAffinity + 1);
+
+            return affinity;
+        }
     }
 }

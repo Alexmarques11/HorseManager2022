@@ -83,7 +83,7 @@ stableScreen.AddOption("Jockeys", joqueysStableScreen);
 stableScreen.AddOption("Teams", teamsStableScreen);
 cityScreen.AddOption("Racetrack", raceTrackScreen);
 raceTrackScreen.AddOption("Training", trainingScreen);
-raceTrackScreen.AddOption("Race Event", raceEventScreen);
+raceTrackScreen.AddOption("Event", raceEventScreen);
 
 
 /*

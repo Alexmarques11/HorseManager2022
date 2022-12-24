@@ -149,7 +149,7 @@ namespace HorseManager2022
             AddAll<Horse, Shop>(Horse.GenerateShopHorses());
             AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
 
-            gameData.money = 1000000;
+            gameData.money = 100;
             gameData.currentDate = new();
             SaveChanges();
         }

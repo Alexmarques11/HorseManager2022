@@ -18,49 +18,103 @@ namespace HorseManager2022.Models
         // Properties
         public string name;
         public EventType type;
+        public Difficulty? difficulty;
         public Date date;
 
+        
         // Constructors
-        public Event(string name, EventType type, Date date)
+        public Event(string name, EventType type, Date date, Difficulty? difficulty = null)
         {
             this.name = name;
             this.type = type;
+            this.difficulty = difficulty;
             this.date = date;
         }
 
+        
+        // Random event Constructor
         public Event(List<Event>? events = null)
         {
             Random random = new();
-            int randomType = random.Next(1, 3);
-            type = (EventType)randomType;
+            type = (EventType)random.Next(1, 3);
+            difficulty = DifficultyExtensions.GetRandomDifficulty();
+            name = $"{difficulty} {type}"; //GenerateName();
 
-            name = GenerateName();
-            
             do
             {
                 date = GenerateDate();
             } while (HasEventsOnDate(events, date));
         }
-        
+
 
         // Methods
-        public ConsoleColor GetEventTypeColor()
+        public ConsoleColor GetEventColor()
         {
-            switch (type)
-            {
-                case EventType.Race:
-                    return ConsoleColor.Red;
-                case EventType.Demostration:
-                    return ConsoleColor.Magenta;
-                case EventType.Holiday:
-                    return ConsoleColor.Yellow;
-                default:
-                    return ConsoleColor.Gray;
-            }
+            if (type == EventType.Holiday)
+                return ConsoleColor.Cyan;
+            else
+                return DifficultyExtensions.GetColor(difficulty);
         }
 
         
-        // File Crud Methods
+        public int GetEntryCost()
+        {
+            if (type != EventType.Race)
+                return 0;
+
+            return difficulty switch
+            {
+                Difficulty.Easy => 100,
+                Difficulty.Normal => 200,
+                Difficulty.Hard => 400,
+                Difficulty.Extreme => 700,
+                _ => 0,
+            };
+        }
+
+
+        // Return the reward money value based on participants count and race difficulty
+        public int GetReward(int teamQuantity)
+        {
+            int reward = 0;
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    reward = 100;
+                    break;
+                case Difficulty.Normal:
+                    reward = 200;
+                    break;
+                case Difficulty.Hard:
+                    reward = 400;
+                    break;
+                case Difficulty.Extreme:
+                    reward = 700;
+                    break;
+            }
+            return reward * teamQuantity;
+        }
+
+
+        static public Event? GetTodayEvent(GameManager? gameManager)
+        {
+            if (gameManager == null)
+                return null;
+
+            Date currentDate = gameManager.currentDate;
+            List<Event> events = gameManager.GetList<Event, Player>();
+            foreach (var @event in events)
+            {
+                if (@event.date.day == currentDate.day
+                    && @event.date.month == currentDate.month
+                    && @event.date.year == currentDate.year)
+                    return @event;
+            }
+
+            return null;
+        }
+
+        
         static public List<Event> GetNewYearEvents(int year = 1)
         {
             
@@ -102,6 +156,7 @@ namespace HorseManager2022.Models
         }
 
         
+        /*
         private string GenerateName()
         {
             // Variables
@@ -159,6 +214,6 @@ namespace HorseManager2022.Models
 
             return list[random.Next(0, list.Length)];
         }
-
+        */
     }
 }

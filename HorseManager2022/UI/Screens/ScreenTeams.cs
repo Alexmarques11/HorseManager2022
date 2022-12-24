@@ -5,6 +5,7 @@ using HorseManager2022.UI.Components;
 using HorseManager2022.UI.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,28 +90,118 @@ namespace HorseManager2022.UI.Screens
         {
             return () =>
             {
-                Race race;
-                switch (raceType)
+                if (gameManager == null)
+                    return;
+
+                Event? todayEvent = Event.GetTodayEvent(gameManager);
+                Race? race;
+
+                if (raceType == RaceType.Training) {
+                    race = GetTrainingRace(team, todayEvent);
+                    race?.Start(gameManager);
+                }
+                else 
                 {
-                    case RaceType.Training:
-                        
-                        race = new(team, this);
-                        
-                        break;
+                    // Get event entry cost
+                    int entryCost = todayEvent?.GetEntryCost() ?? 0;
 
-                    case RaceType.Event:
+                    // Check if player have money to buy ticket
+                    if (entryCost > gameManager.money)
+                    {
+                        string message = "You can't buy the ticket!";
+                        string missingValue = (entryCost - gameManager.money).ToString("C");
+                        message += Utils.AlignLeft($"You need more {missingValue} to enter!", 36);
 
-                        List<Team> competitors = Team.GenerateRandomTeams(4);
-                        competitors.Add(team);
-                        race = new("Event", competitors, this);
+                        DialogMessage dialogMessage = new(
+                            x: 20, y: 8,
+                            title: "Insuficient funds!",
+                            message: message,
+                            dialogType: DialogType.Question,
+                            previousScreen: this);
 
-                        break;
-                    default:
                         return;
+                    }
+
+                    // Create race
+                    race = GetEventRace(team, todayEvent);
+                    if (race == null) return;
+
+                    if (todayEvent?.type == EventType.Race)
+                    {
+                        string entryCostText = entryCost.ToString("C");
+                        string text = "Are you sure you want to enter?     ";
+                        text += Utils.AlignLeft($"It will cost you {entryCostText}!", 36);
+                        text += "If you enter you can't do anything  else today!";
+
+                        DialogConfirmation dialogConfirmation = new(
+                            x: 20, y: 8,
+                            title: "Confirmation",
+                            message: text,
+                            dialogType: DialogType.Question,
+                            previousScreen: this,
+                            onConfirm: () =>
+                            {
+                                // Buy the entry ticket
+                                gameManager.money -= entryCost;
+                                race?.Start(gameManager);
+                            },
+                            onCancel: () => { }
+                            );
+                    
+                        dialogConfirmation.Show();
+                    }
+                    else
+                    {
+                        race?.Start(gameManager);
+                    }
                 }
 
-                race.Start();
             };
+        }
+
+
+        private Race? GetTrainingRace(Team team, Event? todayEvent)
+        {
+            if (todayEvent != null && todayEvent?.type == EventType.Holiday)
+            {
+                DialogMessage dialogWarning = new(
+                        x: 20, y: 8,
+                        title: "Coach is unavailable!",
+                        message: "Coach don't work on holidays!",
+                        dialogType: DialogType.Error,
+                        previousScreen: this
+                    );
+                dialogWarning.Show();
+                return null;
+            }
+            
+            return new(team, this);
+        }
+
+        
+        private Race? GetEventRace(Team team, Event? todayEvent)
+        {
+            if (todayEvent == null || todayEvent?.type == EventType.Holiday)
+            {
+                string message = "There is no race event today!";
+                if (todayEvent?.type == EventType.Holiday)
+                    message += "       Go enjoy the holiday!";
+
+                DialogMessage dialogWarning = new(
+                        x: 20, y: 8,
+                        title: "No race event today!",
+                        message: message,
+                        dialogType: DialogType.Error,
+                        previousScreen: this
+                    );
+                dialogWarning.Show();
+                return null;
+            }
+
+
+
+            List<Team> competitors = Team.GenerateEventTeams(todayEvent ?? new());
+            return new(team, competitors, this, todayEvent ?? new());
         }
     }
 }

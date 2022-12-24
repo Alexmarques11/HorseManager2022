@@ -21,9 +21,8 @@ namespace HorseManager2022.UI
         public CalendarScreen(Topbar topbar, Screen? previousScreen = null) 
             : base(topbar, previousScreen)
         {
-            // calendar = new Calendar(new Date(3, Month.Summer, 1));
             calendar = new();
-            calendar.AddEvent(calendar.events); // Event.GetEventsSave();
+            calendar.AddEvent(calendar.events);
 
             // Add options to calendar (months) all months do nothing, just return to previous screen
             for (int i = 0; i < 4; i++)

@@ -55,7 +55,7 @@ namespace HorseManager2022.Models
         // Constructor
         public Horse()  //Construtor Random
         {
-            rarity = GetRandomRarity();
+            rarity = RarityExtensions.GetRandomRarity();
             speed = GenerateSpeed(rarity);
             name = GenerateHorseName();
             price = GetHorsePrice(rarity, speed);
@@ -74,6 +74,21 @@ namespace HorseManager2022.Models
             this.price = price;
             this.speed = speed;
             this.rarity = rarity;
+        }
+
+        
+        public Horse(Rarity rarity)
+        {
+            Random random = new Random();
+
+            // Set the horse's properties based on the rarity
+            this.rarity = rarity;
+            this.name = GenerateHorseName();
+            this.speed = GenerateSpeed(rarity);
+            this.price = GetHorsePrice(rarity, speed);
+            this.resistance = CalculateResistence(speed, age);
+            this.energy = 100;
+            this.age = random.Next(10, 21); // Generate a random age between 10 and 20
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HorseManager2022.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,67 +11,48 @@ namespace HorseManager2022.UI.Components
     {
         // Properties
         private int x, y;
+        private List<Team> teams;
 
         // Constructor
-        public RaceLeaderboard(int x, int y)
+        public RaceLeaderboard(int x, int y, List<Team> teams)
         {
             this.x = x;
             this.y = y;
+            this.teams = teams;
         }
 
         // Methods
         public void Show()
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+-------------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                Leaderboard                |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+-------------------------------------------+");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("| Pos |    Horse    |    Team    |  Pontos  |");
-            Console.SetCursorPosition(x, y + 4);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|-------------------------------------------|");
-            Console.SetCursorPosition(x, y + 5);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                           |");
 
-            Console.SetCursorPosition(x, y + 6);
-            Console.Write("|");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("  1º   ");
-            Console.ResetColor();
-            Console.Write("horse name    team name       26    |");
-            Console.SetCursorPosition(x, y + 7);
-            Console.WriteLine("|                                           |");
-
-            Console.SetCursorPosition(x, y + 8);
-            Console.Write("|");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Write("  2º   ");
-            Console.ResetColor();
-            Console.Write("horse name    team name       26    |");
-            Console.SetCursorPosition(x, y + 9);
-            Console.WriteLine("|                                           |");
-
-            Console.SetCursorPosition(x, y + 10);
-            Console.Write("|");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("  3º   ");
-            Console.ResetColor();
-            Console.Write("horse name    team name       26    |");
-            Console.SetCursorPosition(x, y + 11);
-            Console.WriteLine("|                                           |");
-
-            Console.SetCursorPosition(x, y + 12);
-            Console.Write("|");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("  4º   ");
-            Console.ResetColor();
-            Console.Write("horse name    team name       26    |");
-            Console.SetCursorPosition(x, y + 13);
-            Console.WriteLine("|                                           |");
-
-            Console.SetCursorPosition(x, y + 14);
+            for (int i = 0; i < teams.Count; i++)
+            {
+                Team team = teams[i];
+                
+                Console.SetCursorPosition(x, y++);
+                // Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("|" + Utils.AlignLeft($"{i + 1}", 5) + "|");
+                Console.ResetColor();
+                Console.Write(Utils.AlignLeft($"{team.horseName}", 15) + "|");
+                Console.Write(Utils.AlignLeft($"{team.jockeyName}", 15) + "|");
+                Console.Write(Utils.AlignLeft($"{00}", 5) + "|");
+                Console.SetCursorPosition(x, y++);
+                Console.WriteLine("|                                           |");
+            }
+            
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+-------------------------------------------+");
         }
     }

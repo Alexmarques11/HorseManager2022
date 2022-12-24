@@ -99,7 +99,7 @@ namespace HorseManager2022.UI.Components
 
             Event? eventInDay = GetEventInDay(day, month, year);
             if (eventInDay != null)
-                Console.ForegroundColor = eventInDay.GetEventTypeColor();
+                Console.ForegroundColor = eventInDay.GetEventColor();
 
             // Event in day check
             if (eventInDay != null)
@@ -136,20 +136,19 @@ namespace HorseManager2022.UI.Components
         {
             // Draw Event List on the right
             int x = 34, y = Topbar.TOPBAR_HEIGHT;
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
-            Console.SetCursorPosition(x, y + 1);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                Events                |");
-            Console.SetCursorPosition(x, y + 2);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|--------------------------------------|");
-            Console.SetCursorPosition(x, y + 3);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
 
             // Order events by day
             List<Event> orderedEvents = events.OrderBy(e => e.date.day).ToList();
 
             // Display Events
-            int pos = 4;
             foreach (Event e in orderedEvents)
             {
                 // Check if the event is in the current month and year and not passed
@@ -164,29 +163,27 @@ namespace HorseManager2022.UI.Components
                     day = "0" + day;
 
                 // Display Values
-                Console.SetCursorPosition(x, y + pos);
+                Console.SetCursorPosition(x, y++);
                 Console.Write("| ");
-                Console.ForegroundColor = e.GetEventTypeColor();
+                Console.ForegroundColor = e.GetEventColor();
                 Console.Write("•");
                 Console.ResetColor();
                 Console.WriteLine(" " + day + " -> " + eventName + "|");
-                Console.SetCursorPosition(x, y + pos + 1);
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("|                                      |");
-                pos += 2;
             }
 
             // no events message
-            if (pos == 4)
+            if (y == Topbar.TOPBAR_HEIGHT + 4)
             {
-                Console.SetCursorPosition(x, y + pos);
-                Console.WriteLine("| No more events in this month! :c     |");
-                Console.SetCursorPosition(x, y + pos + 1);
+                Console.SetCursorPosition(x, y++);
+                Console.WriteLine("| No events in this month              |");
+                Console.SetCursorPosition(x, y++);
                 Console.WriteLine("|                                      |");
-                pos += 2;
             }
 
             // Display Bottom List
-            Console.SetCursorPosition(x, y + pos);
+            Console.SetCursorPosition(x, y++);
             Console.WriteLine("+--------------------------------------+");
         }
 
