@@ -4,6 +4,7 @@ using HorseManager2022.Models;
 using HorseManager2022.UI.Components;
 using HorseManager2022.UI.Dialogs;
 using System;
+using System.Reflection.Emit;
 
 namespace HorseManager2022.UI.Screens
 {
@@ -26,14 +27,22 @@ namespace HorseManager2022.UI.Screens
             return () => {
 
                 // Get dialog data
+                Event? todayEvent = Event.GetTodayEvent(gameManager);
                 string itemType = item.GetType().Name.ToLower();
                 string action = (typeof(U) == typeof(Shop)) ? "buy" : "sell";
+                int price = item.price;
+
+                // Get Discounted or Increased price
+                if (typeof(U) == typeof(Shop) && todayEvent != null && todayEvent.type == EventType.Holiday)
+                    price = Utils.GetDiscountedPrice(price);
+                else if (todayEvent != null && todayEvent.type == EventType.Holiday)
+                    price = Utils.GetIncreasedPrice(price);
 
                 // Build Dialog
                 DialogConfirmation dialogConfirmation = new(
                     x: DIALOG_POS_X, y: DIALOG_POS_Y,
                     title: $"{action} {itemType}",
-                    message: $"Are you sure you want to {action} {item.name} for {item.price:C} ?",
+                    message: $"Are you sure you want to {action} {item.name} for {price:C} ?",
                     dialogType: DialogType.Question,
                     previousScreen: this,
                     onConfirm: () => {
@@ -52,7 +61,9 @@ namespace HorseManager2022.UI.Screens
                         );
                         dialogWarning.Show();
 
-                    }, onCancel: () => { });
+                    }, onCancel: () => {
+
+                    });
 
                 dialogConfirmation.Show();
             };

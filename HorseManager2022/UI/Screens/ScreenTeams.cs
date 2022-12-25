@@ -108,16 +108,18 @@ namespace HorseManager2022.UI.Screens
                     // Check if player have money to buy ticket
                     if (entryCost > gameManager.money)
                     {
-                        string message = "You can't buy the ticket!";
+                        string message = Utils.AlignLeft($"You can't buy the ticket!", 36);
                         string missingValue = (entryCost - gameManager.money).ToString("C");
                         message += Utils.AlignLeft($"You need more {missingValue} to enter!", 36);
 
                         DialogMessage dialogMessage = new(
                             x: 20, y: 8,
-                            title: "Insuficient funds!",
+                            title: "Insufficient funds!",
                             message: message,
-                            dialogType: DialogType.Question,
+                            dialogType: DialogType.Error,
                             previousScreen: this);
+
+                        dialogMessage.Show();
 
                         return;
                     }

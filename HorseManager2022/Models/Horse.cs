@@ -102,33 +102,6 @@ namespace HorseManager2022.Models
         }
         
 
-        public Rarity GetRandomRarity()  //Raridades(random)
-        {
-            Random rnd = new Random();
-            int i = rnd.Next(0, 11);
-            switch (i)
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    return Rarity.Common;
-                case 5:
-                case 6:
-                case 7:
-                    return Rarity.Rare;
-                case 8:
-                case 9:
-                    return Rarity.Epic;
-                case 10:
-                    return Rarity.Legendary;
-                default:
-                    return rarity = 0;
-            }
-        }
-
-
         public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
      
      

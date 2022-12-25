@@ -20,5 +20,12 @@ namespace HorseManager2022
         static public string AlignLeft(string text, int width) => text.PadRight(width);
 
 
+        // Discount of 25%
+        static public int GetDiscountedPrice(int price) => (int)(price * 0.75);
+
+        
+        // Increase of 25%
+        static public int GetIncreasedPrice(int price) => (int)(price * 1.25);
+
     }
 }

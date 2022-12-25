@@ -82,7 +82,7 @@ namespace HorseManager2022.UI.Components
             DrawLine(tableWidth);
 
             // Content
-            DrawContent(items, headers);
+            DrawContent(items, headers, gameManager);
 
             if (items.Count != 0 && !isAddable)
                 DrawLine(tableWidth);
@@ -153,11 +153,11 @@ namespace HorseManager2022.UI.Components
         }
 
 
-        private void DrawContent(List<T> items, List<string> headers)
+        private void DrawContent(List<T> items, List<string> headers, GameManager? gameManager)
         {
             for (int i = 0; i < items.Count; i++)
             {
-                DrawRow(items[i], headers, i);
+                DrawRow(items[i], headers, i, gameManager);
                 
                 if (i < items.Count - 1)
                     DrawGapRow(headers);
@@ -179,7 +179,7 @@ namespace HorseManager2022.UI.Components
         }
 
 
-        private void DrawRow(T item, List<string> headers, int rowIndex)
+        private void DrawRow(T item, List<string> headers, int rowIndex, GameManager? gameManager)
         {
             // Add selection column
             if (IsRowSelected(rowIndex))
@@ -189,7 +189,7 @@ namespace HorseManager2022.UI.Components
 
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
             foreach (PropertyDescriptor property in properties) 
-                DrawColumn(item, property, headers);
+                DrawColumn(item, property, headers, gameManager);
 
             Console.WriteLine("|");
         }
@@ -203,7 +203,7 @@ namespace HorseManager2022.UI.Components
         }
 
 
-        private void DrawColumn(T item, PropertyDescriptor property, List<string> headers)
+        private void DrawColumn(T item, PropertyDescriptor property, List<string> headers, GameManager? gameManager)
         {
             if (propertiesToExclude.Contains(property.Name))
                 return;
@@ -211,6 +211,7 @@ namespace HorseManager2022.UI.Components
             string? header = headers.FirstOrDefault(h => h.Contains(property.DisplayName));
             int padding = header?.Length ?? 0;
             string? propertyValue = property.GetValue(item)?.ToString();
+            string label = propertyValue ?? "";
 
             if (propertyValue == null)
                 return;
@@ -224,20 +225,34 @@ namespace HorseManager2022.UI.Components
 
             if (rarityAttribute != null)
             {
-                Rarity rarity = (Rarity)Enum.Parse(typeof(Rarity), propertyValue);
+                Rarity rarity = (Rarity)Enum.Parse(typeof(Rarity), label);
                 color = rarityAttribute.GetColor(rarity);
             }
             else if (energyAttribute != null)
             {
-                color = energyAttribute.GetColor(int.Parse(propertyValue));
+                color = energyAttribute.GetColor(int.Parse(label));
             }
 
             if (isPercentage)
-                propertyValue += "%";
-            else if (isPrice)
-                propertyValue += ",00 €";
+                label += "%";
+            else if (isPrice) 
+            {
+                // Check if it's holiday to show price with 25% discount
+                Event? @event = Event.GetTodayEvent(gameManager);
+                if (@event != null && @event.type == EventType.Holiday)
+                {
+                    if (typeof(U) == typeof(Shop))
+                        label = Utils.GetDiscountedPrice(int.Parse(label)).ToString();
+                    else
+                        label = Utils.GetIncreasedPrice(int.Parse(label)).ToString();
 
-            string valueString = Utils.AlignCenter($" {propertyValue} ", padding);
+                    color = ConsoleColor.DarkGreen;
+                }
+
+                label += ",00 €";
+            }
+
+            string valueString = Utils.AlignCenter($" {label} ", padding);
             Console.Write("|");
             Console.ForegroundColor = color;
             Console.Write(valueString);

@@ -120,14 +120,29 @@ namespace HorseManager2022
 
         public bool Exchange<T, U>(T item) where T : IExchangeable
         {
+            // Look for discount or increase
+            Event? todayEvent = Event.GetTodayEvent(this);
+            int price = item.price;
+
+            if (typeof(U) == typeof(Shop) && todayEvent != null && todayEvent.type == EventType.Holiday)
+                price = Utils.GetDiscountedPrice(price);
+            else if (todayEvent != null && todayEvent.type == EventType.Holiday)
+                price = Utils.GetIncreasedPrice(price);
+
             // Exchange failure
-            if (item.price > money)
+            if (price > money)
                 return false;
 
             if (typeof(U) == typeof(Shop))
-                money -= item.price;
+                money -= price;
             else
-                money += item.price;
+                money += price;
+
+            // Change item price to half of its original value or to original value
+            if (typeof(U) == typeof(Shop))
+                item.price /= 2;
+            else
+                item.price *= 2;
 
             if (typeof(U) == typeof(Shop))
                 Add<T, Player>(item);
