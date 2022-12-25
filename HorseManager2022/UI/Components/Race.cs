@@ -3,7 +3,9 @@ using HorseManager2022.Models;
 using HorseManager2022.UI.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +20,16 @@ namespace HorseManager2022.UI.Components
         private readonly Screen currentScreen;
         private bool isRaceStarted;
         private List<RacingTeam> participants;
+        private List<RacingTeam> leaderboardList;
         private Team playerTeam;
         private RaceType raceType;
-        private Racetrack racetrack;
+        public Racetrack racetrack;
         private Event? @event;
+        public List<string> rewards, consequences; // Info that going to be displayed at the reward dialog
+
+        private int dialogPositionX => racetrack.gameDistance / 2 - 10;
+        private int dialogPositionY => participants.Count * 4 / 2 + 2;
+        private bool isTraining => raceType == RaceType.Training;
 
 
         // Race Event Constructor
@@ -31,11 +39,16 @@ namespace HorseManager2022.UI.Components
             this.currentScreen = currentScreen;
             raceType = RaceType.Event;
             isRaceStarted = raceType == RaceType.Training;
+            rewards = new();
+            consequences = new();
 
             // Set participants
             this.playerTeam = playerTeam;
             participants = new() { new(playerTeam) };
             participants.AddRange(teams.Select(team => new RacingTeam(team)));
+            // Shuffle participants
+            participants = participants.OrderBy(x => Guid.NewGuid()).ToList();
+            leaderboardList = new();
 
             // Set racetrack
             this.@event = @event;
@@ -49,10 +62,13 @@ namespace HorseManager2022.UI.Components
             this.currentScreen = currentScreen;
             raceType = RaceType.Training;
             isRaceStarted = raceType == RaceType.Training;
+            rewards = new();
+            consequences = new();
 
             // Set participants
             this.playerTeam = playerTeam;
             participants = new() { new(playerTeam) };
+            leaderboardList = new();
 
             // Set racetrack
             racetrack = new();
@@ -61,25 +77,24 @@ namespace HorseManager2022.UI.Components
 
         public void Start(GameManager? gameManager)
         {
+            // Initial verifications
+            if (gameManager == null)
+                return;
+
             // Race loop
             while (!HaveAllHorsesFinished())
             {
-                Console.Clear();
-
-                DrawHeader();
-
-                racetrack.Show();
+                DrawRace();
                 
-                DrawHorses();
-
                 if (!isRaceStarted)
                     StartRace();
-            } 
+            }
 
-            if (isTraining) FinishRaceTraining(); else FinishRaceEvent();
+            GetRewards(gameManager);
+            if (isTraining) ShowRewardDialog(); else FinishRaceEvent();
 
-            // Finish day if event  --REMOVE THIS IN DEBUG MODE
-            //if (!isTraining)
+            // Finish day if race event  --REMOVE THIS IN DEBUG MODE
+            //if (!isTraining && isRace)
             //    gameManager?.currentDate.NextDay(gameManager);
         }
 
@@ -89,49 +104,118 @@ namespace HorseManager2022.UI.Components
             return participants.All(participant => participant.x >= racetrack.gameDistance);
         }
 
-
-        private bool isTraining => raceType == RaceType.Training;
-
-
+        
         // Race Start / Countdown / Music
         private void StartRace()
         {
             isRaceStarted = true;
             Audio.PlayRaceSong();
-            DialogCounter dialogCounter = new(20, 8);
+            DialogCounter dialogCounter = new(dialogPositionX, dialogPositionY);
             dialogCounter.Show();
+
+            // Start team times
+            foreach (RacingTeam team in participants)
+                team.startTime = DateTime.Now;
+        }
+
+
+        private void DrawRace()
+        {
+            Console.Clear();
+            DrawHeader();
+            racetrack.Show();
+            DrawHorses();
         }
 
         
         private void FinishRaceEvent()
         {
-            List<Team> teams = participants.Select(participant => participant.team).ToList();
-            RaceLeaderboard leaderboard = new(85, 7, teams);
+            // Show leaderboard
+            RaceLeaderboard leaderboard = new(dialogPositionX, dialogPositionY, playerTeam, leaderboardList);
             leaderboard.Show();
             Audio.PlayRaceEndSong();
             Console.ReadKey();
+
+            // Show rewards
+            DrawRace();
+            ShowRewardDialog();
+
             Audio.PlayTownSong();
         }
 
 
-        private void FinishRaceTraining()
+        private void GetRewards(GameManager gameManager)
         {
+            // Get money reward and payment
+            int moneyReward = @event?.GetReward(participants.Count) ?? 0;
+            int entryCost = @event?.GetEntryCost() ?? 0;
+
+            // Get resistence multiplier
+            int resistance = playerTeam.horse.resistance;
+            if (resistance == 0) resistance = 1;
+
+            // Get energy loss percentage
+            int energyLoss = (int)Math.Round(racetrack.realDistance * Horse.BASE_ENERGY_CONSUMED_PER_KM / resistance);
+            if (energyLoss > 100) energyLoss = 100;
+
+            // Update energy
+            List<string> rewards = playerTeam.UpdateStatsAfterRace();
+            playerTeam.horse.energy -= energyLoss;
+            gameManager.Update<Team, Player>(playerTeam);
+
+            // Update money (Only if not training)
+            if (!isTraining)
+            {
+                if (@event?.type == EventType.Race)
+                {
+                    // 1º place wins moneyReward
+                    if (leaderboardList[0].team == playerTeam)
+                    {
+                        gameManager.money += moneyReward;
+                        this.rewards.Add(moneyReward + " €");
+                    }
+                    // 2º place keep entryCost
+                    // Other positions lose entryCost
+                    else if (leaderboardList[1].team != playerTeam)
+                    {
+                        gameManager.money -= entryCost;
+                        consequences.Add(entryCost + " €");
+                    }
+                }
+                else if (@event?.type == EventType.Demostration)
+                {
+                    // Win moneyReward proportional to the energy and resistence of the horse
+
+                    moneyReward = moneyReward * (100 - playerTeam.horse.energy) / 100;
+                    // moneyReward = (int)Math.Round(100.0 * (playerTeam.horse.energy + playerTeam.horse.resistance) / 200.0);
+                    gameManager.money += moneyReward;
+                    this.rewards.Add(moneyReward + " €");
+                    
+                    // Get horse & joquery average rarity diff - rar    4 - 4
+
+                }
+            }
+
+            // Add rewards & consequences
+            this.rewards.AddRange(rewards);
+            consequences.Add(energyLoss + "% Energy");
+        }
+
+
+        private void ShowRewardDialog()
+        {
+            // Show reward dialog
             DialogRewards dialogRewards = new(
-                x: 20,
-                y: 8,
-                message: "You have completed the training.",
+                x: dialogPositionX,
+                y: dialogPositionY,
+                message: $"You have completed the {raceType}.",
                 dialogType: DialogType.Information,
                 previousScreen: currentScreen,
-                rewards: new() { 
-                    "10 Resistance" 
-                },
-                consequences: new() { 
-                    "20 Energy" 
-                }
+                rewards: rewards,
+                consequences: consequences
             );
 
             dialogRewards.Show();
-
         }
 
 
@@ -173,7 +257,15 @@ namespace HorseManager2022.UI.Components
                 team.x += random.Next(1, 4);
 
                 if (team.x >= racetrack.gameDistance)
+                {
                     team.x = racetrack.gameDistance;
+
+                    if (!leaderboardList.Contains(team))
+                    {
+                        team.endTime = DateTime.Now;
+                        leaderboardList.Add(team);
+                    }
+                }
 
                 // Reset Color
                 Console.ResetColor();

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HorseManager2022.UI.Screens
 {
@@ -90,37 +91,27 @@ namespace HorseManager2022.UI.Screens
         {
             return () =>
             {
+                // Initial verifications
                 if (gameManager == null)
                     return;
 
+                // Get data
                 Event? todayEvent = Event.GetTodayEvent(gameManager);
+                int entryCost = todayEvent?.GetEntryCost() ?? 0;
                 Race? race;
 
+                // Training mode
                 if (raceType == RaceType.Training) {
                     race = GetTrainingRace(team, todayEvent);
                     race?.Start(gameManager);
                 }
+                // Event mode (race / demonstration)
                 else 
                 {
-                    // Get event entry cost
-                    int entryCost = todayEvent?.GetEntryCost() ?? 0;
-
                     // Check if player have money to buy ticket
                     if (entryCost > gameManager.money)
                     {
-                        string message = Utils.AlignLeft($"You can't buy the ticket!", 36);
-                        string missingValue = (entryCost - gameManager.money).ToString("C");
-                        message += Utils.AlignLeft($"You need more {missingValue} to enter!", 36);
-
-                        DialogMessage dialogMessage = new(
-                            x: 20, y: 8,
-                            title: "Insufficient funds!",
-                            message: message,
-                            dialogType: DialogType.Error,
-                            previousScreen: this);
-
-                        dialogMessage.Show();
-
+                        ShowNotEnoughMoneyDialog(gameManager, entryCost);
                         return;
                     }
 
@@ -129,33 +120,9 @@ namespace HorseManager2022.UI.Screens
                     if (race == null) return;
 
                     if (todayEvent?.type == EventType.Race)
-                    {
-                        string entryCostText = entryCost.ToString("C");
-                        string text = "Are you sure you want to enter?     ";
-                        text += Utils.AlignLeft($"It will cost you {entryCostText}!", 36);
-                        text += "If you enter you can't do anything  else today!";
-
-                        DialogConfirmation dialogConfirmation = new(
-                            x: 20, y: 8,
-                            title: "Confirmation",
-                            message: text,
-                            dialogType: DialogType.Question,
-                            previousScreen: this,
-                            onConfirm: () =>
-                            {
-                                // Buy the entry ticket
-                                gameManager.money -= entryCost;
-                                race?.Start(gameManager);
-                            },
-                            onCancel: () => { }
-                            );
-                    
-                        dialogConfirmation.Show();
-                    }
-                    else
-                    {
-                        race?.Start(gameManager);
-                    }
+                        ShowRaceEnterDialog(team, todayEvent, race, gameManager, entryCost);
+                    else if (todayEvent?.type == EventType.Demostration)
+                        ShowDemonstrationEnterDialog(team, todayEvent, race, gameManager);
                 }
 
             };
@@ -166,14 +133,7 @@ namespace HorseManager2022.UI.Screens
         {
             if (todayEvent != null && todayEvent?.type == EventType.Holiday)
             {
-                DialogMessage dialogWarning = new(
-                        x: 20, y: 8,
-                        title: "Coach is unavailable!",
-                        message: "Coach don't work on holidays!",
-                        dialogType: DialogType.Error,
-                        previousScreen: this
-                    );
-                dialogWarning.Show();
+                ShowCoachUnavailableDialog();
                 return null;
             }
             
@@ -205,5 +165,86 @@ namespace HorseManager2022.UI.Screens
             List<Team> competitors = Team.GenerateEventTeams(todayEvent ?? new());
             return new(team, competitors, this, todayEvent ?? new());
         }
+    
+        
+        // Dialogs
+        private void ShowCoachUnavailableDialog()
+        {
+            DialogMessage dialogWarning = new(
+                    x: 20, y: 8,
+                    title: "Coach is unavailable!",
+                    message: "Coach don't work on holidays!",
+                    dialogType: DialogType.Error,
+                    previousScreen: this
+                );
+            dialogWarning.Show();
+        }
+
+        
+        private void ShowDemonstrationEnterDialog(Team team, Event todayEvent, Race race, GameManager gameManager)
+        {
+            string text = Utils.AlignLeft($"Are you sure you want to enter?", 36);
+            text += Utils.AlignLeft($"Demonstrations are free and very    rewarding, ", 36);
+            text += Utils.AlignLeft($"but your horse will lose all energy!", 36);
+
+            DialogConfirmation dialogConfirmation = new(
+                   x: 20, y: 8,
+                    title: $"{todayEvent.difficulty} Demostration",
+                   message: text,
+                   dialogType: DialogType.Question,
+                   previousScreen: this,
+                   onConfirm: () =>
+                   {
+                       race?.Start(gameManager);
+                   },
+                   onCancel: () => { }
+                   );
+            dialogConfirmation.Show();
+        }
+
+        
+        private void ShowRaceEnterDialog(Team team, Event todayEvent, Race race, GameManager gameManager, int entryCost)
+        {
+            string entryCostText = entryCost.ToString("C");
+            string text = "Are you sure you want to enter?     ";
+            text += Utils.AlignLeft($"It will cost you {entryCostText}!", 36);
+            text += "If you enter you can't do anything  else today!";
+
+            DialogConfirmation dialogConfirmation = new(
+                x: 20, y: 8,
+                title: $"{todayEvent.difficulty} Race",
+                message: text,
+                dialogType: DialogType.Question,
+                previousScreen: this,
+                onConfirm: () =>
+                {
+                    race?.Start(gameManager);
+                },
+                onCancel: () => { }
+                );
+
+            dialogConfirmation.Show();
+        }
+
+
+        private void ShowNotEnoughMoneyDialog(GameManager gameManager, int entryCost)
+        {
+
+            string message = Utils.AlignLeft($"You can't buy the ticket!", 36);
+            string missingValue = (entryCost - gameManager.money).ToString("C");
+            message += Utils.AlignLeft($"You need more {missingValue} to enter!", 36);
+
+            DialogMessage dialogMessage = new(
+                x: 20, y: 8,
+                title: "Insufficient funds!",
+                message: message,
+                dialogType: DialogType.Error,
+                previousScreen: this);
+
+            dialogMessage.Show();
+
+        }
+
+
     }
 }

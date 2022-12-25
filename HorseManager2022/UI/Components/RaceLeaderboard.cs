@@ -11,49 +11,57 @@ namespace HorseManager2022.UI.Components
     {
         // Properties
         private int x, y;
-        private List<Team> teams;
-
+        private List<RacingTeam> teams;
+        private Team playerTeam;
+        
         // Constructor
-        public RaceLeaderboard(int x, int y, List<Team> teams)
+        public RaceLeaderboard(int x, int y, Team playerTeam, List<RacingTeam> teams)
         {
             this.x = x;
             this.y = y;
+            this.playerTeam = playerTeam;
             this.teams = teams;
         }
 
+        
         // Methods
         public void Show()
         {
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+-------------------------------------------+");
+            Console.WriteLine("+-------------------------------------------------------------+");
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|                Leaderboard                |");
+            Console.WriteLine("|                         Leaderboard                         |");
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+-------------------------------------------+");
+            Console.WriteLine("+-------------------------------------------------------------+");
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("| Pos |    Horse    |    Team    |  Pontos  |");
+            Console.WriteLine("| Pos |        Horse        |        Jockey        |   Time   |");
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|-------------------------------------------|");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|                                           |");
+            Console.WriteLine("|-------------------------------------------------------------|");
 
             for (int i = 0; i < teams.Count; i++)
             {
-                Team team = teams[i];
-                
+                RacingTeam racingTeam = teams[i];
+                string lapTime = racingTeam.GetLapTime().ToString(@"ss\.fff");
+
+                if (racingTeam.team == playerTeam)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.SetCursorPosition(x, y++);
-                // Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("|" + Utils.AlignLeft($"{i + 1}", 5) + "|");
+                Console.Write("| " + Utils.AlignLeft($"{i + 1}.", 4) + "|");
+                Console.Write(Utils.AlignCenter($"{racingTeam.team.horseName}", 21) + "|");
+                Console.Write(Utils.AlignCenter($"{racingTeam.team.jockeyName}", 22) + "|");
+                Console.Write(Utils.AlignLeft($"  {lapTime}", 10) + "|");
                 Console.ResetColor();
-                Console.Write(Utils.AlignLeft($"{team.horseName}", 15) + "|");
-                Console.Write(Utils.AlignLeft($"{team.jockeyName}", 15) + "|");
-                Console.Write(Utils.AlignLeft($"{00}", 5) + "|");
-                Console.SetCursorPosition(x, y++);
-                Console.WriteLine("|                                           |");
+
+                if (i < teams.Count - 1)
+                {
+                    Console.SetCursorPosition(x, y++);
+                    Console.WriteLine("|     |                     |                      |          |");
+                }
             }
             
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+-------------------------------------------+");
+            Console.WriteLine("+-------------------------------------------------------------+");
         }
     }
 }

@@ -17,6 +17,9 @@ namespace HorseManager2022.Models
     internal class Horse : IExchangeable
     {
         // Constants
+        static public readonly int ENERGY_RECOVERY_MIN = 15;
+        static public readonly int ENERGY_RECOVERY_MAX = 30;
+        static public readonly int BASE_ENERGY_CONSUMED_PER_KM = 300;
         public const int MAX_SHOP_HORSES = 5;
 
         // Properties
@@ -29,10 +32,22 @@ namespace HorseManager2022.Models
         [IsRarity]
         public Rarity rarity { get; set; }
 
+        private int _energy;
         [DisplayName("Energy")]
         [IsPercentage]
         [IsEnergy]
-        public int energy { get; set; }
+        public int energy 
+        {
+            get => _energy;
+            set
+            {
+                _energy = value;
+                if (_energy > 100)
+                    _energy = 100;
+                else if (_energy < 0)
+                    _energy = 0;
+            }
+        }
 
         [DisplayName("Resistance")]
         [Color(ConsoleColor.DarkGray)]

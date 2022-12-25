@@ -11,6 +11,8 @@ namespace HorseManager2022.Models
         // Properties
         public Team team { get; set; }
         public int x { get; set; }
+        public DateTime startTime;
+        public DateTime endTime;
 
 
         // Constructor
@@ -21,5 +23,8 @@ namespace HorseManager2022.Models
         }
 
 
+        // Methods
+        public TimeSpan GetLapTime() => endTime - startTime;
+        
     }
 }

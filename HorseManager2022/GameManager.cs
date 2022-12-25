@@ -20,6 +20,8 @@ namespace HorseManager2022
             set
             {
                 gameData.money = value;
+                if (gameData.money < 0)
+                    gameData.money = 0;
                 SaveChanges();
             }
         }
@@ -164,7 +166,7 @@ namespace HorseManager2022
             AddAll<Horse, Shop>(Horse.GenerateShopHorses());
             AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
 
-            gameData.money = 100;
+            gameData.money = (savename == "admin") ? 1000000 : 100;
             gameData.currentDate = new();
             SaveChanges();
         }

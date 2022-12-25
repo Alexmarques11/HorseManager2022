@@ -12,6 +12,9 @@ namespace HorseManager2022.Models
     [Serializable]
     internal class Team
     {
+        // Constants
+        private const int IMPROVE_STAT_CHANCE = 20;
+
         // Properties
         public Horse horse;
         public Jockey jockey;
@@ -56,7 +59,7 @@ namespace HorseManager2022.Models
         [DisplayName("Handling")]
         [Color(ConsoleColor.DarkGray)]
         public int jockeyHandling { get => jockey.handling; }
-        
+
         /*
         [DisplayName("Average Rarity")]
         [IsRarity]
@@ -68,7 +71,29 @@ namespace HorseManager2022.Models
                 rarity /= 2;
                 return (Rarity)rarity;
             }
-        }*/
+        }
+        
+        
+        [DisplayName("Overall")]
+        [Color(ConsoleColor.DarkGray)]
+        public int overall
+        {
+            get
+            {
+                int speed = horse.speed;
+                int resistance = horse.resistance;
+                int handling = jockey.handling;
+                int affinity = afinity;
+                int age = horse.age;
+
+                int overall = (speed + resistance + handling + affinity) / 4;
+
+                // Apply the age multiplier
+                return (int)Math.Round(overall * (1.0 - age / 100.0));
+            }
+        }
+
+         */
 
         [DisplayName("Afinity")]
         [Padding(11)]
@@ -86,6 +111,44 @@ namespace HorseManager2022.Models
 
 
         // Methods
+        public List<string> UpdateStatsAfterRace()
+        {
+            Random random = new();
+            List<string> rewards = new();
+
+            // Afinity always improves
+            int afinity = 1, speed = 0, resistance = 0, handling = 0;
+
+            // stats have a chance of improving
+            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+                afinity = 1;
+            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+                speed = 1;
+            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+                handling = 1;
+
+            // Stats can improve by a random amount between 1 and 3
+            afinity *= random.Next(1, 4);
+            speed *= random.Next(1, 4);
+            resistance *= random.Next(1, 4);
+            handling *= random.Next(1, 4);
+
+            // Apply the improvements
+            this.afinity += afinity;
+            horse.speed += speed;
+            horse.resistance += resistance;
+            jockey.handling += handling;
+
+            // Add the rewards to the list
+            rewards.Add(afinity + " Afinity");
+            if (speed > 0) rewards.Add(speed + " Speed");
+            if (resistance > 0) rewards.Add(resistance + " Resistance");
+            if (handling > 0) rewards.Add(handling + " Handling");
+
+            return rewards;
+        }
+
+
         static public List<Team> GenerateEventTeams(Event @event)
         {
             Difficulty difficulty = @event.difficulty ?? Difficulty.Easy;

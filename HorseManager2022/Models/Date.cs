@@ -40,6 +40,14 @@ namespace HorseManager2022.Models
         public void NextDay(GameManager gameManager)
         {
             day++;
+            if (day % 7 == 0) // Refresh shop once every week
+            {
+                gameManager.RemoveAll<Horse, Shop>();
+                gameManager.RemoveAll<Jockey, Shop>();
+                gameManager.AddAll<Horse, Shop>(Horse.GenerateShopHorses());
+                gameManager.AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
+            }
+            
             if (day > 28)
             {
                 day = 1;
@@ -55,11 +63,11 @@ namespace HorseManager2022.Models
                 }
             }
 
-            gameManager.RemoveAll<Horse, Shop>();
-            gameManager.RemoveAll<Jockey, Shop>();
-            gameManager.AddAll<Horse, Shop>(Horse.GenerateShopHorses());
-            gameManager.AddAll<Jockey, Shop>(Jockey.GenerateShopJockeys());
-
+            // Restore 20% of energy for all horses
+            Random random = new();
+            foreach (Horse horse in gameManager.GetList<Horse, Player>())
+                horse.energy += random.Next(Horse.ENERGY_RECOVERY_MIN, Horse.ENERGY_RECOVERY_MAX);
+            
             gameManager.SaveChanges();
         }
 
