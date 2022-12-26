@@ -153,6 +153,26 @@ namespace HorseManager2022
 
             Remove<T, U>(item);
 
+            // if U is Player, remove item which team he is in
+            if (typeof(U) == typeof(Player) && typeof(T) == typeof(Horse))
+            {
+                List<Team> teams = GetList<Team, Player>().FindAll(x => x.horse == (item as Horse));
+                if (teams != null)
+                {
+                    foreach (Team team in teams)
+                        Remove<Team, Player>(team);
+                }
+            }
+            else if (typeof(U) == typeof(Player) && typeof(T) == typeof(Jockey))
+            {
+                List<Team> teams = GetList<Team, Player>().FindAll(x => x.jockey == (item as Jockey));
+                if (teams != null)
+                {
+                    foreach (Team team in teams)
+                        Remove<Team, Player>(team);
+                }
+            }
+
             // Exchange completed
             return true;
         }

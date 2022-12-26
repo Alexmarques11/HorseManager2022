@@ -1,15 +1,7 @@
 using HorseManager2022.Attributes;
 using HorseManager2022.Enums;
 using HorseManager2022.Interfaces;
-using HorseManager2022.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO.Ports;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HorseManager2022.Models
 {
@@ -17,9 +9,9 @@ namespace HorseManager2022.Models
     internal class Horse : IExchangeable
     {
         // Constants
-        static public readonly int ENERGY_RECOVERY_MIN = 15;
-        static public readonly int ENERGY_RECOVERY_MAX = 30;
-        static public readonly int BASE_ENERGY_CONSUMED_PER_KM = 300;
+        static public readonly int ENERGY_RECOVERY_MIN = 5;
+        static public readonly int ENERGY_RECOVERY_MAX = 20;
+        static public readonly int BASE_ENERGY_CONSUMED_PER_KM = 500; // Will take into account the horse's resistance
         public const int MAX_SHOP_HORSES = 5;
 
         // Properties
@@ -137,6 +129,7 @@ namespace HorseManager2022.Models
                     return speed = 0;
             }
         }
+        
 
         public int GetHorsePrice(Rarity rarity, int speed) //Preço dos cavalos consoante a raridade 
         {

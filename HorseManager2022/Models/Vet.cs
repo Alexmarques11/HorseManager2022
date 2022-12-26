@@ -10,33 +10,48 @@ namespace HorseManager2022.Models
     internal class Vet
     {
         // Properties
-        public string name;
         public int level;
-        public int upgradeCost;
         public int proficiency;
+        public int upgradeCost
+        {
+            get
+            {
+                double temp = (level + 2) * 0.5;
+                return (int)Math.Round(25 * Math.Pow(temp, 2) - 25 * temp);
+            }
+        }
 
         // Constructors
         public Vet()
         {
-            name = "Doctor Gustavo Fring";
             level = 1;
-            upgradeCost = 40;
-            proficiency = 5;
+            proficiency = 0;
         }
 
-        public Vet(string name, int level, int upgradeCost, int proficiency)
+        public Vet(int level, int proficiency)
         {
-            this.name = name;
             this.level = level;
-            this.upgradeCost = upgradeCost;
             this.proficiency = proficiency;
         }
 
         //Metodo
-        public void Upgrade()
+        public bool Upgrade(GameManager gameManager)
         {
+            if (gameManager.money < upgradeCost || proficiency >= 50)
+                return false;
+
+            gameManager.money -= upgradeCost;
             level++;
-            upgradeCost = (int)(upgradeCost * 1.3);
+            proficiency += GetNextLevelProficiency();
+
+            gameManager.SaveChanges();
+            return true;
         }
+
+        public bool IsProficiencyAtMax() => proficiency >= 50;
+        
+
+        public int GetNextLevelProficiency() => (proficiency < 30) ? 2 : 1;
+
     }
 }

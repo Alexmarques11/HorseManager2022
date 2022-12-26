@@ -65,26 +65,8 @@ namespace HorseManager2022.UI.Components
 
         public void Show()
         {
-            DrawBoard();
             DrawOptions();
             DrawSelectionButtons();
-        }
-
-
-        public void DrawBoard()
-        {
-            Console.WriteLine("|     /               /    |             ________________|_______|__U________________|____      |     ");
-            Console.WriteLine("|    /               /     |____________/                                                 \\     |    ");
-            Console.WriteLine("|   /               /      /           /                                                   \\    |    ");
-            Console.WriteLine("|  /               /      /           /                                                     \\   |    ");
-            Console.WriteLine("| /               /      /           /                                                       \\  |    ");
-            Console.WriteLine("|/_______________/      /           /_________________________________________________________\\ |    ");
-            Console.WriteLine("||               |     /            |                                                          ||     ");
-            Console.WriteLine("||               |    /             |                                                          ||     ");
-            Console.WriteLine("||               |   /              |                                                          ||     ");
-            Console.WriteLine("||               |  /               |                                                          ||     ");
-            Console.WriteLine("||               | /                |                                                          ||     ");
-            Console.WriteLine("||_______________|/_________________|__________________________________________________________||     ");
         }
 
 

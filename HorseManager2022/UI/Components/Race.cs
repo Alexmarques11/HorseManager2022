@@ -27,10 +27,20 @@ namespace HorseManager2022.UI.Components
         private Event? @event;
         public List<string> rewards, consequences; // Info that going to be displayed at the reward dialog
 
-        private int dialogPositionX => racetrack.gameDistance / 2 - 10;
-        private int dialogPositionY => participants.Count * 4 / 2 + 2;
-        private bool isTraining => raceType == RaceType.Training;
+        private int dialogPositionX
+        { 
+            get => racetrack.gameDistance / 2 - 10;
+        }
 
+        private int dialogPositionY
+        {
+            get => participants.Count * 4 / 2 + 2;
+        }
+        
+        private bool isTraining
+        {
+            get => raceType == RaceType.Training;
+        }
 
         // Race Event Constructor
         public Race(Team playerTeam, List<Team> teams, Screen currentScreen, Event @event)
@@ -93,9 +103,9 @@ namespace HorseManager2022.UI.Components
             GetRewards(gameManager);
             if (isTraining) ShowRewardDialog(); else FinishRaceEvent();
 
-            // Finish day if race event  --REMOVE THIS IN DEBUG MODE
-            //if (!isTraining && isRace)
-            //    gameManager?.currentDate.NextDay(gameManager);
+            // Finish day if race event <-------------------- UNCOMMENT THIS
+            // if (!isTraining)
+            // gameManager?.currentDate.NextDay(gameManager);
         }
 
 
@@ -155,7 +165,11 @@ namespace HorseManager2022.UI.Components
             if (resistance == 0) resistance = 1;
 
             // Get energy loss percentage
-            int energyLoss = (int)Math.Round(racetrack.realDistance * Horse.BASE_ENERGY_CONSUMED_PER_KM / resistance);
+            int energyLoss = 0;
+            if (@event?.type == EventType.Race || raceType == RaceType.Training)
+                energyLoss = (int)Math.Round(racetrack.realDistance * Horse.BASE_ENERGY_CONSUMED_PER_KM / resistance);
+            else if (@event?.type == EventType.Demostration)
+                energyLoss = 100;
             if (energyLoss > 100) energyLoss = 100;
 
             // Update energy
@@ -184,15 +198,14 @@ namespace HorseManager2022.UI.Components
                 }
                 else if (@event?.type == EventType.Demostration)
                 {
-                    // Win moneyReward proportional to the energy and resistence of the horse
-
-                    moneyReward = moneyReward * (100 - playerTeam.horse.energy) / 100;
-                    // moneyReward = (int)Math.Round(100.0 * (playerTeam.horse.energy + playerTeam.horse.resistance) / 200.0);
-                    gameManager.money += moneyReward;
-                    this.rewards.Add(moneyReward + " €");
-                    
-                    // Get horse & joquery average rarity diff - rar    4 - 4
-
+                    // if player got last place gets nothing
+                    if (leaderboardList[^1].team == playerTeam)
+                    {
+                        // Win moneyReward proportional to the reward value and final position
+                        int demonstrationReward = moneyReward * (leaderboardList.Count - leaderboardList.IndexOf(leaderboardList.First(team => team.team == playerTeam))) / leaderboardList.Count;
+                        this.rewards.Add(demonstrationReward + " €");
+                        gameManager.money += demonstrationReward;
+                    }
                 }
             }
 
@@ -223,7 +236,6 @@ namespace HorseManager2022.UI.Components
         {
             // Variables
             int y = 6;
-            Random random = new();
             
             // Draw Horses
             foreach (RacingTeam team in participants)
@@ -254,7 +266,7 @@ namespace HorseManager2022.UI.Components
                 Console.SetCursorPosition(x + 9, y + 5);
                 Console.Write("``");
                 y += 6;
-                team.x += random.Next(1, 4);
+                team.Move();
 
                 if (team.x >= racetrack.gameDistance)
                 {
@@ -293,7 +305,5 @@ namespace HorseManager2022.UI.Components
             Console.WriteLine("+" + new string('-', HEADER_LENGTH) + "+");
         }
 
-        
-        
     }
 }

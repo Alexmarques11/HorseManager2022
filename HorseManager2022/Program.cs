@@ -65,8 +65,6 @@ initialScreen.AddOption("New game", horseSelectionScreen, () => {
 
 initialScreen.AddOption("Credits", initialScreen, () => { UI.ShowCreditScreen(); });
 cityScreen.AddOption("Vet", vetScreen);
-vetScreen.AddOption("Details", vetScreen);
-vetScreen.AddOption("Upgrade", vetScreen);
 cityScreen.AddOption("Shop", shopScreen);
 shopScreen.AddOption("Buy", shopBuyScreen);
 shopBuyScreen.AddOption("Horses", horsesBuyScreen);
@@ -85,6 +83,78 @@ cityScreen.AddOption("Racetrack", raceTrackScreen);
 raceTrackScreen.AddOption("Training", trainingScreen);
 raceTrackScreen.AddOption("Event", raceEventScreen);
 
+vetScreen.AddOption("Details", vetScreen, () =>
+{
+    string message = Utils.AlignLeft($"Current level {gameManager.gameData.vet.level}", 36);
+    message += Utils.AlignLeft($"Proficiency: {gameManager.gameData.vet.proficiency}", 36);
+    message += Utils.AlignLeft($"Upgrade cost: {gameManager.gameData.vet.upgradeCost}€", 36);
+
+    DialogMessage dialogWarning = new(
+            x: 20, y: 8,
+            title: "Vet Details",
+            message: message,
+            dialogType: DialogType.Information,
+            previousScreen: vetScreen
+        );
+    dialogWarning.Show();
+});
+
+
+vetScreen.AddOption("Upgrade", vetScreen, () =>
+{
+    string message = Utils.AlignLeft($"Are you sure you want to upgrade?", 36);
+    message += Utils.AlignLeft($"The upgrade costs: {gameManager.gameData.vet.upgradeCost}€", 36);
+    message += Utils.AlignLeft($"Your vet will get + {gameManager.gameData.vet.GetNextLevelProficiency()} proficiency", 36);
+
+    DialogConfirmation dialogConfirmation = new(
+           x: 20, y: 8,
+           title: $"Upgrade Vet",
+           message: message,
+           dialogType: DialogType.Question,
+           previousScreen: vetScreen,
+           onConfirm: () =>
+           {
+               bool success = gameManager.gameData.vet.Upgrade(gameManager);
+
+               if (!success)
+               {
+                   if (gameManager.gameData.vet.IsProficiencyAtMax())
+                   {
+                       message = Utils.AlignLeft("You already have the max proficiency", 36);
+                       message += Utils.AlignLeft("", 36);
+                       message += Utils.AlignLeft("", 36);
+                       message += Utils.AlignLeft("", 36);
+
+                       DialogMessage dialogWarning = new(
+                           x: 20, y: 8,
+                           title: "Vet Upgrade Failed",
+                           message: message,
+                           dialogType: DialogType.Error,
+                           previousScreen: vetScreen
+                       );
+                       dialogWarning.Show();
+                   }
+                   else
+                   {
+                       message = Utils.AlignLeft("You don't have enough money to", 36);
+                       message += Utils.AlignLeft("upgrade your vet!", 36);
+                       message += Utils.AlignLeft("", 36);
+                       message += Utils.AlignLeft("", 36);
+                       DialogMessage dialogWarning = new(
+                           x: 20, y: 8,
+                           title: "Vet Upgrade Failed",
+                           message: message,
+                           dialogType: DialogType.Error,
+                           previousScreen: vetScreen
+                       );
+                       dialogWarning.Show();
+                   }
+               }
+           },
+           onCancel: () => { }
+           );
+    dialogConfirmation.Show();
+});
 
 /*
     [Topbar] --> Calendar [Option]

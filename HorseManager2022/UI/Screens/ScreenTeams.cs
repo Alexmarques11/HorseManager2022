@@ -15,6 +15,9 @@ namespace HorseManager2022.UI.Screens
 {
     internal class ScreenTeams : ScreenTable<Team, Player>
     {
+        // Constants
+        private const int DIALOG_POSITION_X = 20, DIALOG_POSITION_Y = 8;
+
         // Properties
         private readonly RaceType? raceType;
         private ScreenTable<Horse, Player> screenTableHorses { get; set; }
@@ -71,6 +74,9 @@ namespace HorseManager2022.UI.Screens
         }
 
 
+        private bool IsHorseTooTired(Horse horse) => horse.energy < 33;
+
+
         private bool IsHorseAndJockeyInTeam(GameManager? gameManager, Horse horse, Jockey jockey)
         {
             if (gameManager == null)
@@ -98,7 +104,15 @@ namespace HorseManager2022.UI.Screens
                 // Get data
                 Event? todayEvent = Event.GetTodayEvent(gameManager);
                 int entryCost = todayEvent?.GetEntryCost() ?? 0;
+                bool isHorseTooTired = IsHorseTooTired(team.horse);
                 Race? race;
+
+                // Check if horse is too tired
+                if (isHorseTooTired)
+                {
+                    ShowHorseTiredDialog();
+                    return;
+                }
 
                 // Training mode
                 if (raceType == RaceType.Training) {
@@ -165,13 +179,27 @@ namespace HorseManager2022.UI.Screens
             List<Team> competitors = Team.GenerateEventTeams(todayEvent ?? new());
             return new(team, competitors, this, todayEvent ?? new());
         }
-    
+
+
+        // Dialogs
+        private void ShowHorseTiredDialog()
+        {
+            DialogMessage dialogWarning = new(
+                    x: DIALOG_POSITION_X, y: DIALOG_POSITION_Y,
+                    title: "Low energy!",
+                    message: "This horse is too tired!",
+                    dialogType: DialogType.Error,
+                    previousScreen: this
+                );
+            dialogWarning.Show();
+        }
+
         
         // Dialogs
         private void ShowCoachUnavailableDialog()
         {
             DialogMessage dialogWarning = new(
-                    x: 20, y: 8,
+                    x: DIALOG_POSITION_X, y: DIALOG_POSITION_Y,
                     title: "Coach is unavailable!",
                     message: "Coach don't work on holidays!",
                     dialogType: DialogType.Error,
@@ -188,7 +216,7 @@ namespace HorseManager2022.UI.Screens
             text += Utils.AlignLeft($"but your horse will lose all energy!", 36);
 
             DialogConfirmation dialogConfirmation = new(
-                   x: 20, y: 8,
+                    x: DIALOG_POSITION_X, y: DIALOG_POSITION_Y,
                     title: $"{todayEvent.difficulty} Demostration",
                    message: text,
                    dialogType: DialogType.Question,
@@ -211,7 +239,7 @@ namespace HorseManager2022.UI.Screens
             text += "If you enter you can't do anything  else today!";
 
             DialogConfirmation dialogConfirmation = new(
-                x: 20, y: 8,
+                x: DIALOG_POSITION_X, y: DIALOG_POSITION_Y,
                 title: $"{todayEvent.difficulty} Race",
                 message: text,
                 dialogType: DialogType.Question,
@@ -235,7 +263,7 @@ namespace HorseManager2022.UI.Screens
             message += Utils.AlignLeft($"You need more {missingValue} to enter!", 36);
 
             DialogMessage dialogMessage = new(
-                x: 20, y: 8,
+                x: DIALOG_POSITION_X, y: DIALOG_POSITION_Y,
                 title: "Insufficient funds!",
                 message: message,
                 dialogType: DialogType.Error,

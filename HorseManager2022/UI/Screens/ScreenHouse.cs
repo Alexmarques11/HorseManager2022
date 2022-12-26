@@ -67,6 +67,19 @@ namespace HorseManager2022.UI
             Console.WriteLine("|        /               / |                         | \\ |  N.B  | | |               |          |     ");
             Console.WriteLine("|       /               /  |                          \\ \\|_______| | |               |          |     ");
             Console.WriteLine("|      /               /   |                           \\_|_|_|_|_| |_|               |          |     ");
+            Console.WriteLine("|     /               /    |             ________________|_______|__U________________|____      |     ");
+            Console.WriteLine("|    /               /     |____________/                                                 \\     |    ");
+            Console.WriteLine("|   /               /      /           /                                                   \\    |    ");
+            Console.WriteLine("|  /               /      /           /                                                     \\   |    ");
+            Console.WriteLine("| /               /      /           /                                                       \\  |    ");
+            Console.WriteLine("|/_______________/      /           /_________________________________________________________\\ |    ");
+            Console.WriteLine("||               |     /            |                                                          ||     ");
+            Console.WriteLine("||               |    /             |                                                          ||     ");
+            Console.WriteLine("||               |   /              |                                                          ||     ");
+            Console.WriteLine("||               |  /               |                                                          ||     ");
+            Console.WriteLine("||               | /                |                                                          ||     ");
+            Console.WriteLine("||_______________|/_________________|__________________________________________________________||     ");
+
         }
     }
 }

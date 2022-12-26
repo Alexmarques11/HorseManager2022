@@ -33,7 +33,7 @@ namespace HorseManager2022.Models
 
         
         // Random event Constructor
-        public Event(List<Event>? events = null)
+        public Event(List<Event>? events = null, int year = 1)
         {
             Random random = new();
             type = (EventType)random.Next(1, 3);
@@ -42,7 +42,7 @@ namespace HorseManager2022.Models
 
             do
             {
-                date = GenerateDate();
+                date = GenerateDate(year);
             } while (HasEventsOnDate(events, date));
         }
 
@@ -92,6 +92,9 @@ namespace HorseManager2022.Models
                     reward = 700;
                     break;
             }
+
+            if (type == EventType.Demostration) reward /= 2;
+
             return reward * teamQuantity;
         }
 
@@ -133,7 +136,7 @@ namespace HorseManager2022.Models
 
             // Add Random Events
             for (int i = 0; i < EVENT_QUANTITY_YEAR; i++)
-                events.Add(new(events));
+                events.Add(new(events, year));
 
             return events;
         }
@@ -143,7 +146,7 @@ namespace HorseManager2022.Models
 
 
         // Generate Random data Methods
-        private Date GenerateDate()
+        private Date GenerateDate(int year = 1)
         {
             // Generate random date
             Random random = new();
@@ -151,7 +154,7 @@ namespace HorseManager2022.Models
             int randomMonth = random.Next(0, 4);
             
             // Create date
-            Date randomDate = new(randomDay, (Month)randomMonth, 1);
+            Date randomDate = new(randomDay, (Month)randomMonth, year);
             return randomDate;
         }
 

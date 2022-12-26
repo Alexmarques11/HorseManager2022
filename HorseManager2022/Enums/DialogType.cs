@@ -25,7 +25,7 @@ namespace HorseManager2022.Enums
                 DialogType.Warning => ConsoleColor.Yellow,
                 DialogType.Question => ConsoleColor.Cyan,
                 DialogType.Success => ConsoleColor.Green,
-                DialogType.Information => ConsoleColor.White,
+                DialogType.Information => ConsoleColor.Blue,
                 _ => ConsoleColor.White
             };
         }

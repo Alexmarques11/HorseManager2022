@@ -14,6 +14,7 @@ namespace HorseManager2022.Models
         public Date currentDate { get; set; }
         public Player player { get; set; }
         public Shop shop { get; set; }
+        public Vet vet { get; set; }
 
         public GameData()
         {
@@ -21,6 +22,7 @@ namespace HorseManager2022.Models
             currentDate = new();
             player = new();
             shop = new();
+            vet = new();
         }
 
     }

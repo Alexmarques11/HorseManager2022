@@ -26,8 +26,6 @@ namespace HorseManager2022.UI.Dialogs
             Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|                                      |");
-            Console.SetCursorPosition(x, y++);
             Console.WriteLine("| Press any key to continue!           |");
             Console.SetCursorPosition(x, y++);
             Console.WriteLine("|                                      |");

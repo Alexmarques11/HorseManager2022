@@ -13,7 +13,9 @@ namespace HorseManager2022.Models
     internal class Team
     {
         // Constants
-        private const int IMPROVE_STAT_CHANCE = 20;
+        private const float LOW_MULTIPLIER_CHANCE = 0.7f;
+        private const float MEDIUM_MULTIPLIER_CHANCE = 0.25f;
+        private const float IMPROVE_STAT_CHANCE = 0.2f;
 
         // Properties
         public Horse horse;
@@ -108,6 +110,18 @@ namespace HorseManager2022.Models
             this.jockey = jockey;
             this.afinity = afinity;
         }
+        
+
+        private int GetStatMultiplier()
+        {
+            Random random = new();
+            if (random.NextDouble() < LOW_MULTIPLIER_CHANCE)
+                return 1;
+            else if (random.NextDouble() < MEDIUM_MULTIPLIER_CHANCE)
+                return 2;
+            else
+                return 3;
+        }
 
 
         // Methods
@@ -117,33 +131,32 @@ namespace HorseManager2022.Models
             List<string> rewards = new();
 
             // Afinity always improves
-            int afinity = 1, speed = 0, resistance = 0, handling = 0;
+            int afinity = 1, speed = 0, resistance = 0;// , handling = 0;
 
             // stats have a chance of improving
             if (random.NextDouble() < IMPROVE_STAT_CHANCE)
-                afinity = 1;
+                resistance = 1;
             if (random.NextDouble() < IMPROVE_STAT_CHANCE)
                 speed = 1;
-            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
-                handling = 1;
+            // if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+            //     handling = 1;
 
-            // Stats can improve by a random amount between 1 and 3
-            afinity *= random.Next(1, 4);
-            speed *= random.Next(1, 4);
-            resistance *= random.Next(1, 4);
-            handling *= random.Next(1, 4);
+            afinity *= GetStatMultiplier();
+            resistance *= GetStatMultiplier();
+            speed *= GetStatMultiplier();
+            // handling *= GetStatMultiplier();
 
             // Apply the improvements
             this.afinity += afinity;
             horse.speed += speed;
             horse.resistance += resistance;
-            jockey.handling += handling;
+            // jockey.handling += handling;
 
             // Add the rewards to the list
             rewards.Add(afinity + " Afinity");
             if (speed > 0) rewards.Add(speed + " Speed");
             if (resistance > 0) rewards.Add(resistance + " Resistance");
-            if (handling > 0) rewards.Add(handling + " Handling");
+            // if (handling > 0) rewards.Add(handling + " Handling");
 
             return rewards;
         }
