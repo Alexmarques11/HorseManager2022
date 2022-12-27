@@ -85,7 +85,7 @@ raceTrackScreen.AddOption("Event", raceEventScreen);
 shopScreen.AddOption("LootBox", shopScreen, () =>
 {
     string message = Utils.AlignLeft($"Are you sure you want to buy?", 36);
-    message += Utils.AlignLeft($"This will cost you 1000,00 €.", 36);
+    message += Utils.AlignLeft($"This will cost you {Lootbox.LOOTBOX_PRICE:C}.", 36);
 
     DialogConfirmation dialogConfirmation = new(
         x: 20, y: 8,
@@ -96,7 +96,9 @@ shopScreen.AddOption("LootBox", shopScreen, () =>
         onConfirm: () => {
 
             Lootbox lootbox = new();
-            lootbox.Open();
+            Horse horse = lootbox.Open();
+            gameManager.money -= Lootbox.LOOTBOX_PRICE;
+            gameManager.Add<Horse, Player>(horse);
 
         }, onCancel: () => { });
 

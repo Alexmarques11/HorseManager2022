@@ -12,7 +12,8 @@ namespace HorseManager2022.Enums
         Common = 0,
         Rare = 1,
         Epic = 2,
-        Legendary = 3
+        Legendary = 3,
+        Special = 4
     }
 
     static public class RarityExtensions
@@ -25,19 +26,28 @@ namespace HorseManager2022.Enums
                 Rarity.Rare => ConsoleColor.Blue,
                 Rarity.Epic => ConsoleColor.DarkMagenta,
                 Rarity.Legendary => ConsoleColor.Yellow,
+                Rarity.Special => ConsoleColor.Red,
                 _ => ConsoleColor.Gray,
             };
         }
 
-        static public Rarity GetRandomRarity()
+        static public Rarity GetRandomRarity(bool isLootBox = false)
         {
             // Create a lookup table for the probability of each rarity
-            var rarityProbabilityLookup = new Dictionary<Rarity, int>
+            var rarityProbabilityLookup = !isLootBox ? new Dictionary<Rarity, int>
             {
-                { Rarity.Common, 75 },
+                { Rarity.Common, 70 },
                 { Rarity.Rare, 20 },
-                { Rarity.Epic, 4 },
-                { Rarity.Legendary, 1 },
+                { Rarity.Epic, 7 },
+                { Rarity.Legendary, 3 },
+                { Rarity.Special, 0 },
+            } : new Dictionary<Rarity, int>
+            {
+                { Rarity.Common, 48 },
+                { Rarity.Rare, 30 },
+                { Rarity.Epic, 15 },
+                { Rarity.Legendary, 5 },
+                { Rarity.Special, 2 },
             };
 
             // Generate a random number between 0 and 100 (inclusive)

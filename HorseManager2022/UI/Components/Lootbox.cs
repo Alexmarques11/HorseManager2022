@@ -12,20 +12,19 @@ namespace HorseManager2022.UI.Components
     {
         // Constants
         private const int CARD_QUANTITY = 4;
-        private const int DELAY = 120;
         private const int DURATION = 300;
         private const int POSITION_Y = 10;
-        
+        public static readonly int LOOTBOX_PRICE = 1000;
+
         // Properties
-        private DateTime startTime { get; set; }
         private List<Card> cards { get; set; }
         private int movementCount { get; set; }
+        private int delay = 40;
 
 
         // Constructor
         public Lootbox()
         {
-            startTime = DateTime.Now;
             cards = new List<Card>();
 
             for (int i = 0; i < CARD_QUANTITY; i++)
@@ -34,7 +33,11 @@ namespace HorseManager2022.UI.Components
 
         
         // Methods
-        public void AddCard() => cards.Add(new Card(GetStartingPosition(), POSITION_Y, new()));
+        public void AddCard()
+        {
+            cards.Add(new Card(GetStartingPosition(), POSITION_Y, new(true), true));
+            // cards[^1].horse.price = (int)cards[^1].horse.rarity * 250;
+        }
 
 
         public void RemoveFirstCard() => cards.RemoveAt(0);
@@ -51,12 +54,15 @@ namespace HorseManager2022.UI.Components
         }
 
         
-        public void Open()
+        public Horse Open()
         {
+            Arrow arrow = new(0, 52, 1);
 
             while (movementCount < DURATION)
             {
                 Console.Clear();
+
+                arrow.Draw();
 
                 for (int i = cards.Count - 1; i >= 0; i--)
                 {
@@ -73,12 +79,26 @@ namespace HorseManager2022.UI.Components
                     }
                 }
 
-                Thread.Sleep(DELAY);
+                Thread.Sleep(delay);
                 movementCount += 5;
+
+                if (movementCount % 10 == 0)
+                    delay += 10;
             }
 
-
             Console.ReadKey();
+            Console.Clear();
+
+            // Remove all cards except the second one
+            Card selectedCard = cards[1];
+            selectedCard.isSelected = true;
+            cards.Clear();
+            cards.Add(selectedCard);
+            selectedCard.Draw();
+            
+            Console.ReadKey();
+
+            return selectedCard.horse;
         }
     }
 }

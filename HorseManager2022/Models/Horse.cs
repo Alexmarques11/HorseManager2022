@@ -63,14 +63,25 @@ namespace HorseManager2022.Models
         public Horse()  //Construtor Random
         {
             rarity = RarityExtensions.GetRandomRarity();
-            speed = GenerateSpeed(rarity);
+            speed = GenerateStatValue();
             name = GenerateHorseName();
-            price = GetHorsePrice(rarity, speed);
-            resistance = CalculateResistence(speed,age);
+            price = GetHorsePrice();
+            resistance = GenerateStatValue();
             energy = 100;
             age = 10; // Do random
         }
 
+
+        public Horse(bool isLootBox)  //Construtor Random
+        {
+            rarity = RarityExtensions.GetRandomRarity(isLootBox);
+            speed = GenerateStatValue();
+            name = GenerateHorseName();
+            price = GetHorsePrice();
+            resistance = GenerateStatValue();
+            energy = 100;
+            age = 10; // Do random
+        }
 
         public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor with all
         {
@@ -91,9 +102,9 @@ namespace HorseManager2022.Models
             // Set the horse's properties based on the rarity
             this.rarity = rarity;
             this.name = GenerateHorseName();
-            this.speed = GenerateSpeed(rarity);
-            this.price = GetHorsePrice(rarity, speed);
-            this.resistance = CalculateResistence(speed, age);
+            this.speed = GenerateStatValue();
+            this.price = GetHorsePrice();
+            this.resistance = GenerateStatValue();
             this.energy = 100;
             this.age = random.Next(10, 21); // Generate a random age between 10 and 20
         }
@@ -110,20 +121,22 @@ namespace HorseManager2022.Models
         
 
         public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
-     
-     
-        public int GenerateSpeed(Rarity rarity) //Gerador de velocidades consoante a raridade do cavalo
+
+
+        private int GenerateStatValue() //Gerador de velocidades consoante a raridade do cavalo
         {
             Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return speed = random.Next(10, 31);
+                    return speed = random.Next(10, 20);
                 case Rarity.Rare:
-                    return speed = random.Next(30, 61);
+                    return speed = random.Next(20, 40);
                 case Rarity.Epic:
-                    return speed = random.Next(60, 81);
+                    return speed = random.Next(40, 60);
                 case Rarity.Legendary:
+                    return speed = random.Next(60, 80);
+                case Rarity.Special:
                     return speed = random.Next(80, 101);
                 default:
                     return speed = 0;
@@ -131,35 +144,46 @@ namespace HorseManager2022.Models
         }
         
 
-        public int GetHorsePrice(Rarity rarity, int speed) //Preço dos cavalos consoante a raridade 
+        private int GetHorsePrice() //Preço dos cavalos consoante a raridade 
         {
+            int statValue = (int)Math.Round((speed + resistance) / 2f);
             Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return (speed <= 20) ? random.Next(100, 250) : random.Next(251, 500);
+                    return (statValue <= 10) ? random.Next(100, 250) : random.Next(251, 500);
 
                 case Rarity.Rare:
-                    return (speed <= 40) ? random.Next(600, 1000) : random.Next(1001, 1500);
+                    return (statValue <= 30) ? random.Next(600, 1000) : random.Next(1001, 1500);
 
                 case Rarity.Epic:
-                    return (speed <= 60) ? random.Next(1600, 2300) : random.Next(2350, 3000);
+                    return (statValue <= 50) ? random.Next(1600, 2300) : random.Next(2350, 3000);
                 case Rarity.Legendary:
-                    return (speed <= 80) ? random.Next(3100, 5000) : random.Next(5050, 6000);
+                case Rarity.Special:
+                    return (statValue <= 70) ? random.Next(3100, 5000) : random.Next(5050, 6000);
 
                 default:
                     return price = 0;
             }
         }
-        public int CalculateResistence(int speed, int age)  //Calcular a Resistência
+
+
+        private string GenerateHorseName()  //Gerador do nome dos cavalos(random)
         {
-            int x;
-            x = (speed * age) / 7;
-            return x;
-        }
-        public string GenerateHorseName()  //Gerador do nome dos cavalos(random)
-        {
-            string[] nameArray ={ "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",
+            string[] nameArray;
+            
+            if (rarity == Rarity.Special)
+            {
+                nameArray = new string[] { 
+                    "André Cerqueira", 
+                    "Nuno Fernandes", 
+                    "Alexandre Marques",
+                    "Miguel Sousa",
+                    "Gonçalo Gaspar"};
+            }
+            else { 
+
+                nameArray = new string[] { "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",
                                   "Bishop","Birdie","Blossom", "Moon", "Bo", "Boaz", "Bodhi", "Bogart", "Bonnie", "Booker", "Boomer", "Boon",
                                   "Clyde","Cochise","Coco","Cocolo","Cole","Conan","Concho","Cookie","Cooper","Casper","Cecil","Champ","Chance","Charcoal",
                                   "Dollar","Dolly","Dominic","Dominator","Dora","Dorado","Drake","Dream","Dreamer","Drifter","Duce","Duchess","Duke","Dunny","Durango","Duster","Dusty",
@@ -176,17 +200,21 @@ namespace HorseManager2022.Models
                                   "Queball","Queen","Queenie","Quervo","Quest","Quincy",
                                   "Rojo","Rolly","Roman","Rono","Rooster","Rounder","Rowdy","Rowen","Roy","Ruby","Rumi","Rumor","Rustler","Rusty","Ruth",
                                   "Sabino","Sabrina","Sage","Sahara","Sailor","Saint","Sally","Salty","Sammy","Sampson","Sandy","Sargent","Sassy","Savanna","Scamper","Scarlet",
-                                  "Travis","Treasure","Trevor","Trickster","Trigger","Trinket","Troubadour","Trucker","Trusty","Tucker","Tuff","Turbo","Twister","Ty",
+                                  "Travis","Treasure","Trevor","Trickster","Trigger","Trinket","Troubador","Trucker","Trusty","Tucker","Tuff","Turbo","Twister","Ty",
                                   "Umber","Ulysses","Uno","UriUtah",
                                   "Val","Van Gogh","Vargas","Vegas","Venus","Vesta","Victory",
                                   "Willard","Willie","Willow","Winchester","Windy","Wing","Winston","Winter","Wolf","Wrangler",
                                   "Xavier",
                                   "Yakama","Yankie","Yeller","Yeti","Yoda","Yonkers",
                                   "Zahara","Zara","Zelda","Zenia","Zia","Zipper","Zodiac","Zoe","Zoey","Zoro","Zeus","Zuza"};
-
+            
+            }
 
             Random random = new Random();
-            return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
+            if (rarity != Rarity.Special)
+                return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
+            else
+                return nameArray[random.Next(0, nameArray.Length)];
         }
     }
 }

@@ -123,6 +123,7 @@ namespace HorseManager2022.Models
                 case Rarity.Epic:
                     return handling = random.Next(60, 81);
                 case Rarity.Legendary:
+                case Rarity.Special:
                     return handling = random.Next(80, 101);
                 default:
                     return handling = 0;
@@ -142,6 +143,7 @@ namespace HorseManager2022.Models
                 case Rarity.Epic:
                     return (handling <= 60) ? random.Next(1600, 2300) : random.Next(2350, 3000);
                 case Rarity.Legendary:
+                case Rarity.Special:
                     return (handling <= 80) ? random.Next(3100, 5000) : random.Next(5050, 6000);
 
                 default:

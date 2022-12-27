@@ -104,8 +104,8 @@ namespace HorseManager2022.UI.Components
             if (isTraining) ShowRewardDialog(); else FinishRaceEvent();
 
             // Finish day if race event <-------------------- UNCOMMENT THIS
-            // if (!isTraining)
-            // gameManager?.currentDate.NextDay(gameManager);
+            if (!isTraining)
+                gameManager?.currentDate.NextDay(gameManager);
         }
 
 
