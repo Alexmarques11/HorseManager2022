@@ -26,9 +26,6 @@ namespace HorseManager2022.Models
 
 
         // Methods
-        public TimeSpan GetLapTime() => endTime - startTime;
-
-
         public void Move()
         {
             int statAverage = (team.horse.speed + team.jockey.handling + team.afinity) / 3;

@@ -39,7 +39,7 @@ namespace HorseManager2022.Models
         {
             //this.id = RandomID();
             this.name = GenerateName();
-            this.rarity = GetRandomRarity();
+            this.rarity = RarityExtensions.GetRandomRarity();
             this.handling = GenerateHandling(rarity);
             this.price = GetJockeyPrice(rarity, handling);
         }
@@ -110,31 +110,7 @@ namespace HorseManager2022.Models
             return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
         }
 
-        public Rarity GetRandomRarity()  //Raridades(random)
-        {
-            Random rnd = new Random();
-            int i = rnd.Next(0, 11);
-            switch (i)
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    return Rarity.Common;
-                case 5:
-                case 6:
-                case 7:
-                    return Rarity.Rare;
-                case 8:
-                case 9:
-                    return Rarity.Epic;
-                case 10:
-                    return Rarity.Legendary;
-                default:
-                    return rarity = 0;
-            }
-        }
+        
         public int GenerateHandling(Rarity rarity) //Gerador de handlings consoante a raridade do jocey
         {
             Random random = new Random();

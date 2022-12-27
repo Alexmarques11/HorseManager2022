@@ -27,5 +27,10 @@ namespace HorseManager2022
         // Increase of 25%
         static public int GetIncreasedPrice(int price) => (int)(price * 1.25);
 
+
+        static public TimeSpan GetElapsedTime(DateTime start, DateTime end) => end - start;
+
+
+        static public int GetTimeDifference(DateTime start) => (int)(DateTime.Now - start).TotalMilliseconds;
     }
 }

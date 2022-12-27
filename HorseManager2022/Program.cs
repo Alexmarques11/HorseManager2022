@@ -74,7 +74,6 @@ shopScreen.AddOption("Sell", shopSellScreen);
 shopSellScreen.AddOption("Horses", horsesSellScreen);
 shopSellScreen.AddOption("Jockeys", joqueysSellScreen);
 shopSellScreen.AddOption("Back", shopScreen);
-shopScreen.AddOption("LootBoxs", shopScreen);
 cityScreen.AddOption("Stable", stableScreen);
 stableScreen.AddOption("Horses", horsesStableScreen);
 stableScreen.AddOption("Jockeys", joqueysStableScreen);
@@ -83,11 +82,32 @@ cityScreen.AddOption("Racetrack", raceTrackScreen);
 raceTrackScreen.AddOption("Training", trainingScreen);
 raceTrackScreen.AddOption("Event", raceEventScreen);
 
+shopScreen.AddOption("LootBox", shopScreen, () =>
+{
+    string message = Utils.AlignLeft($"Are you sure you want to buy?", 36);
+    message += Utils.AlignLeft($"This will cost you 1000,00 €.", 36);
+
+    DialogConfirmation dialogConfirmation = new(
+        x: 20, y: 8,
+        title: "Lootbox",
+        message: message,
+        dialogType: DialogType.Question,
+        previousScreen: shopScreen,
+        onConfirm: () => {
+
+            Lootbox lootbox = new();
+            lootbox.Open();
+
+        }, onCancel: () => { });
+
+    dialogConfirmation.Show();
+});
+
 vetScreen.AddOption("Details", vetScreen, () =>
 {
     string message = Utils.AlignLeft($"Current level {gameManager.gameData.vet.level}", 36);
     message += Utils.AlignLeft($"Proficiency: {gameManager.gameData.vet.proficiency}", 36);
-    message += Utils.AlignLeft($"Upgrade cost: {gameManager.gameData.vet.upgradeCost}€", 36);
+    message += Utils.AlignLeft($"Upgrade cost: {gameManager.gameData.vet.upgradeCost:C}", 36);
 
     DialogMessage dialogWarning = new(
             x: 20, y: 8,
@@ -103,7 +123,7 @@ vetScreen.AddOption("Details", vetScreen, () =>
 vetScreen.AddOption("Upgrade", vetScreen, () =>
 {
     string message = Utils.AlignLeft($"Are you sure you want to upgrade?", 36);
-    message += Utils.AlignLeft($"The upgrade costs: {gameManager.gameData.vet.upgradeCost}€", 36);
+    message += Utils.AlignLeft($"The upgrade costs: {gameManager.gameData.vet.upgradeCost:C}", 36);
     message += Utils.AlignLeft($"Your vet will get + {gameManager.gameData.vet.GetNextLevelProficiency()} proficiency", 36);
 
     DialogConfirmation dialogConfirmation = new(

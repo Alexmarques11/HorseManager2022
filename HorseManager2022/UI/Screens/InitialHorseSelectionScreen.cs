@@ -17,7 +17,7 @@ namespace HorseManager2022.UI.Screens
 
         // Properties
         private readonly Arrow arrow;
-        private readonly Horse speedo, tornado, hulk;
+        private readonly Card speedoCard, tornadoCard, hulkCard;
         private readonly Jockey jockey;
 
         public override int selectedPosition
@@ -42,9 +42,9 @@ namespace HorseManager2022.UI.Screens
         {
             arrow = new Arrow(36, -21, 2);
 
-            speedo = new("Speedo", 10, 100, 13, 0, 20, Rarity.Common);
-            tornado = new("Tornado", 15, 100, 12, 0, 15, Rarity.Common);
-            hulk = new("Hulk", 20, 100, 13, 0, 10, Rarity.Common);
+            Horse speedo = new("Speedo", 10, 100, 13, 0, 20, Rarity.Common);
+            Horse tornado = new("Tornado", 15, 100, 12, 0, 15, Rarity.Common);
+            Horse hulk = new("Hulk", 20, 100, 13, 0, 10, Rarity.Common);
 
             jockey = new(Rarity.Common, 10, 0);
 
@@ -53,6 +53,10 @@ namespace HorseManager2022.UI.Screens
             options.Add(new Option("Tornado", nextScreen, () => AddInitialTeam(gameManager, tornado)));
             options.Add(new Option("Hulk", nextScreen, () => AddInitialTeam(gameManager, hulk)));
 
+            // Add cards
+            speedoCard = new(5, 10, speedo);
+            tornadoCard = new(40, 10, tornado);
+            hulkCard = new(75, 10, hulk);
         }
         
         private void AddInitialTeam(GameManager? gameManager, Horse horse)
@@ -66,7 +70,7 @@ namespace HorseManager2022.UI.Screens
         {
             // Reset positions
             selectedPosition = 0;
-
+            
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
             {
@@ -75,7 +79,6 @@ namespace HorseManager2022.UI.Screens
                 DrawCards();
                 
                 arrow.Draw();
-
             });
 
             // Return next screen
@@ -83,76 +86,17 @@ namespace HorseManager2022.UI.Screens
             return selectedOption?.nextScreen;
         }
 
+        
         private void DrawCards()
         {
             Console.WriteLine("Pick your starting horse!");
             Console.WriteLine();
 
-            DrawCard(5, 10, speedo);
-            DrawCard(40, 10, tornado);
-            DrawCard(75, 10, hulk);
+            speedoCard.Draw();
+            tornadoCard.Draw();
+            hulkCard.Draw();
         }
 
-        public void DrawCard(int x, int y, Horse horse)
-        {
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+------------------------+");
-            Console.SetCursorPosition(x, y++);
-            Console.Write("| ");
-            Console.ForegroundColor = horse.GetRarityColor();
-            string _name = ("[" + horse.name + "]").PadRight(12);
-            Console.Write(_name);
-            Console.ResetColor();
-            string _price = (horse.price + "€").ToString().PadLeft(10);
-            Console.WriteLine(_price + " |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+------------------------+");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|              ,,        |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|             /(-\\       |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|        ,---' /`-'      |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|       / ( )__))        |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|      /  //   \\\\        |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|         ``    ``       |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+------------------------+");
-            Console.SetCursorPosition(x, y++);
-            Console.Write("| Energy:           ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("100%");
-            Console.ResetColor();
-            Console.WriteLine(" |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+------------------------+");
-            Console.SetCursorPosition(x, y++);
-            Console.Write("| Resistence:        ");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _resistence = (horse.resistance).ToString().PadLeft(3);
-            Console.Write(_resistence);
-            Console.ResetColor();
-            Console.WriteLine(" |");
-            Console.SetCursorPosition(x, y++);
-            Console.Write("| Speed:             ");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _speed = (horse.speed).ToString().PadLeft(3);
-            Console.Write(_speed);
-            Console.ResetColor();
-            Console.WriteLine(" |");
-            Console.SetCursorPosition(x, y++);
-            Console.Write("| Age:               ");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            string _age = (horse.age).ToString().PadLeft(3);
-            Console.Write(_age);
-            Console.ResetColor();
-            Console.WriteLine(" |");
-            Console.SetCursorPosition(x, y++);
-            Console.WriteLine("+------------------------+");
-        }
 
         override public void SelectLeft()
         {

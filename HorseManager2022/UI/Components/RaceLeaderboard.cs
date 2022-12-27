@@ -41,7 +41,7 @@ namespace HorseManager2022.UI.Components
             for (int i = 0; i < teams.Count; i++)
             {
                 RacingTeam racingTeam = teams[i];
-                string lapTime = racingTeam.GetLapTime().ToString(@"ss\.fff");
+                string lapTime = Utils.GetElapsedTime(racingTeam.startTime, racingTeam.endTime).ToString(@"ss\.fff");
 
                 if (racingTeam.team == playerTeam)
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
