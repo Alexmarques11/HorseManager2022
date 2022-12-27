@@ -78,36 +78,19 @@ namespace HorseManager2022.Models
         }
         
 
-        public string GenerateName()  //Gerador do nome dos jockey(random) NOTA:Ainda falta alterar os nomes que estão no array
-        {
-            string[] nameArray ={ "Abbey", "Ace", "Aesop", "Afrika", "Aggie", "Ajax","Alpha","Alfie","Ali","Aladdin","Alibaba",
-                                  "Bishop","Birdie","Blossom", "Moon", "Bo", "Boaz", "Bodhi", "Bogart", "Bonnie", "Booker", "Boomer", "Boon",
-                                  "Clyde","Cochise","Coco","Cocolo","Cole","Conan","Concho","Cookie","Cooper","Casper","Cecil","Champ","Chance","Charcoal",
-                                  "Dollar","Dolly","Dominic","Dominator","Dora","Dorado","Drake","Dream","Dreamer","Drifter","Duce","Duchess","Duke","Dunny","Durango","Duster","Dusty",
-                                  "Easter","Ebony"," Echo","Eclipse","Eddie","Eldorado","Eleazar","Eli", "Elixir","Ellie","Elvis","Ember","Epona","Esperanza","Esteban", "Excalibur",
-                                  "Fancy","Fargo","Felise","Festus","Fiddle","Fifty","Fiona",
-                                  "Gracie","Grit","Guapo","Gucci","Gulliver","Gunner","Gus","Gypsy",
-                                  "Houdini","Howdy","Huck","Huckleberry","Huey","Hurricane",
-                                  "Kansas","Kate","Katy","Brown","Keisha","Kemosabe","Keno","Kendra",
-                                  "Lacey","Lady","Lakota","Legend","Legacy","Lena","Levi","Leo","Lexy","Liberty",
-                                  "Money","Montana","Monty","Moon","Moondance","Moonshine","Moose","Mordecai","Morgan","Moxie","Mystic","Mystery",
-                                  "Nacho","Nala","Natacha","Navajo","Nemo","Neptune","Nero","Nevada","Night","Niner","Nyx",
-                                  "Oliver","Ollie","Oncore","Onyx","Opal","Oreo","Outlaw","Ozzy",
-                                  "Paco","Pablo","Paige","Paisley","Panama","Pandora","Papoose","Paprika","Partner","Patches",
-                                  "Queball","Queen","Queenie","Quervo","Quest","Quincy",
-                                  "Rojo","Rolly","Roman","Rono","Rooster","Rounder","Rowdy","Rowen","Roy","Ruby","Rumi","Rumor","Rustler","Rusty","Ruth",
-                                  "Sabino","Sabrina","Sage","Sahara","Sailor","Saint","Sally","Salty","Sammy","Sampson","Sandy","Sargent","Sassy","Savanna","Scamper","Scarlet",
-                                  "Travis","Treasure","Trevor","Trickster","Trigger","Trinket","Troubadour","Trucker","Trusty","Tucker","Tuff","Turbo","Twister","Ty",
-                                  "Umber","Ulysses","Uno","UriUtah",
-                                  "Val","Van Gogh","Vargas","Vegas","Venus","Vesta","Victory",
-                                  "Willard","Willie","Willow","Winchester","Windy","Wing","Winston","Winter","Wolf","Wrangler",
-                                  "Xavier",
-                                  "Yakama","Yankie","Yeller","Yeti","Yoda","Yonkers",
-                                  "Zahara","Zara","Zelda","Zenia","Zia","Zipper","Zodiac","Zoe","Zoey","Zoro","Zeus","Zuza"};
+        public string GenerateName(){ //Gerador do nome dos jockey(random) 
+            string[] nameArray = { "Maria", "José","António","João","Francisco","Ana","Luís","Paulo","Carlos","André","Moisés","Manuel","Pedro",
+                                   "Francisca","Marcos","Raimundo","Ramiro","Sebastião","Marcelo","Jorge","Márcia","Geraldo","Adriana","Sandra",
+                                   "Fernando","Fábio","Flábio","Gaspar","Miguel","Alex","Alexandre","Nuno","Roberto","Márcio","Mario","Luigi",
+                                   "Sérgio","Josefa","Josefina","Genobeba","Patricia","Roberto","Daniel","Rodrigo","Rafael","Vasco","Joaquim",
+                                   "Vera","Ricardo","Eduardo","Teresa","Sonia","Luciana","Claudio","Rosa","Benedito","Leandro","Raimunda" };
 
+            string[] apelidoArray = {"Silva","Pereira","Marques","Sousa","Gaspar","Santos","Ferreira","Cerqueira","Oliveira","Costa","Rodrigues",
+                                     "Costa","Martins","Jesus","Fernandes","Herculano","Gonçalves","Gomes","Lopes","Alves","Almeida","Ribeiro",
+                                     "Pinto","Carvalho","Teixeira","Moreira","Correia","Mendes","Nunes","Soares","Vieira","Monteiro","Cardoso","Rocha" };
 
             Random random = new Random();
-            return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
+            return nameArray[random.Next(0, nameArray.Length)] + " " + apelidoArray[random.Next(0, apelidoArray.Length)];
         }
 
         
@@ -116,6 +99,7 @@ namespace HorseManager2022.Models
             Random random = new Random();
             switch (rarity)
             {
+
                 case Rarity.Common:
                     return handling = random.Next(1, 31);
                 case Rarity.Rare:
