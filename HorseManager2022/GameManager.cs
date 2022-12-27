@@ -11,6 +11,7 @@ namespace HorseManager2022
         // Properties
         public GameData gameData { get; private set; }
         public SaveManager saveManager { get; set; }
+        private static readonly Random random = new();
 
         // Getters & Setters
         public int money
@@ -191,5 +192,16 @@ namespace HorseManager2022
             SaveChanges();
         }
 
+
+        public static int GetRandomInt(int min, int max)
+        {
+            return random.Next(min, max);
+        }
+
+
+        public static double GetRandomDouble()
+        {
+            return random.NextDouble();
+        }
     }
 }

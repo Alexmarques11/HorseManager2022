@@ -105,46 +105,43 @@ namespace HorseManager2022.Models
                                   "Yakama","Yankie","Yeller","Yeti","Yoda","Yonkers",
                                   "Zahara","Zara","Zelda","Zenia","Zia","Zipper","Zodiac","Zoe","Zoey","Zoro","Zeus","Zuza"};
 
-
-            Random random = new Random();
-            return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
+            
+            return nameArray[GameManager.GetRandomInt(0, nameArray.Length)] + " " + nameArray[GameManager.GetRandomInt(0, nameArray.Length)];
         }
 
         
         public int GenerateHandling(Rarity rarity) //Gerador de handlings consoante a raridade do jocey
         {
-            Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return handling = random.Next(1, 31);
+                    return handling = GameManager.GetRandomInt(1, 31);
                 case Rarity.Rare:
-                    return handling = random.Next(30, 61);
+                    return handling = GameManager.GetRandomInt(30, 61);
                 case Rarity.Epic:
-                    return handling = random.Next(60, 81);
+                    return handling = GameManager.GetRandomInt(60, 81);
                 case Rarity.Legendary:
                 case Rarity.Special:
-                    return handling = random.Next(80, 101);
+                    return handling = GameManager.GetRandomInt(80, 101);
                 default:
                     return handling = 0;
             }
         }
         public int GetJockeyPrice(Rarity rarity, int handling) //Preço dos jockeys consoante a raridade e o handling
         {
-            Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return (handling <= 20) ? random.Next(100, 250) : random.Next(251, 500);
+                    return (handling <= 20) ? GameManager.GetRandomInt(100, 250) : GameManager.GetRandomInt(251, 500);
 
                 case Rarity.Rare:
-                    return (handling <= 40) ? random.Next(600, 1000) : random.Next(1001, 1500);
+                    return (handling <= 40) ? GameManager.GetRandomInt(600, 1000) : GameManager.GetRandomInt(1001, 1500);
 
                 case Rarity.Epic:
-                    return (handling <= 60) ? random.Next(1600, 2300) : random.Next(2350, 3000);
+                    return (handling <= 60) ? GameManager.GetRandomInt(1600, 2300) : GameManager.GetRandomInt(2350, 3000);
                 case Rarity.Legendary:
                 case Rarity.Special:
-                    return (handling <= 80) ? random.Next(3100, 5000) : random.Next(5050, 6000);
+                    return (handling <= 80) ? GameManager.GetRandomInt(3100, 5000) : GameManager.GetRandomInt(5050, 6000);
 
                 default:
                     return price = 0;

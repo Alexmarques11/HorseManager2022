@@ -35,8 +35,7 @@ namespace HorseManager2022.Models
         // Random event Constructor
         public Event(List<Event>? events = null, int year = 1)
         {
-            Random random = new();
-            type = (EventType)random.Next(1, 3);
+            type = (EventType)GameManager.GetRandomInt(1, 3);
             difficulty = DifficultyExtensions.GetRandomDifficulty();
             name = $"{difficulty} {type}"; //GenerateName();
 
@@ -149,9 +148,8 @@ namespace HorseManager2022.Models
         private Date GenerateDate(int year = 1)
         {
             // Generate random date
-            Random random = new();
-            int randomDay = random.Next(1, 29);
-            int randomMonth = random.Next(0, 4);
+            int randomDay = GameManager.GetRandomInt(1, 29);
+            int randomMonth = GameManager.GetRandomInt(0, 4);
             
             // Create date
             Date randomDate = new(randomDay, (Month)randomMonth, year);

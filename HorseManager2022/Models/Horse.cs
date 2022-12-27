@@ -68,7 +68,7 @@ namespace HorseManager2022.Models
             price = GetHorsePrice();
             resistance = GenerateStatValue();
             energy = 100;
-            age = 10; // Do random
+            age = GenerateRandomAge();
         }
 
 
@@ -80,7 +80,7 @@ namespace HorseManager2022.Models
             price = GetHorsePrice();
             resistance = GenerateStatValue();
             energy = 100;
-            age = 10; // Do random
+            age = GenerateRandomAge();
         }
 
         public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor with all
@@ -97,8 +97,6 @@ namespace HorseManager2022.Models
         
         public Horse(Rarity rarity)
         {
-            Random random = new Random();
-
             // Set the horse's properties based on the rarity
             this.rarity = rarity;
             this.name = GenerateHorseName();
@@ -106,7 +104,14 @@ namespace HorseManager2022.Models
             this.price = GetHorsePrice();
             this.resistance = GenerateStatValue();
             this.energy = 100;
-            this.age = random.Next(10, 21); // Generate a random age between 10 and 20
+            this.age = GenerateRandomAge(); // Generate a random age between 10 and 20
+        }
+
+
+        public void RegenerateEnergy(GameManager gameManager)
+        {
+            int energyRecovery = GameManager.GetRandomInt(ENERGY_RECOVERY_MIN, ENERGY_RECOVERY_MAX) + gameManager.gameData.vet.proficiency; ;
+            energy += energyRecovery;
         }
 
 
@@ -123,23 +128,25 @@ namespace HorseManager2022.Models
         public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
 
 
+        private int GenerateRandomAge() => new Random().Next(10, 22);
+
+
         private int GenerateStatValue() //Gerador de velocidades consoante a raridade do cavalo
         {
-            Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return speed = random.Next(10, 20);
+                    return GameManager.GetRandomInt(10, 20);
                 case Rarity.Rare:
-                    return speed = random.Next(20, 40);
+                    return GameManager.GetRandomInt(20, 40);
                 case Rarity.Epic:
-                    return speed = random.Next(40, 60);
+                    return GameManager.GetRandomInt(40, 60);
                 case Rarity.Legendary:
-                    return speed = random.Next(60, 80);
+                    return GameManager.GetRandomInt(60, 80);
                 case Rarity.Special:
-                    return speed = random.Next(80, 101);
+                    return GameManager.GetRandomInt(80, 101);
                 default:
-                    return speed = 0;
+                    return 0;
             }
         }
         
@@ -147,20 +154,19 @@ namespace HorseManager2022.Models
         private int GetHorsePrice() //Preço dos cavalos consoante a raridade 
         {
             int statValue = (int)Math.Round((speed + resistance) / 2f);
-            Random random = new Random();
             switch (rarity)
             {
                 case Rarity.Common:
-                    return (statValue <= 10) ? random.Next(100, 250) : random.Next(251, 500);
+                    return (statValue <= 10) ? GameManager.GetRandomInt(100, 250) : GameManager.GetRandomInt(251, 500);
 
                 case Rarity.Rare:
-                    return (statValue <= 30) ? random.Next(600, 1000) : random.Next(1001, 1500);
+                    return (statValue <= 30) ? GameManager.GetRandomInt(600, 1000) : GameManager.GetRandomInt(1001, 1500);
 
                 case Rarity.Epic:
-                    return (statValue <= 50) ? random.Next(1600, 2300) : random.Next(2350, 3000);
+                    return (statValue <= 50) ? GameManager.GetRandomInt(1600, 2300) : GameManager.GetRandomInt(2350, 3000);
                 case Rarity.Legendary:
                 case Rarity.Special:
-                    return (statValue <= 70) ? random.Next(3100, 5000) : random.Next(5050, 6000);
+                    return (statValue <= 70) ? GameManager.GetRandomInt(3100, 5000) : GameManager.GetRandomInt(5050, 6000);
 
                 default:
                     return price = 0;
@@ -209,12 +215,11 @@ namespace HorseManager2022.Models
                                   "Zahara","Zara","Zelda","Zenia","Zia","Zipper","Zodiac","Zoe","Zoey","Zoro","Zeus","Zuza"};
             
             }
-
-            Random random = new Random();
+            
             if (rarity != Rarity.Special)
-                return nameArray[random.Next(0, nameArray.Length)] + " " + nameArray[random.Next(0, nameArray.Length)];
+                return nameArray[GameManager.GetRandomInt(0, nameArray.Length)] + " " + nameArray[GameManager.GetRandomInt(0, nameArray.Length)];
             else
-                return nameArray[random.Next(0, nameArray.Length)];
+                return nameArray[GameManager.GetRandomInt(0, nameArray.Length)];
         }
     }
 }

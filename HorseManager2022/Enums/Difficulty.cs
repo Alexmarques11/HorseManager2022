@@ -41,8 +41,7 @@ namespace HorseManager2022.Enums
             };
 
             // Generate a random number between 0 and 100 (inclusive)
-            Random rnd = new Random();
-            int randomNumber = rnd.Next(0, 101);
+            int randomNumber = GameManager.GetRandomInt(0, 101);
 
             // Determine the difficulty level based on the probability in the lookup table
             int cumulativeProbability = 0;

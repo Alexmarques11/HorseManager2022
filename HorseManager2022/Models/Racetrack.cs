@@ -92,11 +92,10 @@ namespace HorseManager2022.Models
         private string GetRacetrackLine()
         {
             string line = "";
-            Random random = new();
             int length = gameDistance + HORSE_LENGTH;
             for (int i = 0; i < length; i++)
             {
-                bool isGrass = random.Next(0, 11) == 0;
+                bool isGrass = GameManager.GetRandomInt(0, 11) == 0;
                 line += isGrass ? "~" : " ";
             }
             return line;
@@ -111,8 +110,8 @@ namespace HorseManager2022.Models
             string[] names = { "Belmont Park", "Churchill Downs", "Santa Anita Park", "Saratoga Race Course", "Epsom Downs",
                        "Ascot Racecourse", "Aintree Racecourse", "Goodwood Racecourse", "Haydock Park Racecourse", "Kempton Park Racecourse",
                        "Leopardstown Racecourse", "Lingfield Park Racecourse", "Newbury Racecourse", "Pontefract Racecourse", "York Racecourse" };
-            Random rnd = new();
-            int index = rnd.Next(names.Length);
+
+            int index = GameManager.GetRandomInt(0, names.Length);
             return names[index];
         }
 

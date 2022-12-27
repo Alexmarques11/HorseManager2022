@@ -13,7 +13,6 @@ namespace HorseManager2022.Models
         public int x { get; set; }
         public DateTime startTime;
         public DateTime endTime;
-        private Random random;
 
 
         // Constructor
@@ -21,7 +20,6 @@ namespace HorseManager2022.Models
         {
             this.team = team;
             x = 1;
-            random = new();
         }
 
 
@@ -30,7 +28,7 @@ namespace HorseManager2022.Models
         {
             int statAverage = (team.horse.speed + team.jockey.handling + team.afinity) / 3;
             int speed = (int)Math.Round(statAverage / 15f);
-            int randomOffset = random.Next(-2, 3);
+            int randomOffset = GameManager.GetRandomInt(-2, 3);
 
             int distance = speed + randomOffset;
             if (distance < 0)

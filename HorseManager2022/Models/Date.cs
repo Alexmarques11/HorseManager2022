@@ -63,11 +63,10 @@ namespace HorseManager2022.Models
                 }
             }
 
-            // Restore 20% of energy for all horses
-            Random random = new();
+            // Restore energy for all horses
             foreach (Horse horse in gameManager.GetList<Horse, Player>())
-                horse.energy += random.Next(Horse.ENERGY_RECOVERY_MIN, Horse.ENERGY_RECOVERY_MAX);
-            
+                horse.RegenerateEnergy(gameManager);
+
             gameManager.SaveChanges();
         }
 

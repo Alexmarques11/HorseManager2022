@@ -164,7 +164,15 @@ namespace HorseManager2022.UI.Screens
                     return Option.GetBackOption(previousScreen);
                 else
                 {
-                    return (options.Count > 0) ? options[selectedPosition] : Option.GetBackOption(previousScreen);
+                    try
+                    {
+                        return (options.Count > 0) ? options[selectedPosition] : Option.GetBackOption(previousScreen);
+                    }
+                    catch (Exception)
+                    {
+                        return Option.GetBackOption(previousScreen);
+                        throw;
+                    }
                 }
             }
             else

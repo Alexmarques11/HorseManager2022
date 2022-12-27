@@ -36,7 +36,7 @@ namespace HorseManager2022.UI.Components
         public void AddCard()
         {
             cards.Add(new Card(GetStartingPosition(), POSITION_Y, new(true), true));
-            // cards[^1].horse.price = (int)cards[^1].horse.rarity * 250;
+            cards[^1].horse.price = cards[^1].horse.price/2;
         }
 
 

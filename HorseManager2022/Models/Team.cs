@@ -114,10 +114,9 @@ namespace HorseManager2022.Models
 
         private int GetStatMultiplier()
         {
-            Random random = new();
-            if (random.NextDouble() < LOW_MULTIPLIER_CHANCE)
+            if (GameManager.GetRandomDouble() < LOW_MULTIPLIER_CHANCE)
                 return 1;
-            else if (random.NextDouble() < MEDIUM_MULTIPLIER_CHANCE)
+            else if (GameManager.GetRandomDouble() < MEDIUM_MULTIPLIER_CHANCE)
                 return 2;
             else
                 return 3;
@@ -127,16 +126,15 @@ namespace HorseManager2022.Models
         // Methods
         public List<string> UpdateStatsAfterRace()
         {
-            Random random = new();
             List<string> rewards = new();
 
             // Afinity always improves
             int afinity = 1, speed = 0, resistance = 0;// , handling = 0;
 
             // stats have a chance of improving
-            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+            if (GameManager.GetRandomDouble() < IMPROVE_STAT_CHANCE)
                 resistance = 1;
-            if (random.NextDouble() < IMPROVE_STAT_CHANCE)
+            if (GameManager.GetRandomDouble() < IMPROVE_STAT_CHANCE)
                 speed = 1;
             // if (random.NextDouble() < IMPROVE_STAT_CHANCE)
             //     handling = 1;
@@ -181,12 +179,11 @@ namespace HorseManager2022.Models
         // Set the range of possible teams based on the event rarity
         static private int GetEventTeamAmount(Difficulty difficulty)
         {
-            Random random = new();
             return difficulty switch
             {
                 Difficulty.Easy => 2,
-                Difficulty.Normal => random.Next(3, 5),
-                Difficulty.Hard => random.Next(4, 6),
+                Difficulty.Normal => GameManager.GetRandomInt(3, 5),
+                Difficulty.Hard => GameManager.GetRandomInt(4, 6),
                 Difficulty.Extreme => 6,
                 _ => 0,
             };
@@ -211,8 +208,7 @@ namespace HorseManager2022.Models
             int maxAffinity = affinityRange.Item2;
 
             // Generate a random affinity within the determined range
-            Random random = new();
-            int affinity = random.Next(minAffinity, maxAffinity + 1);
+            int affinity = GameManager.GetRandomInt(minAffinity, maxAffinity + 1);
 
             return affinity;
         }

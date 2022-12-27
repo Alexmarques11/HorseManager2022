@@ -51,8 +51,7 @@ namespace HorseManager2022.Enums
             };
 
             // Generate a random number between 0 and 100 (inclusive)
-            Random rnd = new Random();
-            int randomNumber = rnd.Next(0, 101);
+            int randomNumber = GameManager.GetRandomInt(0, 101);
 
             // Determine the rarity based on the probability in the lookup table
             int cumulativeProbability = 0;
@@ -72,19 +71,18 @@ namespace HorseManager2022.Enums
 
         static public Rarity GetRandomRarityByDifficulty(Difficulty? difficulty)
         {
-            Random random = new();
             Rarity rarity = Rarity.Common;
 
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    rarity = (Rarity)random.Next(0, 2);
+                    rarity = (Rarity)GameManager.GetRandomInt(0, 2);
                     break;
                 case Difficulty.Normal:
-                    rarity = (Rarity)random.Next(0, 3);
+                    rarity = (Rarity)GameManager.GetRandomInt(0, 3);
                     break;
                 case Difficulty.Hard:
-                    rarity = (Rarity)random.Next(1, 4);
+                    rarity = (Rarity)GameManager.GetRandomInt(1, 4);
                     break;
                 case Difficulty.Extreme:
                     rarity = Rarity.Legendary;
