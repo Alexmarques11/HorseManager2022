@@ -28,7 +28,7 @@ namespace HorseManager2022.UI
                 Console.Clear();
                 
                 topbar.Show(this, gameManager);
-                DrawHouse();
+                DrawShop();
 
                 boardMenu.Show();
 
@@ -40,7 +40,7 @@ namespace HorseManager2022.UI
         }
 
 
-        private void DrawHouse() 
+        private void DrawHouseDefault() 
         {
             Console.WriteLine("                                                                                                   ");
             Console.WriteLine("   ___________________________________________________________________________________________");
@@ -80,6 +80,53 @@ namespace HorseManager2022.UI
             Console.WriteLine("||               | /                |                                                          ||     ");
             Console.WriteLine("||_______________|/_________________|__________________________________________________________||     ");
 
+        }
+
+
+        private void DrawVet()
+        { 
+        
+        }
+
+        private void DrawShop()
+        {
+            Console.WriteLine("   ___________________________________________________________________________________________");
+            Console.WriteLine("  /        |                                                                         |        \\       ");
+            Console.WriteLine(" /         |                                                                         |         \\      ");
+            Console.WriteLine("|          |                                   ___________________________________   |          |     ");
+            Console.WriteLine("|          |                                  (__| |_________________________| |__)  |          |     ");
+            Console.WriteLine("|          |                                     | |            {)           | |     |          |     ");
+            Console.WriteLine("|          |                                     | |         c==//\\          | |     |          |     ");
+            Console.WriteLine("|          |                                     | |     _-~~/-._|-|         | |     |          |     ");
+            Console.WriteLine("|          |  :::::::::::::::::::::::::::::::    | |    /'_,/,   //'~~\\;;,   | |     |          |     ");
+            Console.WriteLine("|          |  :::::::::::::::::::::::::::::::    | |    `~  _(_||_..\\ | ';;  | |     |          |     ");
+            Console.WriteLine("|          |  ::                 .''       ::    | |      /'~|/ ~' `\\<\\> ;   | |     |          |     ");
+            Console.WriteLine("|          |  ::         ._.-__.' (`\\      ::    | |        \"  |      /  |   | |     |          |     ");
+            Console.WriteLine("|          |  ::        //(      ( `'      ::    | |          \"      \"  \"    | |     |          |     ");
+            Console.WriteLine("|          |  ::       '/ )\\ )._. )        ::  __| |_________________________| |__   |          |     ");
+            Console.WriteLine("|          |  ::       ' <' `\\ ._/'\\       :: (__|_|_________________________|_|__)  |          |     ");
+            Console.WriteLine("|          |  ::          `   \\     \\      ::                                        |          |     ");
+            Console.WriteLine("|          |  :::::::::::::::::::::::::::::::                                        |          |     ");
+            Console.WriteLine("|          |  :::::::::::::::::::::::::::::::               ,...,                    |          |     ");
+            Console.WriteLine("|          |                                                |. .|                    |          |     ");
+            Console.WriteLine("|          |                                                q - p                    |          |     ");
+            Console.WriteLine("|          |_______________                                 |\\'/|                    |          |     ");
+            Console.WriteLine("|         /               /|                             .-''---''-.                 |          |     ");
+            Console.WriteLine("|        /               / |                            /           \\                |          |     ");
+            Console.WriteLine("|       / +------+      /  |                           /             \\               |          |     ");
+            Console.WriteLine("|      .' Wish  '|     /   |                          /   /\\      /\\  \\              |          |");
+            Console.WriteLine("|     +------+'  |    /    |             _____________\\___\\_|____|_/__/______________|____      |     ");
+            Console.WriteLine("|    /|      |   |   /     |____________/                                                 \\     |    ");
+            Console.WriteLine("|   / | Loot |   +  /      /           /                                                   \\    |    ");
+            Console.WriteLine("|  /  |      | .'  /      /           /                                                     \\   |    ");
+            Console.WriteLine("| /   +------+'   /      /           /                                                       \\  |    ");
+            Console.WriteLine("|/_______________/      /           /_________________________________________________________\\ |    ");
+            Console.WriteLine("||               |     /            |                        _          | '_ \\                 ||     ");
+            Console.WriteLine("||               |    /             |                    __ | |__   ___ | |_) \\                ||     ");
+            Console.WriteLine("||               |   /              |                   / __|  _  \\/   \\|  __/                 ||     ");
+            Console.WriteLine("||               |  /               |                   \\__ \\ | | | (_) |  |                   ||     ");
+            Console.WriteLine("||               | /                |                   |___/_| |_|\\___/|__|                   ||     ");
+            Console.WriteLine("||_______________|/_________________|__________________________________________________________|| ");
         }
     }
 }

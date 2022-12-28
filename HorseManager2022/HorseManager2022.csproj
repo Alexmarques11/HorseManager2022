@@ -8,14 +8,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Common.wav" />
+    <None Remove="Resources\Epic.wav" />
     <None Remove="Resources\Final.wav" />
+    <None Remove="Resources\Legendary.wav" />
+    <None Remove="Resources\Lootbox.wav" />
     <None Remove="Resources\RaceSong.wav" />
+    <None Remove="Resources\Rare.wav" />
+    <None Remove="Resources\Special.wav" />
     <None Remove="Resources\TownSong.wav" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Common.wav" />
+    <EmbeddedResource Include="Resources\Epic.wav" />
     <EmbeddedResource Include="Resources\Final.wav" />
+    <EmbeddedResource Include="Resources\Legendary.wav" />
+    <EmbeddedResource Include="Resources\Lootbox.wav" />
     <EmbeddedResource Include="Resources\RaceSong.wav" />
+    <EmbeddedResource Include="Resources\Rare.wav" />
+    <EmbeddedResource Include="Resources\Special.wav" />
     <EmbeddedResource Include="Resources\TownSong.wav" />
   </ItemGroup>
 

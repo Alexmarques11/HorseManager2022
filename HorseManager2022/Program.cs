@@ -14,7 +14,7 @@ Audio.PlayTownSong();
 
 // Create UI
 Topbar topbar = new();
-ScreenMenu initialScreen = new("Welcome to Horse Manager 2022");
+ScreenMenu initialScreen = new("Welcome to Horse Manager 2023");
 ScreenMenu loadGameScreen = new("Load game", initialScreen);
 ScreenCity cityScreen = new(topbar, loadGameScreen);
 ScreenHouse vetScreen = new(topbar, cityScreen);
@@ -98,9 +98,12 @@ shopScreen.AddOption("LootBox", shopScreen, () =>
             if (gameManager.money >= Lootbox.LOOTBOX_PRICE)
             {
                 Lootbox lootbox = new();
-                Horse horse = lootbox.Open();
+                Card card = lootbox.Open();
                 gameManager.money -= Lootbox.LOOTBOX_PRICE;
-                gameManager.Add<Horse, Player>(horse);
+                if (card.horse != null)
+                    gameManager.Add<Horse, Player>(card.horse);
+                else if (card.jockey != null)
+                    gameManager.Add<Jockey, Player>(card.jockey);
             }
             else
             {

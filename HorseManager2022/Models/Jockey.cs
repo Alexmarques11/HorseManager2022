@@ -54,20 +54,30 @@ namespace HorseManager2022.Models
         
         public Jockey(Rarity rarity, int handling, int price)
         {
-            this.name = GenerateName();
             this.rarity = rarity;
+            this.name = GenerateName();
             this.handling = handling;
             this.price = price;
         }
 
         public Jockey(Rarity rarity)
         {
-            this.name = GenerateName();
             this.rarity = rarity;
+            this.name = GenerateName();
             this.handling = GenerateHandling(rarity);
             this.price = GetJockeyPrice(rarity, handling);
         }
 
+
+        public Jockey(bool isLootBox)  //Construtor Random
+        {
+            rarity = RarityExtensions.GetRandomRarity(isLootBox);
+            name = GenerateName();
+            handling = GenerateHandling(rarity);
+            price = GetJockeyPrice(rarity, handling);
+        }
+
+        
         static public List<Jockey> GenerateShopJockeys()
         {
             List<Jockey> jockeys = new();
@@ -78,15 +88,19 @@ namespace HorseManager2022.Models
         }
         
 
-        public string GenerateName(){ //Gerador do nome dos jockey(random) 
-            string[] nameArray = { "Maria", "José","António","João","Francisco","Ana","Luís","Paulo","Carlos","André","Moisés","Manuel","Pedro",
+        public string GenerateName(){ //Gerador do nome dos jockey(random)  Moisés Herculano
+
+            if (rarity == Rarity.Special)
+                return "Moisés Herculano";
+
+            string[] nameArray = { "Maria", "José","António","João","Francisco","Ana","Luís","Paulo","Carlos","André","Manuel","Pedro",
                                    "Francisca","Marcos","Raimundo","Ramiro","Sebastião","Marcelo","Jorge","Márcia","Geraldo","Adriana","Sandra",
                                    "Fernando","Fábio","Flábio","Gaspar","Miguel","Alex","Alexandre","Nuno","Roberto","Márcio","Mario","Luigi",
                                    "Sérgio","Josefa","Josefina","Genobeba","Patricia","Roberto","Daniel","Rodrigo","Rafael","Vasco","Joaquim",
                                    "Vera","Ricardo","Eduardo","Teresa","Sonia","Luciana","Claudio","Rosa","Benedito","Leandro","Raimunda" };
 
             string[] apelidoArray = {"Silva","Pereira","Marques","Sousa","Gaspar","Santos","Ferreira","Cerqueira","Oliveira","Costa","Rodrigues",
-                                     "Costa","Martins","Jesus","Fernandes","Herculano","Gonçalves","Gomes","Lopes","Alves","Almeida","Ribeiro",
+                                     "Costa","Martins","Jesus","Fernandes","Gonçalves","Gomes","Lopes","Alves","Almeida","Ribeiro",
                                      "Pinto","Carvalho","Teixeira","Moreira","Correia","Mendes","Nunes","Soares","Vieira","Monteiro","Cardoso","Rocha" };
 
             return nameArray[GameManager.GetRandomInt(0, nameArray.Length)] + " " + apelidoArray[GameManager.GetRandomInt(0, apelidoArray.Length)];

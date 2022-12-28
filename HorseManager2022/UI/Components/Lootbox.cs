@@ -11,10 +11,11 @@ namespace HorseManager2022.UI.Components
     internal class Lootbox
     {
         // Constants
+        private const float HORSE_CHANCE = 0.6f;
         private const int CARD_QUANTITY = 5;
         private const int DURATION = 300;
         private const int POSITION_Y = 13;
-        public static readonly int LOOTBOX_PRICE = 1000;
+        public static readonly int LOOTBOX_PRICE = 500;
 
         // Properties
         private List<Card> cards { get; set; }
@@ -35,8 +36,19 @@ namespace HorseManager2022.UI.Components
         // Methods
         public void AddCard()
         {
-            cards.Add(new Card(GetStartingPosition(), POSITION_Y, new(true), true));
-            cards[^1].horse.price = cards[^1].horse.price/2;
+            bool isHorseCard = GameManager.GetRandomDouble() < HORSE_CHANCE;
+
+            if (isHorseCard)
+            {
+                cards.Add(new Card(GetStartingPosition(), POSITION_Y, new Horse(true), true));
+                cards[^1].horse!.price = cards[^1].horse!.price / 2;
+            }
+            else
+            {
+                cards.Add(new Card(GetStartingPosition(), POSITION_Y, new Jockey(true), true));
+                cards[^1].jockey!.price = cards[^1].jockey!.price / 2;
+            }
+
         }
 
 
@@ -52,9 +64,9 @@ namespace HorseManager2022.UI.Components
 
             return position;
         }
-
         
-        public Horse Open()
+        
+        public Card Open()
         {
             Arrow arrow = new(21, 52, 1);
             Audio.PlayLootboxSong();
@@ -99,7 +111,7 @@ namespace HorseManager2022.UI.Components
             
             Console.ReadKey();
 
-            return selectedCard.horse;
+            return selectedCard;
         }
     }
 }
