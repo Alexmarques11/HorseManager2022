@@ -1,4 +1,5 @@
-﻿using HorseManager2022.Models;
+﻿using HorseManager2022.Enums;
+using HorseManager2022.Models;
 using HorseManager2022.UI.Components;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace HorseManager2022.UI
     {
         // Properties
         private BoardMenu boardMenu;
+        private HouseType houseType;
 
         // Constructor
-        public ScreenHouse(Topbar topbar, Screen? previousScreen = null)
+        public ScreenHouse(Topbar topbar, HouseType houseType, Screen? previousScreen = null)
             : base(topbar, previousScreen)
         {
+            this.houseType = houseType;
             boardMenu = new BoardMenu(this);
         }
 
@@ -28,10 +31,25 @@ namespace HorseManager2022.UI
                 Console.Clear();
                 
                 topbar.Show(this, gameManager);
-                DrawShop();
+
+                switch (houseType)
+                {
+                    case HouseType.Vet:
+                        DrawVet();
+                        break;
+                    case HouseType.Shop:
+                        DrawShop();
+                        break;
+                    case HouseType.Stable:
+                        DrawHouseDefault();
+                        break;
+                    case HouseType.Racetrack:
+                        DrawHouseDefault();
+                        break;
+                }
+
 
                 boardMenu.Show();
-
             });
 
             selectedOption?.onEnter?.Invoke();
@@ -84,9 +102,47 @@ namespace HorseManager2022.UI
 
 
         private void DrawVet()
-        { 
-        
+        {
+            Console.WriteLine("   ___________________________________________________________________________________________ ");
+            Console.WriteLine("  /        |                                                                         |        \\        ");
+            Console.WriteLine(" /         |                                                                         |         \\       "); 
+            Console.WriteLine("|          |                                                                         |          |   ");
+            Console.WriteLine("|          |        ___________________                 .-.     .-.   .-.            |          |      ");
+            Console.WriteLine("|          |       / \\                 \\                | |     | |   | |-.          |          | ");
+            Console.WriteLine("|          |      |   |   ~~~~~~~~~~   |.               | |.-.|*| |.-.|*| |          |          |      ");
+            Console.WriteLine("|          |       \\_/|   ~~~~~~~~~~   |.               |º|| || |.|| || |.|          |          |      ");
+            Console.WriteLine("|          |          |   ~~~~~~~~~~   |.               | ||-|| | ||-||+|.|          |          |      ");
+            Console.WriteLine("|          |          |   ~~~~~~~~~~   |.               |º||-||+|.||-||+|.|          |          |      ");
+            Console.WriteLine("|          |          |   ~~~~~~~~~~   |.               | || || | || || | |          |          |      ");
+            Console.WriteLine("|          |          |   ~~~~~~~~~~   |.              \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"         |          |      ");
+            Console.WriteLine("|          |          |   ~~~~~~~~~~   |.                                            |          |      ");
+            Console.WriteLine("|          |          |   _____________|.__                 \\\\||||//                 |          |      ");
+            Console.WriteLine("|          |          |  /               /.                 =       =                |          |      ");
+            Console.WriteLine("|          |          \\_/dc_____________/.                  | \"\" \"\" |                |          |      ");
+            Console.WriteLine("|          |                                                -<0>^<0>-                |          |      ");
+            Console.WriteLine("|          |                                                |   j   |                |          |      ");
+            Console.WriteLine("|          |                                                 \\ ___ /                 |          |      ");
+            Console.WriteLine("|          |                                                  \\ - /                  |          |      ");
+            Console.WriteLine("|          |_______________                            _______|\\_/|______            |          |      ");
+            Console.WriteLine("|         /               /|                          (       \\   /      )           |          |      ");
+            Console.WriteLine("|        /               / |                          |        \\ /       |           |          |       ");
+            Console.WriteLine("|       /               /  |                          |   |     V    |   |           |          |      ");
+            Console.WriteLine("|      /               /   |                          |   |       vet|   |           |          |      ");
+            Console.WriteLine("|     /               /    |             _____________|___|__________|___|___________|____      |      ");
+            Console.WriteLine("|    /               /     |____________/                                                 \\     |     ");
+            Console.WriteLine("|   /               /      /           /                                                   \\    | ");
+            Console.WriteLine("|  /               /      /           /                                                     \\   |     ");
+            Console.WriteLine("| /               /      /           /                                                       \\  | ");
+            Console.WriteLine("|/_______________/      /           /_________________________________________________________\\ |     ");
+            Console.WriteLine("||               |     /            |                                                          ||      ");
+            Console.WriteLine("||               |    /             |                                                          || ");
+            Console.WriteLine("||               |   /              |                                                          ||      ");
+            Console.WriteLine("||               |  /               |                                                          ||      ");
+            Console.WriteLine("||               | /                |                                                          ||      ");
+            Console.WriteLine("||_______________|/_________________|__________________________________________________________||     ");
+
         }
+        
 
         private void DrawShop()
         {
