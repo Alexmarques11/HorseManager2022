@@ -150,6 +150,20 @@ namespace HorseManager2022.Models
             }
         }
         
+        
+        public int GetStatMaxValue()
+        {
+            return rarity switch
+            {
+                Rarity.Common => 50,
+                Rarity.Rare => 70,
+                Rarity.Epic => 90,
+                Rarity.Legendary => 110,
+                Rarity.Special => 130,
+                _ => 0,
+            };
+        }
+        
 
         private int GetHorsePrice() //Preço dos cavalos consoante a raridade 
         {

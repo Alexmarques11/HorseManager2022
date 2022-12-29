@@ -79,13 +79,13 @@ namespace HorseManager2022.Enums
                     rarity = (Rarity)GameManager.GetRandomInt(0, 2);
                     break;
                 case Difficulty.Normal:
-                    rarity = (Rarity)GameManager.GetRandomInt(0, 3);
+                    rarity = (Rarity)GameManager.GetRandomInt(1, 3);
                     break;
                 case Difficulty.Hard:
-                    rarity = (Rarity)GameManager.GetRandomInt(1, 4);
+                    rarity = (Rarity)GameManager.GetRandomInt(2, 4);
                     break;
                 case Difficulty.Extreme:
-                    rarity = Rarity.Legendary;
+                    rarity = (Rarity)GameManager.GetRandomInt(3, 5);
                     break;
             }
 

@@ -45,7 +45,15 @@ namespace HorseManager2022.UI
             this.topbar = topbar;
             menuMode = MenuMode.Down;
         }
-        
+
+
+        public override Screen? Show(GameManager? gameManager)
+        {
+            base.Show(gameManager);
+            menuMode = MenuMode.Down;
+            return null;
+        }
+
 
         // Methods for each selection direction (up, down, left, right)
         override public void SelectLeft()
@@ -86,21 +94,33 @@ namespace HorseManager2022.UI
         {
             if (menuMode == MenuMode.Down)
             {
-                if (this.selectedPosition == this.options.Count)
+                if (selectedPosition == options.Count)
                 {
-                    return Option.GetBackOption(this.previousScreen);
+                    return Option.GetBackOption(previousScreen);
                 }
                 else
-                    return this.options[this.selectedPosition];
+                    return options[selectedPosition];
             }
             else
             {
-                if (this.selectedPosition == this.topbar.options.Count)
+                if (selectedPosition == topbar.options.Count)
                 {
-                    return Option.GetBackOption(this.previousScreen);
+                    return Option.GetBackOption(previousScreen);
                 }
-                else
-                    return this.topbar.options[this.selectedPosition];
+                else {
+
+                    if (topbar.options[selectedPosition].text == "Sleep") 
+                    { 
+                        topbar.options[selectedPosition].nextScreen = this;
+                    }
+                    else if (topbar.options[selectedPosition].text == "Calendar")
+                    {
+                        if (topbar.options[selectedPosition].nextScreen != null)
+                            topbar.options[selectedPosition].nextScreen!.previousScreen = this;
+                    }
+                    
+                    return topbar.options[selectedPosition];
+                }
 
             }
         }

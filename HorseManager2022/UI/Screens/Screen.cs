@@ -11,7 +11,7 @@ namespace HorseManager2022.UI
     internal abstract class Screen : SelectableObject
     {
         // Properties
-        protected Screen? previousScreen { get; set; }
+        public Screen? previousScreen { get; set; }
         
         protected bool isInitialScreen
         {
@@ -31,7 +31,11 @@ namespace HorseManager2022.UI
 
         
         // Methods
-        abstract public Screen? Show(GameManager? gameManager);
+        virtual public Screen? Show(GameManager? gameManager)
+        {
+            selectedPosition = 0;
+            return null;
+        }
 
     }
 }

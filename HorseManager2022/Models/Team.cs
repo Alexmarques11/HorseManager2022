@@ -13,6 +13,7 @@ namespace HorseManager2022.Models
     internal class Team
     {
         // Constants
+        private const int AFFINITY_MAX = 100;
         private const float LOW_MULTIPLIER_CHANCE = 0.7f;
         private const float MEDIUM_MULTIPLIER_CHANCE = 0.25f;
         private const float IMPROVE_STAT_CHANCE = 0.2f;
@@ -136,22 +137,26 @@ namespace HorseManager2022.Models
                 resistance = 1;
             if (GameManager.GetRandomDouble() < IMPROVE_STAT_CHANCE)
                 speed = 1;
-            // if (random.NextDouble() < IMPROVE_STAT_CHANCE)
-            //     handling = 1;
 
             afinity *= GetStatMultiplier();
             resistance *= GetStatMultiplier();
             speed *= GetStatMultiplier();
-            // handling *= GetStatMultiplier();
+
+            // stats can't be over its limit
+            if (horse.resistance + resistance > horse.GetStatMaxValue())
+                resistance = 100 - horse.resistance;
+            if (horse.speed + speed > horse.GetStatMaxValue())
+                speed = 100 - horse.speed;
+            if (afinity + this.afinity > AFFINITY_MAX)
+                afinity = 100 - this.afinity;
 
             // Apply the improvements
             this.afinity += afinity;
             horse.speed += speed;
             horse.resistance += resistance;
-            // jockey.handling += handling;
 
             // Add the rewards to the list
-            rewards.Add(afinity + " Afinity");
+            if (afinity > 0) rewards.Add(afinity + " Afinity");
             if (speed > 0) rewards.Add(speed + " Speed");
             if (resistance > 0) rewards.Add(resistance + " Resistance");
             // if (handling > 0) rewards.Add(handling + " Handling");

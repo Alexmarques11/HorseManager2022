@@ -24,6 +24,7 @@ namespace HorseManager2022.UI
 
         override public Screen? Show(GameManager? gameManager)
         {
+            base.Show(gameManager);
             // Variables
             string title = this.title;
             string mark = "";

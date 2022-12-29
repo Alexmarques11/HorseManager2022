@@ -68,9 +68,8 @@ namespace HorseManager2022.UI.Screens
 
         override public Screen? Show(GameManager? gameManager)
         {
-            // Reset positions
-            selectedPosition = 0;
-            
+            base.Show(gameManager);
+
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
             {

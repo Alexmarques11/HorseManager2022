@@ -217,7 +217,7 @@ topbar.AddOption("Sleep", cityScreen, () => {
         title: "Sleep", 
         message: "Are you sure you want to sleep?",
         dialogType: DialogType.Question,
-        previousScreen: initialScreen, 
+        previousScreen: cityScreen, 
         onConfirm: () => {
             
             gameManager.currentDate?.NextDay(gameManager);

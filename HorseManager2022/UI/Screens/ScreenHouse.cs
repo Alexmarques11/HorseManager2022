@@ -25,6 +25,8 @@ namespace HorseManager2022.UI
 
         override public Screen? Show(GameManager? gameManager)
         {
+            base.Show(gameManager);
+            
             // Wait for option
             Option? selectedOption = WaitForOption(() =>
             {
@@ -47,7 +49,6 @@ namespace HorseManager2022.UI
                         DrawHouseDefault();
                         break;
                 }
-
 
                 boardMenu.Show();
             });

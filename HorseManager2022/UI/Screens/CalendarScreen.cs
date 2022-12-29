@@ -34,7 +34,7 @@ namespace HorseManager2022.UI
         override public Screen? Show(GameManager? gameManager)
         {
             // Reset positions / Start at the current month page
-            selectedPosition = 0;
+            base.Show(gameManager);
             selectedPage = (int)calendar.currentDate.month;
             selectedYearPage = calendar.currentDate.year;
 

@@ -126,6 +126,8 @@ namespace HorseManager2022.Models
                     return handling = 0;
             }
         }
+        
+
         public int GetJockeyPrice(Rarity rarity, int handling) //Preço dos jockeys consoante a raridade e o handling
         {
             switch (rarity)
