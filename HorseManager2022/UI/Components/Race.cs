@@ -199,7 +199,7 @@ namespace HorseManager2022.UI.Components
                 else if (@event?.type == EventType.Demostration)
                 {
                     // if player got last place gets nothing
-                    if (leaderboardList[^1].team == playerTeam)
+                    if (leaderboardList[^1].team != playerTeam)
                     {
                         // Win moneyReward proportional to the reward value and final position
                         int demonstrationReward = moneyReward * (leaderboardList.Count - leaderboardList.IndexOf(leaderboardList.First(team => team.team == playerTeam))) / leaderboardList.Count;

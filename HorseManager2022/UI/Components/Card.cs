@@ -144,21 +144,40 @@ namespace HorseManager2022.UI.Components
             if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
 
             if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("|      / /|  :HM|\\ \\     |");
+            Console.Write("|");
+            Console.ResetColor();
+            Console.Write("      / /|  :HM|\\ \\     ");
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("|");
             Console.ResetColor();
 
 
 
             if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|      \\ \\|  :  |/ /     |");
+            Console.Write("|");
+            Console.ResetColor();
+            Console.Write("      \\ \\|  :  |/ /     ");
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("|");
+            Console.ResetColor();
 
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|       \\ \\_ ; _/ /      |");
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("|");
+            Console.ResetColor();
+            Console.Write("       \\ \\_ ; _/ /      ");
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("|");
+            Console.ResetColor();
 
             Console.SetCursorPosition(x, y++);
-            Console.WriteLine("|        UUU(-)UUU       |");
-
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("|");
+            Console.ResetColor();
+            Console.Write("        UUU(-)UUU       ");
+            if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("|");
             Console.ResetColor();
 
             if (isSelected) Console.ForegroundColor = ConsoleColor.Yellow;

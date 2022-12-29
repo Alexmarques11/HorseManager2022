@@ -52,6 +52,9 @@ namespace HorseManager2022
         // Methods
         public void SaveGame(GameData gameData)
         {
+            // Create the directory if it does not exist
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            
             using (var stream = File.Open(savePath, FileMode.Create))
             {
                 var formatter = new BinaryFormatter();

@@ -42,11 +42,11 @@ namespace HorseManager2022.UI.Screens
         {
             arrow = new Arrow(35, -25, 2);
 
-            Horse speedo = new("Speedo", 10, 100, 13, 0, 20, Rarity.Common);
-            Horse tornado = new("Tornado", 15, 100, 12, 0, 15, Rarity.Common);
-            Horse hulk = new("Hulk", 20, 100, 13, 0, 10, Rarity.Common);
+            Horse speedo = new("Speedo", 15, 100, 13, 0, 25, Rarity.Common);
+            Horse tornado = new("Tornado", 20, 100, 12, 0, 20, Rarity.Common);
+            Horse hulk = new("Hulk", 25, 100, 13, 0, 15, Rarity.Common);
 
-            jockey = new(Rarity.Common, 10, 0);
+            jockey = new(Rarity.Common, 15, 0);
 
             // Add options
             options.Add(new Option("Speedo", nextScreen, () => AddInitialTeam(gameManager, speedo))); ;
