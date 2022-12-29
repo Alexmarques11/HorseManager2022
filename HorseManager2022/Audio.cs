@@ -6,7 +6,7 @@ namespace HorseManager2022
     static class Audio
     {
         // Properties
-        public static bool isSoundOn = false;
+        public static bool isSoundOn = true;
 
         public static Stream GetAudioStream(string songName) => Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(Audio).Namespace + ".Resources." + songName) ?? throw new Exception("Song not found");
 
@@ -30,14 +30,16 @@ namespace HorseManager2022
         
         public static void PlayTownSong() => PlaySong("TownSong.wav", true);
 
-        public static void PlayLootboxSong() => PlaySong("Lootbox.wav", true);
+        public static void PlayLootboxSong() => PlaySong("Lootbox.wav");
 
-        public static void PlayCommonSong() => PlaySong("Common.wav", true);
+        public static void PlayCommonSong() => PlaySong("Common.wav");
 
-        public static void PlayRareSong() => PlaySong("Rare.wav", true);
+        public static void PlayRareSong() => PlaySong("Rare.wav");
 
-        public static void PlayEpicSong() => PlaySong("Epic.wav", true);
+        public static void PlayEpicSong() => PlaySong("Epic.wav");
 
-        public static void PlayLegendarySong() => PlaySong("Legendary.wav", true);
+        public static void PlayLegendarySong() => PlaySong("Legendary.wav");
+        
+        public static void PlaySpecialSong() => PlaySong("Special.wav");
     }
 }

@@ -60,6 +60,11 @@ namespace HorseManager2022.Models
                     // TODO: Add events for new year
                     gameManager.RemoveAll<Event, Player>();
                     gameManager.AddAll<Event, Player>(Event.GetNewYearEvents(year));
+
+                    // All horses get 1 year older
+                    foreach (Horse horse in gameManager.GetList<Horse, Player>())
+                        horse.age++;
+
                 }
             }
 

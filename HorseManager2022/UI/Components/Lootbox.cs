@@ -1,4 +1,5 @@
-﻿using HorseManager2022.Models;
+﻿using HorseManager2022.Enums;
+using HorseManager2022.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace HorseManager2022.UI.Components
         public Card Open()
         {
             Arrow arrow = new(21, 52, 1);
+            
             Audio.PlayLootboxSong();
 
             while (movementCount < DURATION)
@@ -98,12 +100,18 @@ namespace HorseManager2022.UI.Components
                 if (movementCount % 10 == 0)
                     delay += 10;
             }
+            
+            Card selectedCard = cards[2];
+
+            if (selectedCard.horse != null)
+                PlayRaritySound(selectedCard.horse.rarity);
+            else if (selectedCard.jockey != null)
+                PlayRaritySound(selectedCard.jockey.rarity);
 
             Console.ReadKey();
             Console.Clear();
 
             // Remove all cards except the second one
-            Card selectedCard = cards[2];
             selectedCard.isSelected = true;
             cards.Clear();
             cards.Add(selectedCard);
@@ -111,7 +119,35 @@ namespace HorseManager2022.UI.Components
             
             Console.ReadKey();
 
+            Audio.PlayTownSong();
+
             return selectedCard;
         }
+
+
+        private void PlayRaritySound(Rarity rarity)
+        {
+            switch (rarity)
+            {
+                case Rarity.Common:
+                    Audio.PlayCommonSong();
+                    break;
+                case Rarity.Rare:
+                    Audio.PlayRareSong();
+                    break;
+                case Rarity.Epic:
+                    Audio.PlayEpicSong();
+                    break;
+                case Rarity.Legendary:
+                    Audio.PlayLegendarySong();
+                    break;
+                case Rarity.Special:
+                    Audio.PlaySpecialSong();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
     }
 }
