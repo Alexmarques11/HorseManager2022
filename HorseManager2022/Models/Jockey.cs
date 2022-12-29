@@ -131,16 +131,16 @@ namespace HorseManager2022.Models
             switch (rarity)
             {
                 case Rarity.Common:
-                    return (handling <= 20) ? GameManager.GetRandomInt(100, 250) : GameManager.GetRandomInt(251, 500);
+                    return (handling <= 10) ? GameManager.GetRandomInt(100, 200) : GameManager.GetRandomInt(201, 400);
 
                 case Rarity.Rare:
-                    return (handling <= 40) ? GameManager.GetRandomInt(600, 1000) : GameManager.GetRandomInt(1001, 1500);
+                    return (handling <= 30) ? GameManager.GetRandomInt(400, 700) : GameManager.GetRandomInt(701, 1000);
 
                 case Rarity.Epic:
-                    return (handling <= 60) ? GameManager.GetRandomInt(1600, 2300) : GameManager.GetRandomInt(2350, 3000);
+                    return (handling <= 50) ? GameManager.GetRandomInt(1000, 2000) : GameManager.GetRandomInt(2001, 3000);
                 case Rarity.Legendary:
                 case Rarity.Special:
-                    return (handling <= 80) ? GameManager.GetRandomInt(3100, 5000) : GameManager.GetRandomInt(5050, 6000);
+                    return (handling <= 70) ? GameManager.GetRandomInt(3000, 5000) : GameManager.GetRandomInt(5001, 7000);
 
                 default:
                     return price = 0;

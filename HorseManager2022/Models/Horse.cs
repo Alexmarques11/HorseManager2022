@@ -157,16 +157,16 @@ namespace HorseManager2022.Models
             switch (rarity)
             {
                 case Rarity.Common:
-                    return (statValue <= 10) ? GameManager.GetRandomInt(100, 250) : GameManager.GetRandomInt(251, 500);
+                    return (statValue <= 10) ? GameManager.GetRandomInt(100, 200) : GameManager.GetRandomInt(201, 400);
 
                 case Rarity.Rare:
-                    return (statValue <= 30) ? GameManager.GetRandomInt(600, 1000) : GameManager.GetRandomInt(1001, 1500);
+                    return (statValue <= 30) ? GameManager.GetRandomInt(400, 700) : GameManager.GetRandomInt(701, 1000);
 
                 case Rarity.Epic:
-                    return (statValue <= 50) ? GameManager.GetRandomInt(1600, 2300) : GameManager.GetRandomInt(2350, 3000);
+                    return (statValue <= 50) ? GameManager.GetRandomInt(1000, 2000) : GameManager.GetRandomInt(2001, 3000);
                 case Rarity.Legendary:
                 case Rarity.Special:
-                    return (statValue <= 70) ? GameManager.GetRandomInt(3100, 5000) : GameManager.GetRandomInt(5050, 6000);
+                    return (statValue <= 70) ? GameManager.GetRandomInt(3000, 5000) : GameManager.GetRandomInt(5001, 7000);
 
                 default:
                     return price = 0;
@@ -193,7 +193,7 @@ namespace HorseManager2022.Models
                                   "Bishop","Birdie","Blossom", "Moon", "Bo", "Boaz", "Bodhi", "Bogart", "Bonnie", "Booker", "Boomer", "Boon",
                                   "Clyde","Cochise","Coco","Cocolo","Cole","Conan","Concho","Cookie","Cooper","Casper","Cecil","Champ","Chance","Charcoal",
                                   "Dollar","Dolly","Dominic","Dominator","Dora","Dorado","Drake","Dream","Dreamer","Drifter","Duce","Duchess","Duke","Dunny","Durango","Duster","Dusty",
-                                  "Easter","Ebony"," Echo","Eclipse","Eddie","Eldorado","Eleazar","Eli", "Elixir","Ellie","Elvis","Ember","Epona","Esperanza","Esteban", "Excalibur",
+                                  "Easter","Ebony","Echo","Eclipse","Eddie","Eldorado","Eleazar","Eli", "Elixir","Ellie","Elvis","Ember","Epona","Esperanza","Esteban", "Excalibur",
                                   "Fancy","Fargo","Felise","Festus","Fiddle","Fifty","Fiona",
                                   "Gracie","Grit","Guapo","Gucci","Gulliver","Gunner","Gus","Gypsy",
                                   "Houdini","Howdy","Huck","Huckleberry","Huey","Hurricane",
