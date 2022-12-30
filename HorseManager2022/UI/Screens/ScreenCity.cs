@@ -11,6 +11,9 @@ namespace HorseManager2022.UI
 {
     internal class ScreenCity : ScreenWithTopbar
     {
+        // Constants
+        private const int SCREEN_SIZE_MINIMUM_CITY = 175;
+
         // Properties
         private readonly Arrow arrow;
 
@@ -39,15 +42,22 @@ namespace HorseManager2022.UI
         public ScreenCity(Topbar topbar, Screen? previousScreen = null)
             : base(topbar, previousScreen)
         {
-            List<(int, int)> customPositions = new()
-            {
-                (3, 10),
-                (22, 8),
-                (75, 8),
-                (125, 12)
-            };
 
-            arrow = new Arrow(customPositions);
+            if (Console.WindowWidth > SCREEN_SIZE_MINIMUM_CITY) {
+                List<(int, int)> customPositions = new()
+                {
+                    (3, 10),
+                    (22, 8),
+                    (75, 8),
+                    (125, 12)
+                };
+                arrow = new Arrow(customPositions);
+            }
+            else
+            {
+                arrow = new Arrow(22, -22, Topbar.TOPBAR_HEIGHT);
+            }
+
         }
 
 
@@ -62,7 +72,10 @@ namespace HorseManager2022.UI
                 Console.Clear();
 
                 topbar.Show(this, gameManager);
-                DrawCity();
+                if (Console.WindowWidth > SCREEN_SIZE_MINIMUM_CITY)
+                    DrawCity();
+                else
+                    DrawSimplifiedCity();
 
                 if (menuMode == MenuMode.Down)
                     arrow.Draw();
@@ -72,6 +85,47 @@ namespace HorseManager2022.UI
             // Return next screen
             selectedOption?.onEnter?.Invoke();
             return selectedOption?.nextScreen;
+        }
+
+        
+        private void DrawSimplifiedCity()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("                           _||____                                                                       ");
+            Console.WriteLine("                          /- - - -\\                                                                     ");
+            Console.WriteLine("                         /_________\\    8888                                                            ");
+            Console.WriteLine("       _||_____         /|         |\\  888888      _||_______            ____||_                        ");
+            Console.WriteLine("      /- - - - \\         |  []  [] |  88888888    /- - - - - \\          /- - - -\\                     ");
+            Console.WriteLine("     /__________\\        |         |    || |     /____________\\        /_________\\                    ");
+            Console.WriteLine("    /|    VET   |\\       |    SHOP |    |  |    /| STABLE     |\\      /|    RACE |\\                   ");
+            Console.WriteLine("    /| [] ____  |\\       |    ____ |    |  |    /| ____   []  |\\      /| [] ____ |\\                   ");
+            Console.WriteLine("     |    |. |  |        |    |. | |    | ||     | |. |       |        |    |. | |                       ");
+            Console.WriteLine("_____|____|__|__|________|____|__|_|____|__|_____|_|__|_______|________|____|__|_|___                    ");
+            Console.WriteLine("                                                                                                         ");
+            Console.WriteLine("      _||______            _____          _________                                                      ");
+            Console.WriteLine("_____/-|| - - -\\__________/- - -\\________/- - - - -\\__________________________________                ");
+            Console.WriteLine("    /___________\\ -      /_______\\      /___________\\               ____                              ");
+            Console.WriteLine("   /|           |\\      /|       |\\ -  /|           |\\  -    ____.-\"    \\___    -                   ");
+            Console.WriteLine("    |           |        |       |      |           |    ___/              (_____   |    -        -      ");
+            Console.WriteLine("    |___________|    -   |_______|   -  |___________|   (                        \"-.!||                 ");
+            Console.WriteLine("                                                         \\       ~~          ~     ( !!|||  -  -    -   ");
+            Console.WriteLine("  -         -                                     -    - :                         \"-.!!! |             ");
+            Console.WriteLine("       -                -          -                      /               ~~            \\___!        -  ");
+            Console.WriteLine("                                            -        ____)      ~                          \"-           ");
+            Console.WriteLine("      -        -     -                              (     ~~                   ~~            \"-.  -     ");
+            Console.WriteLine("                             -                       \\   ~         ~~                      __.-\"       ");
+            Console.WriteLine("           -           -                 -            \\_____                    ~~      .-\"            ");
+            Console.WriteLine("   -           -               -                            \"-.    ~                   \\        -      ");
+            Console.WriteLine("                                                               \"-.______  ~        _____)     -         ");
+            Console.WriteLine("                                                                        ´-.____.-´                       ");
         }
         
 
