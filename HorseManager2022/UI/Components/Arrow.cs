@@ -26,8 +26,11 @@ namespace HorseManager2022.UI.Components
         }
 
 
-        public Arrow(List<(int, int)> customPositions)
+        public Arrow(List<(int, int)> customPositions, int offsetX = 0, int offsetY = 0, int margin = 0)
         {
+            this.margin = margin;
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
             this.customPositions = customPositions;
             selectedPosition = 0;
         }
@@ -39,7 +42,7 @@ namespace HorseManager2022.UI.Components
             int x = (selectedPosition + 1) * margin + offsetX;
             int y = offsetY;
 
-            if (customPositions.Count > 0) 
+            if (customPositions.Count > 0 && ScreenCity.SCREEN_SIZE_MINIMUM_CITY < Console.WindowWidth) 
             {
                 x = customPositions[selectedPosition].Item1;
                 y = customPositions[selectedPosition].Item2;

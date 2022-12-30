@@ -12,7 +12,7 @@ namespace HorseManager2022.UI
     internal class ScreenCity : ScreenWithTopbar
     {
         // Constants
-        private const int SCREEN_SIZE_MINIMUM_CITY = 175;
+        public const int SCREEN_SIZE_MINIMUM_CITY = 175;
 
         // Properties
         private readonly Arrow arrow;
@@ -43,20 +43,14 @@ namespace HorseManager2022.UI
             : base(topbar, previousScreen)
         {
 
-            if (Console.WindowWidth > SCREEN_SIZE_MINIMUM_CITY) {
-                List<(int, int)> customPositions = new()
-                {
-                    (3, 10),
-                    (22, 8),
-                    (75, 8),
-                    (125, 12)
-                };
-                arrow = new Arrow(customPositions);
-            }
-            else
+            List<(int, int)> customPositions = new()
             {
-                arrow = new Arrow(22, -22, Topbar.TOPBAR_HEIGHT);
-            }
+                (3, 10),
+                (22, 8),
+                (75, 8),
+                (125, 12)
+            };
+            arrow = new Arrow(customPositions, -22, Topbar.TOPBAR_HEIGHT, 22);
 
         }
 
