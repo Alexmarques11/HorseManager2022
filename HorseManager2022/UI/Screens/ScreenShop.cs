@@ -46,10 +46,11 @@ namespace HorseManager2022.UI.Screens
                     dialogType: DialogType.Question,
                     previousScreen: this,
                     onConfirm: () => {
-                        
+
                         // Get dialog data
+                        string spacement = new string(' ', 59);
                         bool response = gameManager?.Exchange<T, U>(item) ?? false;
-                        string message = response ? $"{item.name} was successfully {action}ed!" : $"You don't have enough money to {action} {item.name}!";
+                        string message = response ? $"{item.name} was successfully {action}ed!"+ spacement : $"You don't have enough money to {action} {item.name}!" + spacement;
                         DialogType dialogType = response ? DialogType.Success : DialogType.Error;
 
                         // Build Dialog

@@ -9,10 +9,12 @@ namespace HorseManager2022.Models
     internal class Horse : IExchangeable
     {
         // Constants
-        static public readonly int ENERGY_RECOVERY_MIN = 5;
-        static public readonly int ENERGY_RECOVERY_MAX = 20;
-        static public readonly int BASE_ENERGY_CONSUMED_PER_KM = 500; // Will take into account the horse's resistance
+        public const int ENERGY_RECOVERY_MIN = 5;
+        public const int ENERGY_RECOVERY_MAX = 20;
+        public const int BASE_ENERGY_CONSUMED_PER_KM = 500; // Will take into account the horse's resistance
         public const int MAX_SHOP_HORSES = 5;
+        private const int MIN_HORSE_AGE = 10;
+        private const int MAX_HORSE_AGE = 22;
 
         // Properties
         [DisplayName("Name")]
@@ -110,7 +112,8 @@ namespace HorseManager2022.Models
 
         public void RegenerateEnergy(GameManager gameManager)
         {
-            int energyRecovery = GameManager.GetRandomInt(ENERGY_RECOVERY_MIN, ENERGY_RECOVERY_MAX) + gameManager.gameData.vet.proficiency; ;
+            int energyRecovery = GameManager.GetRandomInt(ENERGY_RECOVERY_MIN, ENERGY_RECOVERY_MAX) + gameManager.gameData.vet.proficiency;
+            energyRecovery -= (int)Math.Round(energyRecovery * (age / 100f));
             energy += energyRecovery;
         }
 
@@ -128,7 +131,7 @@ namespace HorseManager2022.Models
         public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
 
 
-        private int GenerateRandomAge() => new Random().Next(10, 22);
+        private static int GenerateRandomAge() => new Random().Next(MIN_HORSE_AGE, MAX_HORSE_AGE+1);
 
 
         private int GenerateStatValue() //Gerador de velocidades consoante a raridade do cavalo

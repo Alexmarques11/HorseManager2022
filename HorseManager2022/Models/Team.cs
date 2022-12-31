@@ -63,41 +63,6 @@ namespace HorseManager2022.Models
         [Color(ConsoleColor.DarkGray)]
         public int jockeyHandling { get => jockey.handling; }
 
-        /*
-        [DisplayName("Average Rarity")]
-        [IsRarity]
-        public Rarity averageRarity
-        {
-            get
-            {
-                int rarity = (int)horse.rarity + (int)jockey.rarity;
-                rarity /= 2;
-                return (Rarity)rarity;
-            }
-        }
-        
-        
-        [DisplayName("Overall")]
-        [Color(ConsoleColor.DarkGray)]
-        public int overall
-        {
-            get
-            {
-                int speed = horse.speed;
-                int resistance = horse.resistance;
-                int handling = jockey.handling;
-                int affinity = afinity;
-                int age = horse.age;
-
-                int overall = (speed + resistance + handling + affinity) / 4;
-
-                // Apply the age multiplier
-                return (int)Math.Round(overall * (1.0 - age / 100.0));
-            }
-        }
-
-         */
-
         [DisplayName("Afinity")]
         [Padding(11)]
         [Color(ConsoleColor.DarkGray)]
@@ -130,7 +95,7 @@ namespace HorseManager2022.Models
             List<string> rewards = new();
 
             // Afinity always improves
-            int afinity = 1, speed = 0, resistance = 0;// , handling = 0;
+            int afinity = 1, speed = 0, resistance = 0;
 
             // stats have a chance of improving
             if (GameManager.GetRandomDouble() < IMPROVE_STAT_CHANCE)
@@ -159,7 +124,6 @@ namespace HorseManager2022.Models
             if (afinity > 0) rewards.Add(afinity + " Afinity");
             if (speed > 0) rewards.Add(speed + " Speed");
             if (resistance > 0) rewards.Add(resistance + " Resistance");
-            // if (handling > 0) rewards.Add(handling + " Handling");
 
             return rewards;
         }

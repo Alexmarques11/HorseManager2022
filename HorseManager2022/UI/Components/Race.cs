@@ -161,7 +161,7 @@ namespace HorseManager2022.UI.Components
             int entryCost = @event?.GetEntryCost() ?? 0;
 
             // Get resistence multiplier
-            int resistance = playerTeam.horse.resistance;
+            int resistance = playerTeam.horse.resistance - (int)Math.Round(playerTeam.horse.speed * playerTeam.horse.age / 100f);
             if (resistance == 0) resistance = 1;
 
             // Get energy loss percentage

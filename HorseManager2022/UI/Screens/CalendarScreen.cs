@@ -97,12 +97,7 @@ namespace HorseManager2022.UI
         {
             if (menuMode == MenuMode.Down)
             {
-                if (this.selectedPosition == this.options.Count)
-                {
-                    return Option.GetBackOption(this.previousScreen);
-                }
-                else
-                    return this.options[this.selectedPosition];
+                return Option.GetBackOption(this.previousScreen);
             }
             else
             {

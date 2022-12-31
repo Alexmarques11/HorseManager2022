@@ -26,7 +26,8 @@ namespace HorseManager2022.Models
         // Methods
         public void Move()
         {
-            int statAverage = (team.horse.speed + team.jockey.handling + team.afinity) / 3;
+            int horseSpeed = team.horse.speed - (int)Math.Round(team.horse.speed * team.horse.age / 100f);
+            int statAverage = (horseSpeed + team.jockey.handling + team.afinity) / 3;
             int speed = (int)Math.Round(statAverage / 15f);
             int randomOffset = GameManager.GetRandomInt(-2, 3);
 
