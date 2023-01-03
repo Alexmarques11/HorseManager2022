@@ -11,6 +11,14 @@ CLI Game developed as a project for Object Oriented Programming Class. 1º Year 
 ## Introduction
 Welcome to Horse Manager 2022! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can also unlock them by opening loot boxes.
 
+## Recommended requirements
+- Resolution: 1920 x 1080
+- 16.1"
+
+## Minimum requirements
+- Resolution: 1366 x 768
+- 15.6"
+
 ## Setup
 To start the game, you will need to do the following:
 
