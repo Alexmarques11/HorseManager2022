@@ -1,4 +1,4 @@
-# HorseManager2022
+# HorseManager2023
 CLI Game developed as a project for Object Oriented Programming Class. 1º Year EDJD
 
 ## Game Devs
@@ -9,7 +9,7 @@ CLI Game developed as a project for Object Oriented Programming Class. 1º Year 
 - 26531 [Gonçalo Gaspar](https://github.com/doutorGaspar)
 
 ## Introduction
-Welcome to Horse Manager 2022! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can also unlock them by opening loot boxes.
+Welcome to Horse Manager 2023! In this stable management game, you will be managing a stable of horses, competing in events, and buying and selling horses at the shop. Your goal is to build the best stable and become the top horse manager in the world. In Horse Manager 2022, horses and jockeys have different rarities, and you can also unlock them by opening loot boxes.
 
 ## Recommended requirements
 - Resolution: 1920 x 1080
@@ -26,7 +26,7 @@ To start the game, you will need to do the following:
 - Select new game and choose a name for your stable
 
 ## Gameplay
-In Horse Manager 2022, you will be managing your stable and competing in events to earn money and buy better horses. You can do the following actions:
+In Horse Manager 2023, you will be managing your stable and competing in events to earn money and buy better horses. You can do the following actions:
 
 - Buy and sell horses and jockeys at the shop
 - Build teams composed by horses and jockeys
