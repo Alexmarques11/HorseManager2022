@@ -181,5 +181,11 @@ namespace HorseManager2022.Models
 
             return affinity;
         }
+
+
+        public override string ToString()
+        {
+            return $"{horseName} - {jockeyName}";
+        }
     }
 }

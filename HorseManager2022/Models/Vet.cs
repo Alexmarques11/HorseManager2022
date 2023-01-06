@@ -57,5 +57,7 @@ namespace HorseManager2022.Models
 
         public int GetNextLevelProficiency() => (proficiency < 30) ? 2 : 1;
 
+
+        public override string ToString() => $"Level: {level} - Proficiency: {proficiency}";
     }
 }

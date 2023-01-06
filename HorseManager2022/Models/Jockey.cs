@@ -40,9 +40,10 @@ namespace HorseManager2022.Models
             //this.id = RandomID();
             this.name = GenerateName();
             this.rarity = RarityExtensions.GetRandomRarity();
-            this.handling = GenerateHandling(rarity);
-            this.price = GetJockeyPrice(rarity, handling);
+            this.handling = GenerateHandling();
+            this.price = GetJockeyPrice();
         }
+
 
         public Jockey(string name, Rarity rarity, int handling, int price)
         {
@@ -52,6 +53,7 @@ namespace HorseManager2022.Models
             this.price = price;
         }
         
+        
         public Jockey(Rarity rarity, int handling, int price)
         {
             this.rarity = rarity;
@@ -60,21 +62,22 @@ namespace HorseManager2022.Models
             this.price = price;
         }
 
+        
         public Jockey(Rarity rarity)
         {
             this.rarity = rarity;
             this.name = GenerateName();
-            this.handling = GenerateHandling(rarity);
-            this.price = GetJockeyPrice(rarity, handling);
+            this.handling = GenerateHandling();
+            this.price = GetJockeyPrice();
         }
 
 
-        public Jockey(bool isLootBox)  //Construtor Random
+        public Jockey(bool isLootBox)
         {
             rarity = RarityExtensions.GetRandomRarity(isLootBox);
             name = GenerateName();
-            handling = GenerateHandling(rarity);
-            price = GetJockeyPrice(rarity, handling);
+            handling = GenerateHandling();
+            price = GetJockeyPrice();
         }
 
         
@@ -88,7 +91,8 @@ namespace HorseManager2022.Models
         }
         
 
-        public string GenerateName(){ //Gerador do nome dos jockey(random)  Moisés Herculano
+        public string GenerateName()
+        { 
 
             if (rarity == Rarity.Special)
                 return "Moisés Herculano";
@@ -108,7 +112,7 @@ namespace HorseManager2022.Models
         }
 
         
-        public int GenerateHandling(Rarity rarity) //Gerador de handlings consoante a raridade do jocey
+        public int GenerateHandling() //Gerador de handlings consoante a raridade do jocey
         {
             switch (rarity)
             {
@@ -128,7 +132,7 @@ namespace HorseManager2022.Models
         }
         
 
-        public int GetJockeyPrice(Rarity rarity, int handling) //Preço dos jockeys consoante a raridade e o handling
+        public int GetJockeyPrice()
         {
             switch (rarity)
             {
@@ -147,6 +151,12 @@ namespace HorseManager2022.Models
                 default:
                     return price = 0;
             }
+        }
+
+
+        public override string ToString()
+        {
+            return $"{name} - {rarity} - {handling} - {price}";
         }
     }
 }

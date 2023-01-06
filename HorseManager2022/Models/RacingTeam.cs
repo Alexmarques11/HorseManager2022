@@ -38,5 +38,10 @@ namespace HorseManager2022.Models
             x += distance;
         }
 
+
+        public override string ToString()
+        {
+            return $"{team.horse.name} - {team.jockey.name}";
+        }
     }
 }

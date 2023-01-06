@@ -117,14 +117,12 @@ namespace HorseManager2022.Models
             date += day + " ";
 
             // Add month
-            date += ToString(month);
+            date += month;
 
             // Add day
             date += " " + (year + Calendar.BASE_YEAR);
             
             return date;
         }
-        
-        public string? ToString(Month month) => Enum.GetName(typeof(Month), month);
     }
 }

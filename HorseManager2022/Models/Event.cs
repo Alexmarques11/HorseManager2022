@@ -156,65 +156,11 @@ namespace HorseManager2022.Models
             return randomDate;
         }
 
-        
-        /*
-        private string GenerateName()
+
+        public override string ToString()
         {
-            // Variables
-            Random random = new Random();
-
-            string[] list = {
-                "Maverick Team",
-                "Five Go Event",
-                "Sage Glamorous Encore",
-                "Fête Gold Happen",
-                "Bonfire Green Ranch",
-                "Perfect Sensations",
-                "Proteus Live Entertainment",
-                "Scenario Productions",
-                "Crystal Eventualities",
-                "Fête Bird",
-                "Organically Attainment",
-                "Fête Gold Happen",
-                "Bonfire Red Living",
-                "Every Science",
-                "Land Planning",
-                "Dazzling Of Evermore",
-                "Divine Scenes",
-                "Prince Lucky",
-                "Glowing Happen",
-                "Fourplan Event InStyle",
-                "Little Happen",
-                "Carpe Diem By Company",
-                "Shindig Red Inc",
-                "The Circumstances",
-                "Seven Delight",
-                "Sunset Good Logic",
-                "Pomp Company",
-                "Vintage Team",
-                "Blowout Your Tree",
-                "Proteus Live Entertainment",
-                "Castles Together Prep",
-                "Enchanting The Eventerprises",
-                "Divine Main Paradise",
-                "Famous Blue Touch",
-                "Cirque Bird",
-                "Dreams Big Factor",
-                "Princess Curators",
-                "Staging Shindigger",
-                "Classy Factor",
-                "Gold Décor",
-                "Princess Touch",
-                "Classy Factor",
-                "Oh How Scenarios",
-                "Organization Dream Sensations",
-                "Crystal Your InStyle",
-                "Dreams Gurus",
-                "Big E Up Scenes",
-            };
-
-            return list[random.Next(0, list.Length)];
+            return $"{name} - {date}";
         }
-        */
+
     }
 }
