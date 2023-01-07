@@ -223,6 +223,9 @@ namespace HorseManager2022.UI.Screens
                    previousScreen: this,
                    onConfirm: () =>
                    {
+                       RaceParticipants raceParticipants = new(DIALOG_POSITION_X, DIALOG_POSITION_Y, race.participants);
+                       raceParticipants.Show(true);
+
                        race?.Start(gameManager);
                    },
                    onCancel: () => { }
@@ -246,6 +249,9 @@ namespace HorseManager2022.UI.Screens
                 previousScreen: this,
                 onConfirm: () =>
                 {
+                    RaceParticipants raceParticipants = new(DIALOG_POSITION_X, DIALOG_POSITION_Y, race.participants);
+                    raceParticipants.Show(true);
+
                     race?.Start(gameManager);
                 },
                 onCancel: () => { }

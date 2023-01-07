@@ -89,7 +89,10 @@ namespace HorseManager2022.Models
 
             return jockeys;
         }
-        
+
+
+        public ConsoleColor GetRarityColor() => RarityExtensions.GetColor(rarity);
+
 
         public string GenerateName()
         { 

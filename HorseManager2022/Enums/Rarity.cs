@@ -76,16 +76,20 @@ namespace HorseManager2022.Enums
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    rarity = (Rarity)GameManager.GetRandomInt(0, 2);
+                    // 20% chance of getting a rare, 80% chance of getting a common
+                    rarity = GameManager.GetRandomInt(0, 101) < 20 ? Rarity.Rare : Rarity.Common;
                     break;
                 case Difficulty.Normal:
-                    rarity = (Rarity)GameManager.GetRandomInt(1, 3);
+                    // 20% chance of getting a epic, 80% chance of getting a rare
+                    rarity = GameManager.GetRandomInt(0, 101) < 20 ? Rarity.Epic : Rarity.Rare;
                     break;
                 case Difficulty.Hard:
-                    rarity = (Rarity)GameManager.GetRandomInt(2, 4);
+                    // 20% chance of getting a Legendary, 80% chance of getting a Epic
+                    rarity = GameManager.GetRandomInt(0, 101) < 20 ? Rarity.Legendary : Rarity.Epic;
                     break;
                 case Difficulty.Extreme:
-                    rarity = (Rarity)GameManager.GetRandomInt(3, 5);
+                    // 20% chance of getting a special, 80% chance of getting a legendary
+                    rarity = GameManager.GetRandomInt(0, 101) < 20 ? Rarity.Special : Rarity.Legendary;
                     break;
             }
 

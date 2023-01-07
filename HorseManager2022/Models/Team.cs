@@ -132,14 +132,17 @@ namespace HorseManager2022.Models
         static public List<Team> GenerateEventTeams(Event @event)
         {
             Difficulty difficulty = @event.difficulty ?? Difficulty.Easy;
-            Rarity horseRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
-            Rarity joqueyRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
             int amount = GetEventTeamAmount(difficulty);
-            int affinity = GetRandomAffinityByRarity(horseRarity, joqueyRarity);
 
             List<Team> teams = new();
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < amount; i++) {
+
+                Rarity horseRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
+                Rarity joqueyRarity = RarityExtensions.GetRandomRarityByDifficulty(difficulty);
+                int affinity = GetRandomAffinityByRarity(horseRarity, joqueyRarity);
+
                 teams.Add(new Team(new(horseRarity), new(joqueyRarity), affinity));
+            }
 
             return teams;
         }
@@ -168,6 +171,7 @@ namespace HorseManager2022.Models
                 { Rarity.Rare, (15, 40) },
                 { Rarity.Epic, (40, 70) },
                 { Rarity.Legendary, (70, 100) },
+                { Rarity.Special, (100, 100) },
             };
 
             // Look up the min and max affinities for the given rarities

@@ -19,7 +19,7 @@ namespace HorseManager2022.UI.Components
         // Properties
         private readonly Screen currentScreen;
         private bool isRaceStarted;
-        private List<RacingTeam> participants;
+        public List<RacingTeam> participants;
         private List<RacingTeam> leaderboardList;
         private Team playerTeam;
         private RaceType raceType;
