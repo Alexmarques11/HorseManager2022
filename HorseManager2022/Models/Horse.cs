@@ -60,21 +60,8 @@ namespace HorseManager2022.Models
         [IsPrice]
         public int price { get; set; }
 
-        
-        // Constructor
-        public Horse()  //Construtor Random
-        {
-            rarity = RarityExtensions.GetRandomRarity();
-            speed = GenerateStatValue();
-            name = GenerateHorseName();
-            price = GetHorsePrice();
-            resistance = GenerateStatValue();
-            energy = 100;
-            age = GenerateRandomAge();
-        }
 
-
-        public Horse(bool isLootBox)  //Construtor Random
+        public Horse(bool isLootBox = false)  //Construtor Random
         {
             rarity = RarityExtensions.GetRandomRarity(isLootBox);
             speed = GenerateStatValue();
@@ -84,6 +71,7 @@ namespace HorseManager2022.Models
             energy = 100;
             age = GenerateRandomAge();
         }
+
 
         public Horse(string name, int resistance, int energy, int age, int price, int speed, Rarity rarity)  //Construtor with all
         {

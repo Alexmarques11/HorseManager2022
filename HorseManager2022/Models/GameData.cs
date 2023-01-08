@@ -24,6 +24,5 @@ namespace HorseManager2022.Models
             shop = new();
             vet = new();
         }
-
     }
 }
