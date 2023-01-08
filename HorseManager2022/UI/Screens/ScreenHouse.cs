@@ -46,7 +46,7 @@ namespace HorseManager2022.UI
                         DrawHouseDefault();
                         break;
                     case HouseType.Racetrack:
-                        DrawHouseDefault();
+                        DrawRaceHouse();
                         break;
                 }
 
@@ -184,6 +184,47 @@ namespace HorseManager2022.UI
             Console.WriteLine("||               |  /               |                   \\__ \\ | | | (_) |  |                   ||     ");
             Console.WriteLine("||               | /                |                   |___/_| |_|\\___/|__|                   ||     ");
             Console.WriteLine("||_______________|/_________________|__________________________________________________________|| ");
+        }
+
+        private void DrawRaceHouse()
+        {                                                                                                
+            Console.WriteLine("   ___________________________________________________________________________________________");
+            Console.WriteLine("  /        |                                                                         |        \\      "); 
+            Console.WriteLine(" /         |                                                                         |         \\     "); 
+            Console.WriteLine("|          |                                                                         |          |    ");
+            Console.WriteLine("|          |                                                                         |          |    ");
+            Console.WriteLine("|          |                                                 '._==_==_=_.'           |          |   ");          
+            Console.WriteLine("|          |                                                 .-\\:      /-.           |          |   ");  
+            Console.WriteLine("|          |                                                | (|       |) |          |          |   ");  
+            Console.WriteLine("|          |                                                 '-|:.     |-'           |          |    "); 
+            Console.WriteLine("|          |                    /__\\                           \\::.    /             |          |     ");
+            Console.WriteLine("|          |                  /|    |\\                          '::. .'              |          |");
+            Console.WriteLine("|          |                 (_|    |_)                           ) (                |          |    "); 
+            Console.WriteLine("|          |                    \\  /                            _.' '._              |          |     ");
+            Console.WriteLine("|          |          .__.       )(       .__.          \"\"\"\"\"\"\"`\"\"\"\"\"\"\"`\"\"\"\"\"\"       |          |     ");
+            Console.WriteLine("|          |         (|  |)    _|__|_    (|  |)                                      |          |     ");
+            Console.WriteLine("|          |          (  )   _|______|_   (  )                                       |          |     ");
+            Console.WriteLine("|          |          _)(_  |__________|  _)(_                                       |          |     ");   
+            Console.WriteLine("|          |        \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"               ,.,                     |          |     ");
+            Console.WriteLine("|          |                                               ,((()),                   |          |     ");
+            Console.WriteLine("|          |                                              ,((/\"\\)),                  |          | ");
+            Console.WriteLine("|          |_______________                               ,)\\'-'/(,                  |          |    "); 
+            Console.WriteLine("|         /               /|                              ((()'()))                  |          |     ");
+            Console.WriteLine("|        /               / |                              /')\\_/('\\                  |          |     ");
+            Console.WriteLine("|       /               /  |                             / (_   _)|                  |          |     ");
+            Console.WriteLine("|      /               /   |                             \\ \\)   ( |                  |          |     ");
+            Console.WriteLine("|     /               /    |             _________________\\_____! /__________________|____      |     ");
+            Console.WriteLine("|    /               /     |____________/                                                 \\     |    ");
+            Console.WriteLine("|   /               /      /           /                                                   \\    |    ");
+            Console.WriteLine("|  /               /      /           /                                                     \\   |    ");
+            Console.WriteLine("| /               /      /           /                                                       \\  |    ");
+            Console.WriteLine("|/_______________/      /           /_________________________________________________________\\ |    ");
+            Console.WriteLine("||               |     /            |                                                          ||    "); 
+            Console.WriteLine("||               |    /             |                                                          ||    "); 
+            Console.WriteLine("||               |   /              |                                                          ||     ");
+            Console.WriteLine("||               |  /               |                                                          ||     ");
+            Console.WriteLine("||               | /                |                                                          ||     ");
+            Console.WriteLine("||_______________|/_________________|__________________________________________________________||   ");
         }
     }
 }
