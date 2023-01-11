@@ -65,20 +65,15 @@ namespace HorseManager2022.UI.Components
             }
             int tableWidth = GetTableWidth(headers);
 
-            // Show data
+            // Title
             Console.ResetColor();
             Console.WriteLine();
-
             DrawLine(tableWidth);
-
-            // Title
             DrawTitle(tableWidth - 2);
-
             DrawLine(tableWidth);
 
             // Header
             DrawHeader(headers);
-
             DrawLine(tableWidth);
 
             // Content
@@ -95,7 +90,6 @@ namespace HorseManager2022.UI.Components
                 DrawFooter(items, tableWidth);
                 DrawLine(tableWidth);
             }
-
         }
 
 

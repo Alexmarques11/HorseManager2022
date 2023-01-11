@@ -122,7 +122,7 @@ namespace HorseManager2022.Models
         private static int GenerateRandomAge() => new Random().Next(MIN_HORSE_AGE, MAX_HORSE_AGE+1);
 
 
-        private int GenerateStatValue() //Gerador de velocidades consoante a raridade do cavalo
+        private int GenerateStatValue() 
         {
             switch (rarity)
             {
