@@ -109,11 +109,11 @@ namespace HorseManager2022.Models
 
             // stats can't be over its limit
             if (horse.resistance + resistance > horse.GetStatMaxValue())
-                resistance = 100 - horse.resistance;
+                resistance = horse.GetStatMaxValue() - horse.resistance;
             if (horse.speed + speed > horse.GetStatMaxValue())
-                speed = 100 - horse.speed;
+                speed = horse.GetStatMaxValue() - horse.speed;
             if (afinity + this.afinity > AFFINITY_MAX)
-                afinity = 100 - this.afinity;
+                afinity = AFFINITY_MAX - this.afinity;
 
             // Apply the improvements
             this.afinity += afinity;
